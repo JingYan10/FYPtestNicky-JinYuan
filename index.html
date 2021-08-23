@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!--link to css-->
+    <link rel="stylesheet" href="style.css">
+    <!--link font-->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <!--link bootsrap CDN-->
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <title>Fanciado Foodo</title>
+</head>
+
+<body>
+
+    <div class="header">
+
+
+
+        <div class="container">
+            <!--navigation bar-->
+            <div class="navbar">
+                <div class="logo">
+                    <img src="images/logo/logo.png" width="125px" alt="error logo image">
+                </div>
+                <nav>
+                    <ul id="Menuitems">
+                        <li><a href="">Home</a></li>
+                        <li><a href="">Products</a></li>
+                        <li><a href="">About</a></li>
+                        <li><a href="">Contact</a></li>
+                        <li><a href="">Account</a></li>
+                    </ul>
+                </nav>
+                <img src="images/images/cart.png" width="30px" height="30px" alt="">
+                <img src="images/images/menu.png" class="menu-icon" onclick="toggleMenu()">
+            </div>
+
+            <!--product 1-->
+            <div class="row">
+                <div class="col-2">
+                    <h1>Biscuits</h1>
+                    <p>Chocolate · Almond · Raisins · Oat · Butterscotch</p>
+                    <div class="btn-container"><a href="" class="btn">Know more</a></div>
+
+                </div>
+                <div class="col-2">
+                    <img src="images/products/product1-biscuit.jpg" alt="error product1 image">
+                </div>
+            </div>
+
+            <!--product 2-->
+            <div class="row">
+                <div class="col-2">
+                    <img style="height:500px; float: right;" src="images/products/product2-pasta-left2.jpg"
+                        alt="error product1 image">
+                </div>
+                <div class="col-2">
+                    <h1>Biscuits</h1>
+                    <p>Chocolate · Almond · Raisins · Oat · Butterscotch</p>
+                    <div class="btn-container"><a href="" class="btn">Know more</a></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- product categories -->
+    <div class="categories">
+        <div class="small-container">
+            <div class="row">
+                <div class="col-3">
+                    <img src="images/products/productCategory1-cereal-left-.jpeg" alt="">
+                </div>
+                <div class="col-3">
+                    <img src="images/products/productCategory2-cereal-middle-.jpeg" alt="">
+                </div>
+                <div class="col-3">
+                    <img style="height: 250px;" src="images/products/productCategory3-snack-middle3.jpeg" alt="">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- hot sales product -->
+    <div class="small-container">
+        <h2 class="title">Hot Sales products</h2>
+        <div class="row">
+
+            <div class="col-4">
+                <img src="images/products/hotSaleproduct1-driedfruits.jpg" alt="">
+                <h4>Dried Fruits</h4>
+                <div class="rating">
+                    <i class="fa fa-star" aria-hidden="true"></i>
+                    <i class="fas fa-star-half-alt" aria-hidden="true"></i>
+                    <i class="far fa-star"></i>
+                    <i class="far fa-star"></i>
+                    <i class="far fa-star"></i>
+                </div>
+                <p>RM10.00</p>
+            </div>
+
+            <div class="col-4">
+                <img src="images/products/hotSaleproduct1-driedfruits.jpg" alt="">
+                <h4>Dried Fruits</h4>
+                <div class="rating">
+                    <i class="fa fa-star" aria-hidden="true"></i>
+                    <i class="fas fa-star-half-alt" aria-hidden="true"></i>
+                    <i class="far fa-star"></i>
+                    <i class="far fa-star"></i>
+                    <i class="far fa-star"></i>
+                </div>
+                <p>RM10.00</p>
+            </div>
+
+            <div class="col-4">
+                <img src="images/products/hotSaleproduct1-driedfruits.jpg" alt="">
+                <h4>Dried Fruits</h4>
+                <div class="rating">
+                    <i class="fa fa-star" aria-hidden="true"></i>
+                    <i class="fas fa-star-half-alt" aria-hidden="true"></i>
+                    <i class="far fa-star"></i>
+                    <i class="far fa-star"></i>
+                    <i class="far fa-star"></i>
+                </div>
+                <p>RM10.00</p>
+            </div>
+
+            <div class="col-4">
+                <img src="images/products/hotSaleproduct1-driedfruits.jpg" alt="">
+                <h4>Dried Fruits</h4>
+                <div class="rating">
+                    <i class="fa fa-star" aria-hidden="true"></i>
+                    <i class="fas fa-star-half-alt" aria-hidden="true"></i>
+                    <i class="far fa-star"></i>
+                    <i class="far fa-star"></i>
+                    <i class="far fa-star"></i>
+                </div>
+                <p>RM10.00</p>
+            </div>
+        </div>
+    </div>
+
+    <!--5 brandings-->
+    <div class="brands">
+        <div class="small-container">
+            <div class="row">
+                <div class="col-5">
+                    <img src="images/brand-logo/logo-clearspring.png" alt="">
+                </div>
+                <div class="col-5">
+                    <img src="images/brand-logo/logo-danisa.png" alt="">
+                </div>
+                <div class="col-5">
+                    <img src="images/brand-logo/logo-doritos.png" alt="">
+                </div>
+                <div class="col-5">
+                    <img src="images/brand-logo/logo-dryfo.gif" alt="">
+                </div>
+                <div class="col-5">
+                    <img src="images/brand-logo/logo-paypal.png" alt="">
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!--footer-->
+    <div class="footer">
+
+        <div class="box-container">
+
+
+            <div class="box">
+                <h1>Fanciado Foodo</h1>
+                <img src="images/logo/logo.png" alt="">
+                <p>Our purpose is to serve the best quality of products and services to our customers.</p>
+            </div>
+
+
+            <div class="box">
+                <h3>Helpful links</h3>
+                <div class="links">
+                    <a href="">Coupons</a>
+                    <a href="">Feedback</a>
+                    <a href="">Join Us</a>
+                    <a href="">Refund policy</a>
+                </div>
+            </div>
+
+
+            <div class="box">
+                <h3>Follow us</h3>
+                <div class="socials">
+                    <a href="#" class="btn fab fa-facebook-f"></a>
+                    <a href="#" class="btn fab fa-twitter"></a>
+                    <a href="#" class="btn fab fa-instagram"></a>
+                    <a href="#" class="btn fab fa-youtube"></a>
+                </div>
+            </div>
+        </div>
+        
+        <hr>
+        <p class="copyright">Copyright reserved by Nicky & Jing Yan</p>
+    </div>
+
+<!--javascript-->
+
+<!--for toggleMenu()-->
+<script>
+    
+    var MenuItems = document.getElementById("Menuitems");
+
+    MenuItems.style.maxHeight = "0px";
+
+    function toggleMenu(){
+        if(MenuItems.style.height=="0px")
+        {
+            MenuItems.style.maxHeight = "200px";
+        }
+        else
+        {
+            MenuItems.style.maxHeight = "0px";
+        }
+    }
+</script>
+
+</body>
+
+
+</html>
