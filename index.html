@@ -23,7 +23,7 @@
     
     <title>Fanciado Foodo</title>
 
-    <style type="text/css">
+    <!-- <style type="text/css">
         #slider {
             overflow: hidden;
         }
@@ -69,7 +69,8 @@
                 left: -400%;
             }
         }
-    </style>
+    </style> -->
+    <script src="myscripts.js"></script>
   
 </head>
 
@@ -95,7 +96,7 @@
                 <img src="images/images/menu.png" class="menu-icon" onclick="toggleMenu()">
             </div>
            
-            <div id="slider">
+            <!-- <div id="slider">
                 <figure>
                     <img src="images/images/cookies.jpg">
                     <img src="images/images/pasta.jpg">
@@ -103,7 +104,56 @@
                     <img src="images/images/nuts.jpg">
                     <img src="images/images/protein.jpg">
                 </figure>
-            </div>
+            </div> -->
+             <!-- Slideshow container -->
+
+<div class="slideshow-container fade">
+
+    <!-- Full images with numbers and message Info -->
+    <div class="Containers">
+      <div class="MessageInfo"></div>
+      <img src="images/images/cookies.jpg" style="width:100%">
+      <div class="Info">First caption</div>
+    </div>
+  
+    <div class="Containers">
+      <div class="MessageInfo"></div>
+      <img src="images/images/pasta.jpg" style="width:100%">
+      <div class="Info">Second Caption</div>
+    </div>
+  
+    <div class="Containers">
+      <div class="MessageInfo"></div>
+      <img src="images/images/snacks.jpg" style="width:100%">
+      <div class="Info">Third Caption</div>
+    </div>
+
+    <div class="Containers">
+        <div class="MessageInfo"></div>
+        <img src="images/images/protein.jpg" style="width:100%">
+        <div class="Info">Fourth Caption</div>
+      </div>
+
+      <div class="Containers">
+        <div class="MessageInfo"></div>
+        <img src="images/images/nuts.jpg" style="width:100%">
+        <div class="Info">Fifth Caption</div>
+      </div>
+  
+    <!-- Back and forward buttons -->
+    <a class="Back" onclick="plusSlides(-1)">&#10094;</a>
+    <a class="forward" onclick="plusSlides(1)">&#10095;</a>
+  </div>
+  <br>
+  
+  <!-- The circles/dots -->
+  <div style="text-align:center">
+    <span class="dots" onclick="currentSlide(1)"></span>
+    <span class="dots" onclick="currentSlide(2)"></span>
+    <span class="dots" onclick="currentSlide(3)"></span>
+    <span class="dots" onclick="currentSlide(4)"></span>
+    <span class="dots" onclick="currentSlide(5)"></span>
+  </div> 
     
 
 
@@ -303,6 +353,35 @@
         offset: 400,
         duration: 1000
     });
+
+    var slidePosition = 1;
+SlideShow(slidePosition);
+
+// forward/Back controls
+function plusSlides(n) {
+  SlideShow(slidePosition += n);
+}
+
+//  images controls
+function currentSlide(n) {
+  SlideShow(slidePosition = n);
+}
+
+function SlideShow(n) {
+  var i;
+  var slides = document.getElementsByClassName("Containers");
+  var circles = document.getElementsByClassName("dots");
+  if (n > slides.length) {slidePosition = 1}
+  if (n < 1) {slidePosition = slides.length}
+  for (i = 0; i < slides.length; i++) {
+      slides[i].style.display = "none";
+  }
+  for (i = 0; i < circles.length; i++) {
+      circles[i].className = circles[i].className.replace(" enable", "");
+  }
+  slides[slidePosition-1].style.display = "block";
+  circles[slidePosition-1].className += " enable";
+} 
 
 </script>
 
