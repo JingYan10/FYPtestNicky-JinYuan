@@ -20,15 +20,62 @@
     <!--link AOS-->
     <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
     
+    
     <title>Fanciado Foodo</title>
+
+    <style type="text/css">
+        #slider {
+            overflow: hidden;
+        }
+        #slider figure {
+            position: relative;
+            width: 500%;
+            margin: 0;
+            left: 0;
+            animation: 20s slider infinite;
+        }
+
+        #slider figure img {
+            width: 20%;
+            float: left;
+        }
+
+        @keyframes slider {
+            0% {
+                left: 0;
+            }
+            20% {
+                left: 0;
+            }
+            25% {
+                left: -100%;
+            }
+            45% {
+                left: -100%;
+            }
+            50% {
+                left: -200%;
+            }
+            70% {
+                left: -200%;
+            }
+            75% {
+                left: -300%;
+            }
+            95% {
+                left: -300%;
+            }
+            100% {
+                left: -400%;
+            }
+        }
+    </style>
+  
 </head>
 
 <body>
 
     <div class="header">
-
-
-
         <div class="container">
             <!--navigation bar-->
             <div class="navbar">
@@ -47,6 +94,18 @@
                 <a href=""><img src="images/images/cart.png" width="30px" height="30px" alt=""></a>  
                 <img src="images/images/menu.png" class="menu-icon" onclick="toggleMenu()">
             </div>
+           
+            <div id="slider">
+                <figure>
+                    <img src="images/images/cookies.jpg">
+                    <img src="images/images/pasta.jpg">
+                    <img src="images/images/snacks.jpg">
+                    <img src="images/images/nuts.jpg">
+                    <img src="images/images/protein.jpg">
+                </figure>
+            </div>
+    
+
 
             <!--product 1-->
             <div class="row">
@@ -244,6 +303,7 @@
         offset: 400,
         duration: 1000
     });
+
 </script>
 
 

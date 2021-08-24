@@ -46,6 +46,10 @@ nav ul li a {
     border: 1px solid white;
 }
 
+* {box-sizing:border-box}
+
+
+
 p{
     color: #555 ;
 }
