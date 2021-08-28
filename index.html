@@ -95,7 +95,8 @@
                 <a href=""><img src="images/images/cart.png" width="30px" height="30px" alt=""></a>
                 <img src="images/images/menu.png" class="menu-icon" onclick="toggleMenu()">
             </div>
-
+            <!--back to top-->
+            <a id="button"></a>
             <!-- <div id="slider">
                 <figure>
                     <img src="images/images/cookies.jpg">
@@ -383,6 +384,21 @@
             slides[slidePosition - 1].style.display = "block";
             circles[slidePosition - 1].className += " enable";
         }
+        var btn = $('#button');
+
+        $(window).scroll(function () {
+            if ($(window).scrollTop() > 300) {
+                btn.addClass('show');
+            } else {
+                btn.removeClass('show');
+            }
+        });
+
+        btn.on('click', function (e) {
+            e.preventDefault();
+            $('html, body').animate({ scrollTop: 0 }, '300');
+        });
+
 
     </script>
 
