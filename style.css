@@ -12,6 +12,11 @@
     padding: 20px;
     
 }
+
+#Menuitems{
+    z-index: 1;
+}
+
 .logo{
     width: 125px;
     height: 125px;

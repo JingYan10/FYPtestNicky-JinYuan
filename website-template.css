@@ -1,4 +1,8 @@
 /*header*/
+h1{
+	margin-top: 10px;
+  	color: #fff;
+}
 *{
     margin: 0;
     padding: 0;
@@ -122,8 +126,22 @@ p{
 .copyright{
     text-align: center;
 }
+.btn-container{
+    text-align:center;
+}
+.btn{
+    display: inline-block;
+    background: #ff523b;
+    color:#fff;
+    padding: 8px 30px;
+    margin: 30px 0;
+    border-radius: 30px;
+    transition:  0.5s;
+}
+.btn:hover{
+    background: #d87979;
+}
 
-/*screen lesser than 800px*/
 .menu-icon{
     width: 28px;
     margin-left: 20px;
@@ -165,3 +183,40 @@ p{
         flex-basis: 100%;
     }
 }
+
+#button {
+    display: inline-block;
+    background-color: #FF9800;
+    width: 50px;
+    height: 50px;
+    text-align: center;
+    border-radius: 4px;
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    transition: background-color .3s, 
+      opacity .5s, visibility .5s;
+    opacity: 0;
+    visibility: hidden;
+    z-index: 1000;
+  }
+  #button::after {
+    content: "\f077";
+    font-family: FontAwesome;
+    font-weight: normal;
+    font-style: normal;
+    font-size: 2em;
+    line-height: 50px;
+    color: #fff;
+  }
+  #button:hover {
+    cursor: pointer;
+    background-color: #333;
+  }
+  #button:active {
+    background-color: #555;
+  }
+  #button.show {
+    opacity: 1;
+    visibility: visible;
+  }

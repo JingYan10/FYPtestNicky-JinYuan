@@ -20,6 +20,9 @@
     <!--link AOS-->
     <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
 
+    <!--link for back to top-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+
 
     <title>Fanciado Foodo</title>
 
@@ -95,8 +98,10 @@
                 <a href=""><img src="images/images/cart.png" width="30px" height="30px" alt=""></a>
                 <img src="images/images/menu.png" class="menu-icon" onclick="toggleMenu()">
             </div>
+
             <!--back to top-->
             <a id="button"></a>
+
             <!-- <div id="slider">
                 <figure>
                     <img src="images/images/cookies.jpg">
@@ -330,10 +335,26 @@
     </div>
 
     <!--javascript-->
-
+    
+    <!--for backtotop()-->
+    <script>
+        var btn = $('#button');
+    
+        $(window).scroll(function() {
+          if ($(window).scrollTop() > 300) {
+            btn.addClass('show');
+          } else {
+            btn.removeClass('show');
+          }
+        });
+        
+        btn.on('click', function(e) {
+          e.preventDefault();
+          $('html, body').animate({scrollTop:0}, '300');
+        });
+    </script>
     <!--for toggleMenu()-->
     <script>
-
         $(document).ready(function () {
             $(".menu-icon").click(function () {
                 $("#Menuitems").fadeToggle(200);
@@ -346,7 +367,6 @@
             else
                 $("#Menuitems").css("display", "none");
         });
-
     </script>
 
     <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
@@ -384,23 +404,9 @@
             slides[slidePosition - 1].style.display = "block";
             circles[slidePosition - 1].className += " enable";
         }
-        var btn = $('#button');
-
-        $(window).scroll(function () {
-            if ($(window).scrollTop() > 300) {
-                btn.addClass('show');
-            } else {
-                btn.removeClass('show');
-            }
-        });
-
-        btn.on('click', function (e) {
-            e.preventDefault();
-            $('html, body').animate({ scrollTop: 0 }, '300');
-        });
-
-
     </script>
+    
+    
 
 
 </body>
