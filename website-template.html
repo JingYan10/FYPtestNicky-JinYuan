@@ -11,14 +11,13 @@
     <!--link to css-->
     <link rel="stylesheet" href="website-template.css">
     
-    <link rel="stylesheet" href="faq.css">
+    
     <!--link font-->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
     <!--link bootsrap CDN-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <!--link AOS-->
-    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+    
     <!--link to jquery-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js%22%3E"></script>
     <!--link for back to top-->
@@ -26,7 +25,6 @@
 
     <title>Fanciado Foodo</title>
 </head>
-
 <body>
     <div class="header">
         <div class="container">
@@ -37,7 +35,7 @@
                 </div>
                 <nav>
                     <ul id="Menuitems">
-                        <li><a href="index.html">Home</a></li>
+                        <li><a href="index.html"m>Home</a></li>
                         <li><a href="">Products</a></li>
                         <li><a href="">About</a></li>
                         <li><a href="">Contact</a></li>
@@ -47,65 +45,18 @@
                 <a href=""><img src="images/images/cart.png" width="30px" height="30px" alt=""></a>
                 <img src="images/images/menu.png" class="menu-icon" onclick="toggleMenu()">
             </div>
-            
 
-            </div>
             <!--back to top-->
             <a id="button"></a>
 
-
-
-            <!--FAQ content-->
-      
+            <!--content here-->
+            <h1>Page Header</h1>
             <div class="container">
-
-
-                <h1>FAQ ( Frequently Asked Question )</h1>
-
-                <div class="spacing-top" style="margin-top: 50px;"></div>
-
-                <div class="accordion-menu">
-                    <ul>
-                        <li>
-                            <input type="checkbox" checked>
-                            <i class="arrow"></i>
-                            <h2><i class="fas fa-question"></i>Languages Used</h2>
-                            <p>This UI was written in HTML and CSS.</p>
-                        </li>
-                        <li>
-                            <input type="checkbox" checked>
-                            <i class="arrow"></i>
-                            <h2><i class="fas fa-question"></i>How it Works</h2>
-                            <p>Using the sibling and checked selectors, we can determine 
-                                the styling of sibling elements based on the checked state
-                                of the checkbox input element. 
-                            </p>
-                        </li>
-                        <li>
-                            <input type="checkbox" checked>
-                            <i class="arrow"></i>
-                            <h2><i class="fas fa-question"></i>Points of Interest</h2>
-                            <p>
-                                By making the open state default for when :checked isn't 
-                                detected, we can make this system accessable for browsers 
-                                that don't recognize :checked.
-                            </p>
-                        </li>
-                    </ul>
-
-                    
-                    
-                </div>
-
-  
-
+                <div class="removethis" style="margin-bottom: 1500px;"></div>                
             </div>
+            
 
-        </div>
-
-    </div>
-
-    <!--footer-->
+            <!--footer-->
     <div class="footer">
 
         <div class="box-container">
@@ -146,30 +97,28 @@
         <p class="copyright">Copyright reserved by Nicky & Jing Yan</p>
     </div>
 
-
-
     <!--javascript-->
-        
+    
     <!--for backtotop()-->
     <script>
-    var btn = $('#button');
-
-    $(window).scroll(function() {
-      if ($(window).scrollTop() > 300) {
-        btn.addClass('show');
-      } else {
-        btn.removeClass('show');
-      }
-    });
+        var btn = $('#button');
     
-    btn.on('click', function(e) {
-      e.preventDefault();
-      $('html, body').animate({scrollTop:0}, '300');
-    });
+        $(window).scroll(function() {
+          if ($(window).scrollTop() > 300) {
+            btn.addClass('show');
+          } else {
+            btn.removeClass('show');
+          }
+        });
+        
+        btn.on('click', function(e) {
+          e.preventDefault();
+          $('html, body').animate({scrollTop:0}, '300');
+        });
     </script>
-    
     <!--for toggleMenu()-->
     <script>
+
         $(document).ready(function () {
             $(".menu-icon").click(function () {
                 $("#Menuitems").fadeToggle(200);
@@ -181,30 +130,8 @@
                 $("#Menuitems").css("display", "block");
             else
                 $("#Menuitems").css("display", "none");
-                
         });
+
     </script>
-
-    <!--for faq()-->
-    <script>
-        var acc = document.getElementsByClassName("accordion");
-        var i;
-
-        for (i = 0; i < acc.length; i++) {
-            acc[i].addEventListener("click", function () {
-                this.classList.toggle("active");
-                var panel = this.nextElementSibling;
-                if (panel.style.display === "block") {
-                    panel.style.display = "none";
-                } else {
-                    panel.style.display = "block";
-                }
-            });
-        }
-    </script>
-    
-
-
 </body>
-
 </html>
