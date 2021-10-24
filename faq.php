@@ -148,7 +148,7 @@ session_start();
         </div>
 
         <hr>
-        <p class="copyright">Copyright reserved by Nicky & Jing Yan</p>
+        <p class="copyright">Copyright reserved by Nicky & Jin Yuan</p>
     </div>
 
 
