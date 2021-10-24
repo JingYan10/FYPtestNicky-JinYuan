@@ -9,7 +9,7 @@
     <!--link to ajax-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <!--link to css-->
-    <link rel="stylesheet" href="website-template.css">
+    <link rel="stylesheet" href="signUp.css">
     
     
     <!--link font-->
@@ -35,7 +35,7 @@
                 </div>
                 <nav>
                     <ul id="Menuitems">
-                        <li><a href="index.html"m>Home</a></li>
+                        <li><a href="index.php"m>Home</a></li>
                         <li><a href="">Products</a></li>
                         <li><a href="">About</a></li>
                         <li><a href="">Contact</a></li>
@@ -50,10 +50,50 @@
             <a id="button"></a>
 
             <!--content here-->
-            <h1>Page Header</h1>
-            <div class="container">
-                <div class="removethis" style="margin-bottom: 1500px;"></div>                
-            </div>
+            <section class="singUp-form">
+            <h1 style="margin-top:70px;margin-left:100px">Sign Up</h1>
+            <form action="includes/signUp.inc.php" method="post">
+                <input type="text" name="firstName" placeholder="First name..."> <br>
+                <input type="text" name="lastName" placeholder="Last name..."> <br>
+                <input type="text" name="email" placeholder="Email..."> <br>
+                <input type="password" name="password" placeholder="Password..."> <br>
+                <input type="password" name="confirmPassword" placeholder="Confirm password..."> <br>
+                <button type="submit" name="submit">Sign Up</button> <br>
+            </form>
+
+            <?php
+            if(isset($_GET["error"])){
+                if($_GET["error"]=="emptyInput"){
+                    echo "fill up the blank space";
+                }
+                else if ($_GET["error"]=="invalidName"){
+                    echo "firstname / lastname cannot have digit(s)";
+                }
+                else if ($_GET["error"]=="invalidEmail"){
+                    echo "inccorect email format";
+                }
+                else if ($_GET["error"]=="mismatchPassword"){
+                    echo "password and confirm password are not matched";
+                }
+                else if ($_GET["error"]=="existingUser"){
+                    echo "this email has registered before";
+                }
+                else if ($_GET["error"]=="stmtFailed"){
+                    echo "something went wrong, please try again later";
+                }
+                else if ($_GET["error"]=="none"){
+                    echo "congrats to join us";
+                }
+                   
+
+            }
+        ?>
+
+            </section>
+
+        
+            
+
             
 
             <!--footer-->
