@@ -5,9 +5,7 @@ session_start();
 <!DOCTYPE html>
 <html lang="en">
 
-<?php
-//   $_SESSION["userName"] = "sad";
-?>
+
 
 <head>
     <meta charset="UTF-8">
