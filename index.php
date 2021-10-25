@@ -1,3 +1,7 @@
+<?php
+    session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -88,11 +92,18 @@
                 </div>
                 <nav>
                     <ul id="Menuitems">
-                        <li><a href="index.html">Home</a></li>
-                        <li><a href="">Products</a></li>
+                        <li><a href="index.php">Home</a></li>
+                        <li><a href="testing.php">Products</a></li>
                         <li><a href="">About</a></li>
                         <li><a href="">Contact</a></li>
-                        <li><a href="">Account</a></li>
+                        <?php
+                            if(isset($_SESSION["userEmail"])){
+                                echo "<li><a href='includes/logout.inc.php'>Log out</a></li>";
+                            }
+                            else{
+                                echo "<li><a href='login.php'>Log in</a></li>";
+                            }
+                        ?>   
                     </ul>
                 </nav>
                 <a href=""><img src="images/images/cart.png" width="30px" height="30px" alt=""></a>
@@ -309,7 +320,7 @@
                 <div class="links">
                     <ul>
                         <li><a href="">Coupons</a></li>
-                        <li><a href="faq.html">FAQ</a></li>
+                        <li><a href="http://localhost/FYPtestNicky-JinYuan/faq.php">FAQ</a></li>
                         <li><a href="">Feedback</a></li>
                         <li><a href="">Join Us</a></li>
                         <li><a href="">Refund Policy</a></li>
