@@ -55,7 +55,7 @@ nav ul li a {
 }
 
 p{
-    color: #555 ;
+    color: rgb(0, 0, 0) ;
 }
 .container{
     max-width: 1300px;
@@ -220,3 +220,15 @@ p{
     opacity: 1;
     visibility: visible;
   }
+
+.card {
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+    width: 40%;
+    background-color: #fff;
+  }
+  
+  .card:hover {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+  }
+  
