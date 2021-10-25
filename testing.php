@@ -51,10 +51,21 @@
 
             <!--content here-->
             <h1>Page Header</h1>
+
             
+<html>
+    <head>
+        <title>Wheel of fortune Wheel</title>
+       
+    </head>
+    <body>
             <div class="container">
-                <div class="removethis" style="margin-bottom: 1500px;"></div>                
+                <div class="removethis" style="margin-bottom: 1500px;">sadasdsadsa</div>                
             </div>
+    </body>
+</html>
+            
+            
             
 
             <!--footer-->
@@ -132,7 +143,7 @@
             else
                 $("#Menuitems").css("display", "none");
         });
-
     </script>
+    
 </body>
 </html>

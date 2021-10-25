@@ -58,11 +58,26 @@ session_start();
             <!--content here-->
             <section class="login-form">
            
+            <div class="center">
             <h1>Login</h1>
             <form action="includes/login.inc.php" method="post">
-                <input type="text" name="email" placeholder="Email..."> <br>
-                <input type="password" name="password" placeholder="Password..."> <br>
-                <button type="submit" name="submit">Login</button> <br>
+            <div class="txt_field">
+                <label >Email</label>
+                <input type="text" name="email" placeholder="Email..." required >
+            </div>
+
+            <div class="txt_field">
+                <label >Email</label>
+                <input type="password" name="password" placeholder="Password..." required> <br>
+            </div>
+
+            <div class="forgetPass">Forget Password ? </div>
+            <div class="signUpLink">
+                <a href="signUp.php">Sign Up</a>
+            </div>
+                
+            <button type="submit" name="submit">Login</button>
+
             </form>
             <?php
             if(isset($_GET["error"])){
@@ -74,9 +89,12 @@ session_start();
                 }
             }
         ?>
+            </div>
+            
          </section>
             
 
+         
             <!--footer-->
     <div class="footer">
 
