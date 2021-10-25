@@ -8,7 +8,7 @@
     <!--link to ajax-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <!--link to css-->
-    <link rel="stylesheet" href="website-template.css">
+    <!-- <link rel="stylesheet" href="website-template.css"> -->
 
     <link rel="stylesheet" href="e-reward.css">
 
@@ -51,10 +51,10 @@
       
        <!--content here-->
        <div class="cardList"><!--
-      --><div class="card common"><img src = "images/products/couponSmall1.jpg"></div><!--
-      --><div class="card rare"><img src = "images/products/couponSmall2.jpg"></div><!--
-      --><div class="card mythical"><img src = "images/products/couponSmall3.jpg"></div><!--
-      --><div class="card legendary"><img src = "images/products/couponSmall4.jpg"></div><!--
+      --><div class="card common"></div><!--
+      --><div class="card rare"></div><!--
+      --><div class="card mythical"></div><!--
+      --><div class="card legendary"></div><!--
       --></div>
       <button id="spin">Spin</button>
     
@@ -104,10 +104,10 @@
       <script>
         var cardList 	= $('.cardList').first(), 
     cards 		= $('.card'), 
-    speed 		= 100000,
+    speed 		= 10000000,
     width 		= 100, 
     randomize 	= true, 
-    distance 	= 40 * width 
+    distance 	= 10 * width 
 ;
 
 for (var i = 0; i < 50; i++) {
@@ -118,7 +118,7 @@ function spin() {
     var newMargin = 0, newDistance = distance;
     if (randomize) {
         newDistance = Math.floor(Math.random() * cards.length * 5);
-		    newDistance += cards.length * 10;
+		    newDistance += cards.length * 100;
         var rand = Math.floor((Math.random()*100)+1);
         newDistance *= rand;
     } 
