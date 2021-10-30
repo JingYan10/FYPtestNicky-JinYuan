@@ -93,7 +93,7 @@
                 <nav>
                     <ul id="Menuitems">
                         <li><a href="index.php">Home</a></li>
-                        <li><a href="testing.php">Products</a></li>
+                        <li><a href="">Products</a></li>
                         <li><a href="">About</a></li>
                         <li><a href="">Contact</a></li>
                         <?php

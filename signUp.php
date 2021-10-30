@@ -1,141 +1,79 @@
-<!DOCTYPE html>
-<html lang="en">
+<?php
+    include_once 'header.php';
+?>
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <!--link to ajax-->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <!--link to css-->
+            <!--link to css-->
     <link rel="stylesheet" href="signUp.css">
-    
-    
-    <!--link font-->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
-        rel="stylesheet">
-    <!--link bootsrap CDN-->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    
-    <!--link to jquery-->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js%22%3E"></script>
-    <!--link for back to top-->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
-
-    <title>Fanciado Foodo</title>
-</head>
-<body>
-    <div class="header">
-        <div class="container">
-            <!--navigation bar-->
-            <div class="navbar">
-                <div class="logo">
-                    <img src="images/logo/logo.png" class="logo" alt="error logo image">
-                </div>
-                <nav>
-                    <ul id="Menuitems">
-                        <li><a href="index.php"m>Home</a></li>
-                        <li><a href="">Products</a></li>
-                        <li><a href="">About</a></li>
-                        <li><a href="">Contact</a></li>
-                        <li><a href="">Account</a></li>
-                    </ul>
-                </nav>
-                <a href=""><img src="images/images/cart.png" width="30px" height="30px" alt=""></a>
-                <img src="images/images/menu.png" class="menu-icon" onclick="toggleMenu()">
-            </div>
-
-            <!--back to top-->
-            <a id="button"></a>
 
             <!--content here-->
+            
             <section class="singUp-form">
-            <h1 style="margin-top:70px;margin-left:100px">Sign Up</h1>
+            <div class="center">
+            <h1>Sign Up</h1>
             <form action="includes/signUp.inc.php" method="post">
-                <input type="text" name="firstName" placeholder="First name..."> <br>
-                <input type="text" name="lastName" placeholder="Last name..."> <br>
-                <input type="text" name="email" placeholder="Email..."> <br>
-                <input type="password" name="password" placeholder="Password..."> <br>
-                <input type="password" name="confirmPassword" placeholder="Confirm password..."> <br>
-                <button type="submit" name="submit">Sign Up</button> <br>
+            <div class="txt_field">
+                <input type="text" name="firstName" required >
+                <span></span>
+                <label >First name</label>
+            </div>
+            <div class="txt_field">
+                <input type="text" name="lastName" required >
+                <span></span>
+                <label >Last name</label>
+            </div> 
+            <div class="txt_field">
+                <input type="text" name="email" required >
+                <span></span>
+                <label >Email</label>
+            </div> 
+            <div class="txt_field">
+                <input type="password" name="password" required >
+                <span></span>
+                <label >Password</label>
+            </div> 
+            <div class="txt_field">
+                <input type="password" name="confirmPassword" required >
+                <span></span>
+                <label >Confirm password</label>
+            </div> 
+                <button class="button" type="submit" name="submit">Sign Up</button> 
             </form>
 
             <?php
             if(isset($_GET["error"])){
                 if($_GET["error"]=="emptyInput"){
-                    echo "fill up the blank space";
+                    echo "<div style='text-align:center;color:red;font-weight:600'>fill up the blank space</div>";
                 }
                 else if ($_GET["error"]=="invalidName"){
-                    echo "firstname / lastname cannot have digit(s)";
+                    echo "<div style='text-align:center;color:red;font-weight:600'>firstname / lastname cannot have digit(s)</div>";
                 }
                 else if ($_GET["error"]=="invalidEmail"){
-                    echo "inccorect email format";
+                    echo "<div style='text-align:center;color:red;font-weight:600'>inccorect email format</div>";
                 }
                 else if ($_GET["error"]=="mismatchPassword"){
-                    echo "password and confirm password are not matched";
+                    echo "<div style='text-align:center;color:red;font-weight:600'>password and confirm password are not matched</div>";
                 }
                 else if ($_GET["error"]=="existingUser"){
-                    echo "this email has registered before";
+                    echo "<div style='text-align:center;color:red;font-weight:600'>this email has registered before</div>";
                 }
                 else if ($_GET["error"]=="stmtFailed"){
-                    echo "something went wrong, please try again later";
+                    echo "<div style='text-align:center;color:red;font-weight:600'>something went wrong, please try again later</div>";
                 }
                 else if ($_GET["error"]=="none"){
-                    echo "congrats to join us";
+                    echo "<div style='text-align:center;color:green;font-weight:600'>congrats to join us</div>";
                 }
-                   
-
             }
         ?>
-
-            </section>
-
-        
-            
-
-            
-
-            <!--footer-->
-    <div class="footer">
-
-        <div class="box-container">
-
-            <div class="box">
-                <h1>Fanciado Foodo</h1>
-                <img src="images/logo/logo.png" class="logo" alt="">
-                <p>Our purpose is to serve the best quality of products and services to our customers.</p>
-            </div>
-
-
-            <div class="box">
-                <h3>Helpful links</h3>
-                <div class="links">
-                    <ul>
-                        <li><a href="">Coupons</a></li>
-                        <li><a href="">FAQ</a></li>
-                        <li><a href="">Feedback</a></li>
-                        <li><a href="">Join Us</a></li>
-                        <li><a href="">Refund Policy</a></li>
-                        <li><a href="">About Us</a></li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="box">
-                <h3>Follow us</h3>
-                <div class="socials">
-                    <a href="#" class="btn fab fa-facebook-f"></a>
-                    <a href="#" class="btn fab fa-twitter"></a>
-                    <a href="#" class="btn fab fa-instagram"></a>
-                    <a href="#" class="btn fab fa-youtube"></a>
-                </div>
-            </div>
         </div>
+        </section>
 
-        <hr>
-        <p class="copyright">Copyright reserved by Nicky & Jing Yan</p>
-    </div>
+        <div class="removethis" style="margin-bottom: 700px;"></div>
+            
+
+            
+<?php
+    include_once 'footer.php';
+?>
 
     <!--javascript-->
     

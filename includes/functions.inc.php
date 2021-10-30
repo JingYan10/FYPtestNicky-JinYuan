@@ -70,15 +70,16 @@ function isExistUser($conn, $email) {
 }
 
 function createUser($conn,$firstName,$lastName,$email,$password) {
-    $sql = "INSERT INTO users (userEmail, userFirstName, userLastName, userPassword) VALUES (?, ?, ?, ?);";
+    $sql = "INSERT INTO users (userEmail, userFirstName, userLastName, userPassword, userRole) VALUES (?, ?, ?, ?, ?);";
     $stmt = mysqli_stmt_init($conn);
+    $role = "member";
     if(!mysqli_stmt_prepare($stmt,$sql)){
         header("location: ../signUp.php?error=stmtFailed");
         exit();
     }
 
     $encryptedPassword = password_hash($password, PASSWORD_DEFAULT);
-    mysqli_stmt_bind_param($stmt, "ssss", $email, $firstName, $lastName, $encryptedPassword);
+    mysqli_stmt_bind_param($stmt, "sssss", $email, $firstName, $lastName, $encryptedPassword, $role);
     mysqli_stmt_execute($stmt);
     mysqli_stmt_close($stmt);
     header("location: ../signUp.php?error=none");
