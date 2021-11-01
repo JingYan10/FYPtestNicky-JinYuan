@@ -15,18 +15,18 @@
     <!--link font-->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
-    <!-- link bootsrap CDN
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"> -->
+    <!-- link bootsrap CDN-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <!--link AOS-->
-    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+    <!-- <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" /> -->
     <!--link to jquery-->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
     <!--link for back to top-->
     <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css"> -->
 
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script> -->
     <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script> -->
 
@@ -34,6 +34,11 @@
     <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css">
+
+        <!--link to ajax-->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <!-- link to css
+        <link rel="stylesheet" href="header&footer.css"> -->
 
 
     </head> 
@@ -97,6 +102,31 @@
                        <h3 class ="title">Nuts</h3>
                        <div class = "subInfo">
                            <div class = "price">RM39.90<span>RM79.90</span></div>
+                            <div class = "stars">
+                                <i class = "fas fa-star"></i>
+                                <i class = "fas fa-star"></i>
+                                <i class = "fas fa-star"></i>
+                                <i class = "fas fa-star"></i>
+                                <i class = "fas fa-star-half"></i>
+                           </div>
+                       </div>
+                   </div>
+                   <div class="overlay">
+                       <a href = "#" style="--i:1;" class="fas fa-shopping-cart"></a>
+                       <a href = "#" style="--i:1;" class="fas fa-heart"></a>
+                       <a href = "#" style="--i:1;" class="fas fa-search"></a>
+                   </div>
+               </div>
+
+               <div class="box">
+                <div class="image">
+                    <img src="images/products/noodles3.jpg" alt="">
+                </div>
+   
+                    <div class="info">
+                       <h3 class ="title">Noodles</h3>
+                       <div class = "subInfo">
+                           <div class = "price">RM49.90<span>RM109.90</span></div>
                             <div class = "stars">
                                 <i class = "fas fa-star"></i>
                                 <i class = "fas fa-star"></i>
@@ -219,7 +249,6 @@
         <div class="footer">
 
             <div class="box-container">
-    
                 <div class="box">
                     <h1>Fanciado Foodo</h1>
                     <img src="images/logo/logo.png" class="logo" alt="">
@@ -282,6 +311,10 @@
                 $(".menu-icon").click(function () {
                     $("#Menuitems").fadeToggle(200);
                 });
+
+                var w = $(".container > .box-container > .box:first-child").width()
+                $(".box:last-child").css({ width:""+w, flex: "none"})
+            
             });
     
             $(window).bind("resize", function () {
@@ -290,6 +323,8 @@
                 else
                     $("#Menuitems").css("display", "none");
             });
+
+            
     
         </script>
         </body>
