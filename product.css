@@ -227,6 +227,7 @@ p{
     transition: 0.3s;
     width: 40%;
     background-color: #fff;
+    flex-basis: 33.33333%;
   }
   
   .card:hover {
@@ -257,6 +258,7 @@ p{
     position: relative;
     overflow: hidden;
     margin: 20px;
+    
 }
 
 .box .image img{
