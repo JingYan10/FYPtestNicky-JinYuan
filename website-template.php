@@ -1,6 +1,11 @@
 <?php
+    session_start();
+?>
+|<?php
     include_once 'header.php';
 ?>
+
+
             <!--content here-->
             <h1>Page Header</h1>
             <div class="container">

@@ -34,7 +34,7 @@
                     <img src="images/logo/logo.png" class="logo" alt="error logo image">
                 </div>
                 <nav>
-                    <ul id="Menuitems">
+                    <ul id="menuitems">
                         <li><a href="index.php">Home</a></li>
                         <li><a href="">Products</a></li>
                         <li><a href="">About</a></li>

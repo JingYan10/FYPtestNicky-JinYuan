@@ -19,7 +19,7 @@
         <div class="links">
             <ul>
                 <li><a href="">Coupons</a></li>
-                <li><a href="">FAQ</a></li>
+                <li><a href="faq.php">FAQ</a></li>
                 <li><a href="">Feedback</a></li>
                 <li><a href="">Join Us</a></li>
                 <li><a href="">Refund Policy</a></li>

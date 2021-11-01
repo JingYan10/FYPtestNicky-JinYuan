@@ -1,0 +1,45 @@
+.main-container{
+    width: 1200px;
+    background: royalblue;
+    display: flex;
+}
+.main-container div:nth-of-type(1){
+    flex-basis: 30%;
+}
+.main-container div:nth-of-type(2){
+    flex-basis: 70%;
+}
+.userImage p{
+    text-align: center;
+}
+.userImage img{
+    text-align: center;
+    margin-top: 100px;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+}
+.userInfocard {
+    height: 300px;
+    width: 350px;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    margin-right: 50px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 10px 10px 15px rgba(0,0,0,0.05);
+}
+.userInfo{
+    margin-top: 100px;
+    margin-left: 50px;
+}
+.userData label{
+    font-size: 20px;
+    font-weight: 800;
+    width: 150px;
+    display: inline-block;
+}
+
+
+
+
