@@ -14,7 +14,7 @@
 }
 .userImage img{
     text-align: center;
-    margin-top: 100px;
+    margin-top: 80px;
     width: 200px;
     height: 200px;
     border-radius: 50%;
@@ -30,14 +30,99 @@
     box-shadow: 10px 10px 15px rgba(0,0,0,0.05);
 }
 .userInfo{
-    margin-top: 100px;
+    margin-top: 50px;
     margin-left: 50px;
 }
+.userData{
+    margin-bottom: 10px;
+}
 .userData label{
-    font-size: 20px;
+    font-size: 15px;
     font-weight: 800;
     width: 150px;
     display: inline-block;
+}
+.userData input{
+    font-size: 16px;
+}
+.btnEdit{
+background-color: #0455be;
+  border: none;
+  color: white;
+  padding: 12px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px;
+  margin-left: 10px;
+  cursor: pointer;
+}
+.btnEdit:hover{
+    background-color: #16bbf1;
+    box-shadow: 10px 10px 15px rgba(0,0,0,0.05);
+}
+.btnEditPassword{
+    margin-top: 5px;
+    background-color: #0455be;
+      border: none;
+      color: white;
+      padding: 12px 32px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 14px;
+      margin-left: 66px;
+      cursor: pointer;
+}
+.btnEditPassword:hover{
+    background-color: #16bbf1;
+    box-shadow: 10px 10px 15px rgba(0,0,0,0.05);
+}
+.btnEditImage{
+    margin-top: 5px;
+    background-color: #0455be;
+      border: none;
+      color: white;
+      padding: 12px 32px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 14px;
+      cursor: pointer;
+}
+.btnEditImage:hover{
+    background-color: #16bbf1;
+    box-shadow: 10px 10px 15px rgba(0,0,0,0.05);
+}
+.btnUpgradeSeller{
+    margin-top: 5px;
+    background-color: #0455be;
+      border: none;
+      color: white;
+      padding: 12px 32px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 14px;
+      margin-left: -9px;
+      cursor: pointer;
+}
+.btnUpgradeSeller:hover{
+    background-color: #16bbf1;
+    box-shadow: 10px 10px 15px rgba(0,0,0,0.05);
+}
+.btnUpgradeDeliverer{
+    margin-top: 5px;
+    background-color: #0455be;
+      border: none;
+      color: white;
+      padding: 12px 32px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 14px;
+      margin-left: 10px;
+      cursor: pointer;
 }
 
 

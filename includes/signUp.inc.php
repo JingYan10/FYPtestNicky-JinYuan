@@ -20,30 +20,7 @@ if(isset($_POST["submit"])){
 
     $allowed = array('jpg','jpeg','png');
 
-    if(in_array($fileActualExt,$allowed)){
-        if($fileError == 0){
-            if($fileSize<500000){
-                $fileNameNew = uniqid('',true).".".$fileActualExt;
-                $fileDestination = 'uploads/'.$fileNameNew;
-                move_uploaded_file($fileTmpName, $fileDestination);
-             
-        
-            }else{
-                header("location: ../signUp.php?error=errorImgSize");
-                exit();
-            }
-
-        }else{
-            header("location: ../signUp.php?error=errorImgUpload");
-            exit();
-        }
-
-    }else{
-        header("location: ../signUp.php?error=imgType");
-        exit();
-    }
-
-    $userImage = "includes/".$fileDestination;
+    
 
     require_once 'databaseHandler.inc.php';
     require_once 'functions.inc.php';
@@ -69,10 +46,36 @@ if(isset($_POST["submit"])){
         exit();
     }
 
+    if(in_array($fileActualExt,$allowed)){
+        if($fileError == 0){
+            if($fileSize<500000){
+                $fileNameNew = uniqid('',true).".".$fileActualExt;
+                $fileDestination = 'uploads/'.$fileNameNew;
+                move_uploaded_file($fileTmpName, $fileDestination);
+
+                $userImage = "includes/".$fileDestination;
+                createUser($conn,$firstName,$lastName,$email,$password,$userImage);
+             
+        
+            }else{
+                header("location: ../signUp.php?error=errorImgSize");
+                exit();
+            }
+
+        }else{
+            header("location: ../signUp.php?error=errorImgUpload");
+            exit();
+        }
+
+    }else{
+        header("location: ../signUp.php?error=imgType");
+        exit();
+    }
+
     
         
 
-    createUser($conn,$firstName,$lastName,$email,$password,$userImage);
+    
 
 }
 else{
