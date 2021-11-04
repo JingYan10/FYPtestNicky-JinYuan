@@ -11,8 +11,8 @@ session_start();
 
  <!--content here-->
          <h1>Product Page</h1>
-         <div class="box-container">
-             <div class="box">
+         <div class="box-container2">
+             <div class="box2">
              <div class="image">
                  <img src="images/products/oats3.jpg" alt="">
              </div>
@@ -37,7 +37,7 @@ session_start();
                 </div>
             </div>
 
-            <div class="box">
+            <div class="box2">
                 <div class="image">
                     <img src="images/products/nuts3.jpg" alt="">
                 </div>
@@ -62,7 +62,7 @@ session_start();
                    </div>
                </div>
 
-               <div class="box">
+               <div class="box2">
                 <div class="image">
                     <img src="images/products/noodles3.jpg" alt="">
                 </div>
@@ -87,7 +87,7 @@ session_start();
                    </div>
                </div>
 
-               <div class="box">
+               <div class="box2">
                 <div class="image">
                     <img src="images/products/noodles3.jpg" alt="">
                 </div>
@@ -112,7 +112,7 @@ session_start();
                    </div>
                </div>
 
-               <div class="box">
+               <div class="box2">
                 <div class="image">
                     <img src="images/products/bisuits3.jpg" alt="">
                 </div>
@@ -137,7 +137,7 @@ session_start();
                    </div>
                </div>
 
-               <div class="box">
+               <div class="box2">
                 <div class="image">
                     <img src="images/products/bisuits3.jpg" alt="">
                 </div>
@@ -162,7 +162,7 @@ session_start();
                    </div>
                </div>
 
-               <div class="box">
+               <div class="box2">
                 <div class="image">
                     <img src="images/products/bisuits3.jpg" alt="">
                 </div>

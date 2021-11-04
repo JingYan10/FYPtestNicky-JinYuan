@@ -1,53 +1,54 @@
 <?php
 
-function emptyInputSignUp($firstName,$lastName,$email,$password,$confirmPassword) {
+function emptyInputSignUp($firstName, $lastName, $email, $password, $confirmPassword)
+{
     $result;
-    if(empty($firstName) || empty($lastName)|| empty($email) || empty($password) || empty($confirmPassword)){
+    if (empty($firstName) || empty($lastName) || empty($email) || empty($password) || empty($confirmPassword)) {
         $result = true;
-    }
-    else{
+    } else {
         $result = false;
     }
     return $result;
 }
 
-function invalidName($firstName,$lastName) {
+function invalidName($firstName, $lastName)
+{
     $result;
-    if(!preg_match("/^[a-zA-z]*$/",$firstName) || !preg_match("/^[a-zA-z]*$/",$lastName )){
+    if (!preg_match("/^[a-zA-z]*$/", $firstName) || !preg_match("/^[a-zA-z]*$/", $lastName)) {
         $result = true;
-    }
-    else{
+    } else {
         $result = false;
     }
     return $result;
 }
 
-function invalidEmail($email) {
+function invalidEmail($email)
+{
     $result;
-    if(!filter_var($email, FILTER_VALIDATE_EMAIL)){
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $result = true;
-    }
-    else{
+    } else {
         $result = false;
     }
     return $result;
 }
 
-function matchingPassword($password,$confirmPassword) {
+function matchingPassword($password, $confirmPassword)
+{
     $result;
-    if($password!=$confirmPassword){
+    if ($password != $confirmPassword) {
         $result = true;
-    }
-    else{
+    } else {
         $result = false;
     }
     return $result;
 }
 
-function isExistUser($conn, $email) {
+function isExistUser($conn, $email)
+{
     $sql = "SELECT * FROM users WHERE userEmail = ?;";
     $stmt = mysqli_stmt_init($conn);
-    if(!mysqli_stmt_prepare($stmt,$sql)){
+    if (!mysqli_stmt_prepare($stmt, $sql)) {
         header("location: ../signUp.php?error=stmtFailed");
         exit();
     }
@@ -56,24 +57,24 @@ function isExistUser($conn, $email) {
 
     $resultData = mysqli_stmt_get_result($stmt);
 
-    if($row = mysqli_fetch_assoc($resultData)){
+    if ($row = mysqli_fetch_assoc($resultData)) {
         return $row;
-
-
-    }else{
+    } else {
         $result = false;
         return $result;
     }
 
     mysqli_stmt_close($stmt);
-
 }
 
-function createUser($conn,$firstName,$lastName,$email,$password,$userImage) {
+
+
+function createUser($conn, $firstName, $lastName, $email, $password, $userImage)
+{
     $sql = "INSERT INTO users (userEmail, userFirstName, userLastName, userPassword, userRole, userImage) VALUES (?, ?, ?, ?, ?, ?);";
     $stmt = mysqli_stmt_init($conn);
     $role = "member";
-    if(!mysqli_stmt_prepare($stmt,$sql)){
+    if (!mysqli_stmt_prepare($stmt, $sql)) {
         header("location: ../signUp.php?error=stmtFailed");
         exit();
     }
@@ -84,24 +85,88 @@ function createUser($conn,$firstName,$lastName,$email,$password,$userImage) {
     mysqli_stmt_close($stmt);
     header("location: ../signUp.php?error=none");
     exit();
+}
+
+function createSellerDocument($conn, $identityCard, $fullName,$documentLocation, $userEmail)
+{
+    require_once 'databaseHandler.inc.php';
+    $registrationType = "seller";
+    $sql = "INSERT INTO verifierdocument (identityCard, fullName, documentLocation, registerationType, userEmail) VALUES (?, ?, ?, ?, ? );";
+    $stmt = mysqli_stmt_init($conn);
+
+    if (!mysqli_stmt_prepare($stmt, $sql)) {
+        header("location: ../signUp.php?error=stmtFailed");
+        exit();
+    }
+
+    mysqli_stmt_bind_param($stmt, "sssss", $identityCard, $fullName, $documentLocation, $registrationType ,$userEmail);
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_close($stmt);
+   
 
 }
 
-function emptyInputLogin($email,$password) {
-    $result;
-    if( empty($email) || empty($password) ){
-        $result = true;
+function updateUserSellerStatus($conn,$userEmail){
+    // require_once 'databaseHandler.inc.php';
+
+    $sellerStatus = "pending";
+    $sql = "UPDATE users SET sellerStatus = '$sellerStatus' WHERE userEmail = '$userEmail'; ";
+    $stmt = mysqli_stmt_init($conn);
+    if (!mysqli_stmt_prepare($stmt, $sql)) {
+        header("location: ../user_profile_edit.php?error=stmtFailed");
+        exit();
     }
-    else{
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_close($stmt);
+    header("location: ../becomeSeller.php?error=none");
+    exit();
+}
+
+
+function updateUser($conn, $firstName, $lastName, $email)
+{
+    $sql = "UPDATE users SET userFirstName = '$firstName', userLastName = '$lastName' WHERE userEmail = '$email'; ";
+    $stmt = mysqli_stmt_init($conn);
+    if (!mysqli_stmt_prepare($stmt, $sql)) {
+        header("location: ../user_profile_edit.php?error=stmtFailed");
+        exit();
+    }
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_close($stmt);
+    header("location: ../user_profile.php?error=none");
+    exit();
+}
+
+function updateuserImage($conn, $email, $userImage)
+{
+    $sql = "UPDATE users SET userImage = '$userImage' WHERE userEmail = '$email'; ";
+    $stmt = mysqli_stmt_init($conn);
+    if (!mysqli_stmt_prepare($stmt, $sql)) {
+        header("location: ../user_profile_edit.php?error=stmtFailed");
+        exit();
+    }
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_close($stmt);
+    header("location: ../user_profile.php?error=none");
+    exit();
+}
+
+function emptyInputLogin($email, $password)
+{
+    $result;
+    if (empty($email) || empty($password)) {
+        $result = true;
+    } else {
         $result = false;
     }
     return $result;
 }
 
-function loginUser($conn,$email,$password){
+function loginUser($conn, $email, $password)
+{
     $isExistUser = isExistUser($conn, $email);
 
-    if($isExistUser== false){
+    if ($isExistUser == false) {
         header("location: ../login.php?error=wrongLogin");
         exit();
     }
@@ -109,14 +174,66 @@ function loginUser($conn,$email,$password){
     $encryptedPassword = $isExistUser["userPassword"];
     $checkPassword = password_verify($password, $encryptedPassword);
 
-    if($checkPassword == false){
+    if ($checkPassword == false) {
         header("location: ../login.php?error=wrongLogin");
         exit();
-    }
-    else if ($checkPassword == true){
+    } else if ($checkPassword == true) {
         session_start();
         $_SESSION["userEmail"] = $email;
         header("location: ../index.php");
         exit();
     }
+}
+
+function checkOldPassword($conn,$email,$oldPassword){
+    $isExistUser = isExistUser($conn, $email);
+
+    if ($isExistUser == false) {
+        header("location: ../login.php?error=wrongLogin");
+        exit();
+    }
+
+    $encryptedPassword = $isExistUser["userPassword"];
+    $checkPassword = password_verify($oldPassword, $encryptedPassword);
+
+    if ($checkPassword == false) {
+        return false;
+    } else if ($checkPassword == true) {
+        return true;
+    }
+
+}
+function changePassword($conn,$email,$newPassword){
+    $encryptedPassword = password_hash($newPassword, PASSWORD_DEFAULT);
+    $sql = "UPDATE users SET userPassword = '$encryptedPassword' WHERE userEmail = '$email'; ";
+    $stmt = mysqli_stmt_init($conn);
+    if (!mysqli_stmt_prepare($stmt, $sql)) {
+        header("location: ../user_profile_changePassword.php?error=stmtFailed");
+        exit();
+    }
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_close($stmt);
+    header("location: ../user_profile.php?error=none");
+    exit();
+}
+function invalidIC($IC)
+{
+    $result;
+
+    if(strlen($IC) !=12 || !preg_match("/^[0-9]*$/", $IC) ){
+        $result = true;
+    } else {
+        $result = false;
+    }
+    return $result;
+
+}
+function invalidFullName($fullName){
+    $result;
+    if (!preg_match("/^[a-zA-z]*$/", $fullName)) {
+        $result = true;
+    } else {
+        $result = false;
+    }
+    return $result;
 }

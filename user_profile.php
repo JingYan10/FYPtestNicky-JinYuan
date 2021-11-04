@@ -1,8 +1,5 @@
 <?php
 session_start();
-$_SESSION["userFirstName"];
-$_SESSION["userLastName"];
-$_SESSION["userRole"]
 ?>
 
 <?php
@@ -25,41 +22,55 @@ if ($resultCheck > 0) {
         $_SESSION["userLastName"] = $row['userLastName'];
         $_SESSION["userRole"] = $row['userRole'];
         $_SESSION["userImage"] = $row['userImage'];
+        $_SESSION["sellerStatus"] = $row['sellerStatus'];
     }
 } else {
     header("location: ../login.php?error=noUserProfile");
     exit();
 }
-
-
 ?>
+
+
 
 <div class="main-container">
     <div class="userImage">
         <p>
-            <img src="<?php echo $_SESSION['userImage'];?>" alt="">
+            <img src="<?php echo $_SESSION['userImage'];?>" alt=""> <br>
+            <a href="user_profile_edit.php"><input type="button" class="btnEditImage" value="Edit"></a> 
         </p>
     </div>
     <div class="userInfocard">
         <div class="userInfo">
             <div class="userData">
                 <label>First name</label>
-                <input type="text" name="firstName"  value="<?php echo $_SESSION['userFirstName'];?>"  >
+                <input type="text" name="firstName"  value="<?php echo $_SESSION['userFirstName'];?>" disabled >
             </div>
             <div class="userData">
                 <label>Last name</label>
-                <input type="text" name="lastName"  value="<?php echo $_SESSION['userLastName'];?>"  >
+                <input type="text" name="lastName"  value="<?php echo $_SESSION['userLastName'];?>" disabled  >
             </div>
             <div class="userData">
                 <label>Email</label>
-                <input type="text" value="<?php echo $_SESSION['userEmail'];?>">
+                <input type="text" name="email" value="<?php echo $_SESSION['userEmail'];?>" disabled >
                 
             </div>
             <div class="userData">
-                <label>User Image</label>
-                <input type="text" value="<?php echo $_SESSION['userImage'];?>">
+                <label>User Role</label>
+                <input type="text" value="<?php echo $_SESSION['userRole'];?>" disabled >
             </div>
-            <input type="text">
+            <a href="user_profile_changePassword.php"><input type="button" value="Change Passsword" class="btnEditPassword"></a>
+            <a href="user_profile_edit.php"><input type="button" class="btnEdit" value="Edit"></a> 
+            <br>
+            <?php
+                if($_SESSION["sellerStatus"]=="pending"){
+                    echo "user has registered as seller";
+                }else if($_SESSION["sellerStatus"]==null){
+                    echo '<a href="becomeSeller.php"><input type="button" class="btnUpgradeSeller" value="Become a seller"></a>';
+                }
+            ?>            
+            <a href="user_profile_edit.php"><input type="button" class="btnUpgradeDeliverer" value="Become a deliverer"></a> 
+            
+
         </div>
     </div>
 </div>
