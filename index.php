@@ -91,11 +91,11 @@
                     <img src="images/logo/logo.png" class="logo" alt="error logo image">
                 </div>
                 <nav>
-                    <ul id="Menuitems">
+                <ul id="menuitems">
                         <li><a href="index.php">Home</a></li>
-                        <li><a href="">Products</a></li>
-                        <li><a href="">About</a></li>
-                        <li><a href="">Contact</a></li>
+                        <li><a href="product.php">Products</a></li>
+                        <li><a href="cart.php">Cart</a></li>
+                        <li><a href="faq.php">About</a></li>
                         <?php
                             if(isset($_SESSION["userEmail"])){
                                 echo "<li><a href='user_profile.php'>Profile</a></li>";
