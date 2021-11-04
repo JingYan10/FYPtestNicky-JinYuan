@@ -121,10 +121,48 @@ background-color: #0455be;
       text-decoration: none;
       display: inline-block;
       font-size: 14px;
-      margin-left: 10px;
+      margin-left: 13px;
       cursor: pointer;
 }
 
-
+/*seller container*/
+.seller-container{
+    margin-top: 50px;
+    width: 1200px;
+    background: rgb(52, 96, 230);
+    display: flex;
+}
+.product-container{
+    height: 300px;
+    width: 1000px;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    margin-left: 100px;
+    margin-right: 100px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 10px 10px 15px rgba(0,0,0,0.05);
+}
+.productInfo{
+    margin-top: 50px;
+    margin-left: 50px;
+}
+.btnCreateProduct{
+    margin-top: 5px;
+    background-color: #0455be;
+      border: none;
+      color: white;
+      padding: 12px 32px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 14px;
+      margin-left: 66px;
+      cursor: pointer;
+}
+.btnCreateProduct:hover{
+    background-color: #16bbf1;
+    box-shadow: 10px 10px 15px rgba(0,0,0,0.05);
+}
 
 

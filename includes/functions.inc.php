@@ -237,3 +237,48 @@ function invalidFullName($fullName){
     }
     return $result;
 }
+function invalidProductName($productName){
+    $result;
+    if (!preg_match("/^[a-zA-Z ]*$/", $productName)) {
+        $result = true;
+    } else {
+        $result = false;
+    }
+    return $result;
+}
+function invalidProductQuantity($productQuantity){
+    $result;
+    if (!preg_match("/^[0-9]*$/", $productQuantity)) {
+        $result = true;
+    } else {
+        $result = false;
+    }
+    return $result;
+}
+function invalidProductPrice($productPrice){
+    $result;
+    if (!preg_match("/^\d{0,8}(\.\d{1,4})?$/", $productPrice)) {
+        $result = true;
+    } else {
+        $result = false;
+    }
+    return $result;
+}
+function createProduct($conn,$productName, $productImage, $productQuantity,$productPrice, $email){
+    //$sql = "INSERT INTO product (productName, productImage, productQuantity, productPrice, userEmail) VALUES (?, ?, ?, ?, ?);";
+    $sql = "INSERT INTO product (productName, productImage, productQuantity, productPrice, userEmail) VALUES ('$productName', '$productImage', $productQuantity, '$productPrice', '$email');";
+    $stmt = mysqli_stmt_init($conn);
+    if (!mysqli_stmt_prepare($stmt, $sql)) {
+        header("location: ../createProduct.php?error=stmtFailed");
+        exit();
+    }
+
+    // $intProductQuantity = (int)$productQuantity;
+    // $doubleProductPrice = (double)$productPrice;
+    
+    // mysqli_stmt_bind_param($stmt, "ssids", $productName, $productImage, $intProductQuantity, $doubleProductPrice, $userEmail);
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_close($stmt);
+    header("location: ../createProduct.php?error=none");
+    exit();
+}
