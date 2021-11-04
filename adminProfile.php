@@ -1,18 +1,15 @@
 <?php
+// Start the session
 session_start();
 ?>
-
 <?php
 include_once 'header.php';
 include_once 'includes/databaseHandler.inc.php';
 ?>
 
-<link rel="stylesheet" href="user_profile.css" />
+<!--link to css-->
+<link rel="stylesheet" href="adminProfile.css">
 
-<!--content here-->
-
-
-<!--how you get data-->
 <?php
 $sql = "SELECT * FROM users where userEmail='$_SESSION[userEmail]'";
 $result = mysqli_query($conn, $sql);
@@ -21,9 +18,7 @@ if ($resultCheck > 0) {
     while ($row = mysqli_fetch_assoc($result)) {
         $_SESSION["userFirstName"] = $row['userFirstName'];
         $_SESSION["userLastName"] = $row['userLastName'];
-        $_SESSION["userRole"] = $row['userRole'];
         $_SESSION["userImage"] = $row['userImage'];
-        $_SESSION["sellerStatus"] = $row['sellerStatus'];
     }
 } else {
     header("location: ../login.php?error=noUserProfile");
@@ -31,7 +26,7 @@ if ($resultCheck > 0) {
 }
 ?>
 
-
+<!--Content Here-->
 
 <div class="main-container">
     <div class="userImage">
@@ -55,50 +50,65 @@ if ($resultCheck > 0) {
                 <input type="text" name="email" value="<?php echo $_SESSION['userEmail']; ?>" disabled>
 
             </div>
-            <div class="userData">
-                <label>User role</label>
-                <input type="text" value="<?php echo $_SESSION['userRole']; ?>" disabled>
-            </div>
-            <div class="userData">
 
-                <?php
-                if ($_SESSION["sellerStatus"] == "pending") {
-                    echo '<label>Seller request</label><label style="margin-left:5px;">pending</label>';
-                }
-                ?>
-
-            </div>
             <a href="user_profile_changePassword.php"><input type="button" value="Change Passsword" class="btnEditPassword"></a>
             <a href="user_profile_edit.php"><input type="button" class="btnEdit" value="Edit"></a>
+            <a href="user_profile_ban.php"><input type="button" class="btnBan" value="Ban Users"></a>
+
             <br>
-            <?php
-            if ($_SESSION["sellerStatus"] == null) {
-                echo '<a href="becomeSeller.php"><input type="button" class="btnUpgradeSeller" value="Become a seller"></a>';
-                echo '<a href="user_profile_edit.php"><input type="button" class="btnUpgradeDeliverer" value="Become a deliverer"></a> ';
-            } else {
-                echo '<a href="user_profile_edit.php"><input type="button" style="margin-left:170px;" class="btnUpgradeDeliverer" value="Become a deliverer"></a>';
-            }
-            ?>
-
         </div>
     </div>
 </div>
 
-<div class="seller-container">
-    <div class="product-container">
-        <div class="productInfo">
-           <a href="createProduct.php"><input type="button" class="btnCreateProduct" value="createProduct"></a> 
-        </div>
-    </div>
-</div>
-
-
+<!--footer-->
 <?php
 include_once 'footer.php';
 ?>
 
+<!--javascript-->
 
+<!--for backtotop()-->
+<script>
+    var btn = $('#button');
 
+    $(window).scroll(function() {
+        if ($(window).scrollTop() > 300) {
+            btn.addClass('show');
+        } else {
+            btn.removeClass('show');
+        }
+    });
+
+    btn.on('click', function(e) {
+        e.preventDefault();
+        $('html, body').animate({
+            scrollTop: 0
+        }, '300');
+    });
+</script>
+
+<!--for toggleMenu()-->
+<script>
+    $(document).ready(function() {
+        $(".menu-icon").click(function() {
+            $("#Menuitems").fadeToggle(200);
+        });
+
+        var w = $(".container > .box-container > .box:first-child").width()
+        $(".box:last-child").css({
+            width: "" + w,
+            flex: "none"
+        })
+
+    });
+
+    $(window).bind("resize", function() {
+        if ($(window).width() > 800)
+            $("#Menuitems").css("display", "block");
+        else
+            $("#Menuitems").css("display", "none");
+    });
+</script>
 </body>
 
 </html>
