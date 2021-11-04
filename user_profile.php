@@ -12,6 +12,7 @@ include_once 'includes/databaseHandler.inc.php';
 <!--content here-->
 
 
+<!--how you get data-->
 <?php
 $sql = "SELECT * FROM users where userEmail='$_SESSION[userEmail]'";
 $result = mysqli_query($conn, $sql);

@@ -180,8 +180,26 @@ function loginUser($conn, $email, $password)
     } else if ($checkPassword == true) {
         session_start();
         $_SESSION["userEmail"] = $email;
-        header("location: ../index.php");
-        exit();
+
+        $sql = "SELECT * FROM users where userEmail='$_SESSION[userEmail]'";
+        $result = mysqli_query($conn, $sql);
+        $resultCheck = mysqli_num_rows($result);
+        if ($resultCheck > 0) {
+         while ($row = mysqli_fetch_assoc($result)) {
+
+                $_SESSION["userRole"] = $row['userRole'];
+
+            }
+        }
+        //Obtain user role
+        if( $_SESSION["userRole"] == "admin"){
+            header("location: ../adminProfile.php");
+            exit();
+        }
+        else{
+            header("location: ../index.php");
+            exit();
+        }
     }
 }
 
