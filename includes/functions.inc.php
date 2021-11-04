@@ -69,8 +69,8 @@ function isExistUser($conn, $email) {
 
 }
 
-function createUser($conn,$firstName,$lastName,$email,$password) {
-    $sql = "INSERT INTO users (userEmail, userFirstName, userLastName, userPassword, userRole) VALUES (?, ?, ?, ?, ?);";
+function createUser($conn,$firstName,$lastName,$email,$password,$userImage) {
+    $sql = "INSERT INTO users (userEmail, userFirstName, userLastName, userPassword, userRole, userImage) VALUES (?, ?, ?, ?, ?, ?);";
     $stmt = mysqli_stmt_init($conn);
     $role = "member";
     if(!mysqli_stmt_prepare($stmt,$sql)){
@@ -79,7 +79,7 @@ function createUser($conn,$firstName,$lastName,$email,$password) {
     }
 
     $encryptedPassword = password_hash($password, PASSWORD_DEFAULT);
-    mysqli_stmt_bind_param($stmt, "sssss", $email, $firstName, $lastName, $encryptedPassword, $role);
+    mysqli_stmt_bind_param($stmt, "ssssss", $email, $firstName, $lastName, $encryptedPassword, $role, $userImage);
     mysqli_stmt_execute($stmt);
     mysqli_stmt_close($stmt);
     header("location: ../signUp.php?error=none");

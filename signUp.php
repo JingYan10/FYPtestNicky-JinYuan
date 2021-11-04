@@ -10,7 +10,7 @@
             <section class="singUp-form">
             <div class="center">
             <h1>Sign Up</h1>
-            <form action="includes/signUp.inc.php" method="post">
+            <form action="includes/signUp.inc.php" method="post" enctype="multipart/form-data" >
             <div class="txt_field">
                 <input type="text" name="firstName" required >
                 <span></span>
@@ -36,6 +36,10 @@
                 <span></span>
                 <label >Confirm password</label>
             </div> 
+            <div class="txt_field">
+                <input type="file" name="file" required >
+                
+            </div> 
                 <button class="button" type="submit" name="submit">Sign Up</button> 
             </form>
 
@@ -58,6 +62,15 @@
                 }
                 else if ($_GET["error"]=="stmtFailed"){
                     echo "<div style='text-align:center;color:red;font-weight:600'>something went wrong, please try again later</div>";
+                }
+                else if ($_GET["error"]=="imgType"){
+                    echo "<div style='text-align:center;color:red;font-weight:600'>inccorect image type, please upload  in (jpg/jpeg/png) format</div>";
+                }
+                else if ($_GET["error"]=="errorImgSize"){
+                    echo "<div style='text-align:center;color:red;font-weight:600'> image size too big, <br> please reupload smaller image size</div>";
+                }
+                else if ($_GET["error"]=="errorImgUpload"){
+                    echo "<div style='text-align:center;color:red;font-weight:600'> something went wrong while uploading image, please try again</div>";
                 }
                 else if ($_GET["error"]=="none"){
                     echo "<div style='text-align:center;color:green;font-weight:600'>congrats to join us</div>";

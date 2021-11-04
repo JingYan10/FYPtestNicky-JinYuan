@@ -98,6 +98,7 @@
                         <li><a href="">Contact</a></li>
                         <?php
                             if(isset($_SESSION["userEmail"])){
+                                echo "<li><a href='user_profile.php'>Profile</a></li>";
                                 echo "<li><a href='includes/logout.inc.php'>Log out</a></li>";
                             }
                             else{
@@ -124,8 +125,9 @@
             </div> -->
             <!-- Slideshow container -->
 
-            <div class="slideshow-container fade">
+           
 
+            <div class="slideshow-container fade">
                 <!-- Full images with numbers and message Info -->
                 <div class="Containers">
                     <div class="MessageInfo"></div>
