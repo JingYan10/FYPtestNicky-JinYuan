@@ -20,7 +20,6 @@ if ($resultCheck > 0) {
         $_SESSION["userLastName"] = $row['userLastName'];
         $_SESSION["userRole"] = $row['userRole'];
         $_SESSION["userImage"] = $row['userImage'];
-        $_SESSION["sellerStatus"] = $row['sellerStatus'];
         $_SESSION["banStatus"] = $row['banStatus'];
     }
 } else {
