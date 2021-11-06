@@ -325,3 +325,29 @@ function deleteProduct($conn,$productID,$email){
     header("location: ../user_profile.php");
     exit();
 }
+
+function banUser($conn, $email){
+    $sql = "UPDATE users SET banStatus  = 'Banned' WHERE userEmail = '$email'; ";
+    $stmt = mysqli_stmt_init($conn);
+    if (!mysqli_stmt_prepare($stmt, $sql)) {
+        header("location: ../user_profile_ban.php?error=stmtFailed");
+        exit();
+    }
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_close($stmt);
+    header("location: ../user_profile_ban.php");
+    exit();
+}
+
+function UnbanUser($conn, $email){
+    $sql = "UPDATE users SET banStatus  = 'UnBanned' WHERE userEmail = '$email'; ";
+    $stmt = mysqli_stmt_init($conn);
+    if (!mysqli_stmt_prepare($stmt, $sql)) {
+        header("location: ../user_profile_ban.php?error=stmtFailed");
+        exit();
+    }
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_close($stmt);
+    header("location: ../user_profile_ban.php");
+    exit();
+}

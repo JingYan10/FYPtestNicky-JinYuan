@@ -30,44 +30,76 @@ if ($resultCheck > 0) {
 
 <!--content here-->
 <div class="container">
-    <table>
-        <caption>Statement Summary</caption>
-        <thead>
-            <tr>
-                <th scope="col">User Accounts</th>
-                <th scope="col">Ban Status</th>
-                <th scope="col">Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td data-label="User Account"><?php echo $_SESSION['userEmail'];?></td>
-                <td data-label="Ban Status"><?php echo $_SESSION['banStatus'];?></td>
-                <td data-label="Action"><a href=""><input type="button" class="btnBan" value="Ban"></a>&nbsp;<a href=""><input type="button" class="btnUnban" value="Unban"></td>               
-            </tr>
-            <tr>
-            <td data-label="User Account"><?php echo $_SESSION['userEmail'];?></td>
-                <td data-label="Ban Status"><?php echo $_SESSION['banStatus'];?></td>
-                <td data-label="Action"><a href=""><input type="button" class="btnBan" value="Ban"></a>&nbsp;<a href=""><input type="button" class="btnUnban" value="Unban"></td>              
-            </tr>
-            <tr>
-            <td data-label="User Account"><?php echo $_SESSION['userEmail'];?></td>
-                <td data-label="Ban Status"><?php echo $_SESSION['banStatus'];?></td>
-                <td data-label="Action"><a href=""><input type="button" class="btnBan" value="Ban"></a>&nbsp;<a href=""><input type="button" class="btnUnban" value="Unban"></td>          
-            </tr>
-            <tr>
-            <td data-label="User Account"><?php echo $_SESSION['userEmail'];?></td>
-                <td data-label="Ban Status"><?php echo $_SESSION['banStatus'];?></td>
-                <td data-label="Action"><a href=""><input type="button" class="btnBan" value="Ban"></a>&nbsp;<a href=""><input type="button" class="btnUnban" value="Unban"></td>  
-            </tr>
-        </tbody>
-    </table>
+    <?php
+        $sql = "SELECT * FROM users where banStatus IS NULL ";
+        $result = mysqli_query($conn, $sql);
+        $resultCheck = mysqli_num_rows($result);
+                       
+        if ($resultCheck > 0) {
+            echo '<table>
+            <caption>Products</caption>
+            <thead>
+                <tr>
+                    <th scope="col">User Email</th>
+                    <th scope="col">Ban Status</th>
+                    <th scope="col">Action</th>
+                </tr>
+            </thead><tbody>';
+            
+            while ($row = mysqli_fetch_assoc($result)) {
+                echo "<tr>";
+                echo "<td>" . $row['userEmail'] . "</td>";
+                echo "<td>" . $row['banStatus'] . "</td>";
+                $userData = "userEmail=".$row['userEmail'];
+                echo "<td>" . "<a href='includes/banUser.inc.php?".$userData."'>"."<button class='btnBan'>Ban</button></a>" ."</td>";
+
+            }
+            echo ' </tbody></table>';
+        }else {
+            echo 'There is no user to ban';
+        }      
+    ?>
+       <div style="margin-bottom:50px;"></div>
 </div>
+
+
+<div class="container">
+<?php
+        $sql = "SELECT * FROM users where banStatus = 'Banned' ";
+        $result = mysqli_query($conn, $sql);
+        $resultCheck = mysqli_num_rows($result);
+                       
+        if ($resultCheck > 0) {
+            echo '<table>
+            <caption>Products</caption>
+            <thead>
+                <tr>
+                    <th scope="col">User Email</th>
+                    <th scope="col">Ban Status</th>
+                    <th scope="col">Action</th>
+                </tr>
+            </thead><tbody>';
+            
+            while ($row = mysqli_fetch_assoc($result)) {
+                echo "<tr>";
+                echo "<td>" . $row['userEmail'] . "</td>";
+                echo "<td>" . $row['banStatus'] . "</td>";
+                $userData = "userEmail=".$row['userEmail'];
+                echo "<td>" . "<a href='includes/UnbanUser.inc.php?".$userData."'>". "<button class='btnUnBan'>UnBan</button></a>"."</td>";
+            }
+            echo ' </tbody></table>';
+        }else {
+            echo 'There is no user to unban';
+        }      
+    ?>
+       <div style="margin-bottom:50px;"></div>
+</div>
+
+
 
 <?php
 include_once 'footer.php';
 ?>
-
 
 
 </body>
