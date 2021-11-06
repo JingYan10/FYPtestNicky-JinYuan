@@ -85,9 +85,9 @@ if ($resultCheck > 0) {
 </div>
 
 <?php
-    if($_SESSION["userRole"]=="seller"){
-        include_once 'sellerContainer.php';
-    }
+if ($_SESSION["userRole"] == "seller") {
+    include_once 'sellerContainer.php';
+}
 ?>
 
 
