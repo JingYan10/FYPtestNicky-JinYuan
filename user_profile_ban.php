@@ -31,7 +31,7 @@ if ($resultCheck > 0) {
 <!--content here-->
 <div class="container">
     <?php
-        $sql = "SELECT * FROM users where banStatus IS NULL ";
+        $sql = "SELECT * FROM users where banStatus = 'UnBanned' ";
         $result = mysqli_query($conn, $sql);
         $resultCheck = mysqli_num_rows($result);
                        
