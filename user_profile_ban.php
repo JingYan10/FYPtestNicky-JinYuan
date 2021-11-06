@@ -30,7 +30,7 @@ if ($resultCheck > 0) {
 
 <!--content here-->
 <div class="container">
-    <table>
+    <!-- <table>
         <caption>Statement Summary</caption>
         <thead>
             <tr>
@@ -61,13 +61,37 @@ if ($resultCheck > 0) {
                 <td data-label="Action"><a href=""><input type="button" class="btnBan" value="Ban"></a>&nbsp;<a href=""><input type="button" class="btnUnban" value="Unban"></td>  
             </tr>
         </tbody>
-    </table>
+    </table> -->
 </div>
+
+    <?php
+        $sql = "SELECT * FROM user where userEmail='ngjinyuan91@gmail.com' AND banStatus IS NULL ";
+        $result = mysqli_query($conn, $sql);
+        $resultCheck = mysqli_num_rows($result);
+                       
+        if ($resultCheck > 0) {
+            echo '<table>
+            <caption>Products</caption>
+            <thead>
+                <tr>
+                    <th scope="col">User Email</th>
+                    <th scope="col">Ban Status</th>
+                    <th scope="col">Action</th>
+                </tr>
+            </thead><tbody>';
+            while ($row = mysqli_fetch_assoc($result)) {
+                echo "<tr>";
+                echo "<td>" . $_SESSION['userEmail'] . "</td>";
+
+            }
+
+        
+    ?>
+
 
 <?php
 include_once 'footer.php';
 ?>
-
 
 
 </body>
