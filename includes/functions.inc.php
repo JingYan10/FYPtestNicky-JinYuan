@@ -300,3 +300,28 @@ function createProduct($conn,$productName, $productImage, $productQuantity,$prod
     header("location: ../createProduct.php?error=none");
     exit();
 }
+
+function editProduct($conn,$productID, $productName, $productImage, $productQuantity,$productPrice, $email){
+    $sql = "UPDATE product SET productName  = '$productName', productImage = '$productImage', productQuantity = $productQuantity, productPrice = $productPrice  WHERE productID = '$productID'; ";
+    $stmt = mysqli_stmt_init($conn);
+    if (!mysqli_stmt_prepare($stmt, $sql)) {
+        header("location: ../editProduct.php?error=stmtFailed");
+        exit();
+    }
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_close($stmt);
+    header("location: ../user_profile.php");
+    exit();
+}
+function deleteProduct($conn,$productID,$email){
+    $sql = "UPDATE product SET deleteStatus  = 'yes'  WHERE productID = '$productID'; ";
+    $stmt = mysqli_stmt_init($conn);
+    if (!mysqli_stmt_prepare($stmt, $sql)) {
+        header("location: ../deleteProduct.php?error=stmtFailed");
+        exit();
+    }
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_close($stmt);
+    header("location: ../user_profile.php");
+    exit();
+}
