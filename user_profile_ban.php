@@ -10,6 +10,24 @@ include_once 'includes/databaseHandler.inc.php';
 <!--link to css-->
 <link rel="stylesheet" href="user_profile_ban.css">
 
+<?php
+$sql = "SELECT * FROM users where userEmail='$_SESSION[userEmail]'";
+$result = mysqli_query($conn, $sql);
+$resultCheck = mysqli_num_rows($result);
+if ($resultCheck > 0) {
+    while ($row = mysqli_fetch_assoc($result)) {
+        $_SESSION["userFirstName"] = $row['userFirstName'];
+        $_SESSION["userLastName"] = $row['userLastName'];
+        $_SESSION["userRole"] = $row['userRole'];
+        $_SESSION["userImage"] = $row['userImage'];
+        $_SESSION["sellerStatus"] = $row['sellerStatus'];
+        $_SESSION["banStatus"] = $row['banStatus'];
+    }
+} else {
+    header("location: ../login.php?error=noUserProfile");
+    exit();
+}
+?>
 
 <!--content here-->
 <div class="container">
@@ -25,23 +43,23 @@ include_once 'includes/databaseHandler.inc.php';
         <tbody>
             <tr>
                 <td data-label="User Account"><?php echo $_SESSION['userEmail'];?></td>
-                <td data-label="Ban Status"><?php echo $_SESSION[''];?></td>
-                <td data-label="Action">$1,190</td>               
+                <td data-label="Ban Status"><?php echo $_SESSION['banStatus'];?></td>
+                <td data-label="Action"><a href=""><input type="button" class="btnBan" value="Ban"></a>&nbsp;<a href=""><input type="button" class="btnUnban" value="Unban"></td>               
             </tr>
             <tr>
-                <td scope="row" data-label="User Account">Visa - 6076</td>
-                <td data-label="Ban Status">03/01/2016</td>
-                <td data-label="Action">$2,443</td>             
+            <td data-label="User Account"><?php echo $_SESSION['userEmail'];?></td>
+                <td data-label="Ban Status"><?php echo $_SESSION['banStatus'];?></td>
+                <td data-label="Action"><a href=""><input type="button" class="btnBan" value="Ban"></a>&nbsp;<a href=""><input type="button" class="btnUnban" value="Unban"></td>              
             </tr>
             <tr>
-                <td scope="row" data-label="User Account">Corporate AMEX</td>
-                <td data-label="Ban Status">03/01/2016</td>
-                <td data-label="Action">$1,181</td>          
+            <td data-label="User Account"><?php echo $_SESSION['userEmail'];?></td>
+                <td data-label="Ban Status"><?php echo $_SESSION['banStatus'];?></td>
+                <td data-label="Action"><a href=""><input type="button" class="btnBan" value="Ban"></a>&nbsp;<a href=""><input type="button" class="btnUnban" value="Unban"></td>          
             </tr>
             <tr>
-                <td scope="row" data-label="User Acount">Visa - 3412</td>
-                <td data-label="Ban Status">02/01/2016</td>
-                <td data-label="Action">$842</td>
+            <td data-label="User Account"><?php echo $_SESSION['userEmail'];?></td>
+                <td data-label="Ban Status"><?php echo $_SESSION['banStatus'];?></td>
+                <td data-label="Action"><a href=""><input type="button" class="btnBan" value="Ban"></a>&nbsp;<a href=""><input type="button" class="btnUnban" value="Unban"></td>  
             </tr>
         </tbody>
     </table>
