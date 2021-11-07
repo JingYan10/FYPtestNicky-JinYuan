@@ -69,7 +69,6 @@ include_once 'footer.php';
             width: "" + w,
             flex: "none"
         })
-
     });
 
     $(window).bind("resize", function() {

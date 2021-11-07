@@ -4,188 +4,52 @@ session_start();
 ?>
 <?php
 include_once 'header.php';
+include_once 'includes/databaseHandler.inc.php';
 ?>
 
 <!--link to css-->
 <link rel="stylesheet" href="product.css">
 
+<?php
+$sql = "SELECT * FROM product where productQuantity > 0";
+$result = mysqli_query($conn, $sql);
+$resultCheck = mysqli_num_rows($result);
+if ($resultCheck > 0) {
+    while ($row = mysqli_fetch_assoc($result)) {
+        $_SESSION["productName"] = $row['productName'];
+        $_SESSION["productImage"] = $row['productImage'];
+        $_SESSION["productQuantity"] = $row['productQuantity'];
+        $_SESSION["productPrice"] = $row['productPrice'];
+    }
+} else {
+    header("location: ../product.php?error=noProductProfile");
+    exit();
+}
+?>
+
 <!--content here-->
 <h1>Product Page</h1>
-<div class="box-container2">
-    <div class="box2">
-        <div class="image">
-            <img src="images/products/oats3.jpg" alt="">
-        </div>
+<div class="new-product-container2">
 
-        <div class="info">
-            <h3 class="title">Oats</h3>
-            <div class="subInfo">
-                <div class="price">RM19.90<span>RM29.90</span></div>
-                <div class="stars">
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star-half"></i>
-                </div>
-            </div>
-        </div>
-        <div class="overlay">
-            <a href="#" style="--i:1;" class="fas fa-shopping-cart"></a>
-            <a href="#" style="--i:1;" class="fas fa-heart"></a>
-            <a href="#" style="--i:1;" class="fas fa-search"></a>
-        </div>
-    </div>
+    <?php
+            $sql = " SELECT * FROM product where productQuantity > 0";
+            $result = mysqli_query($conn, $sql);
+            $reultCheck = mysqli_num_rows($result);
+            
+            if ($resultCheck > 0) {
 
-    <div class="box2">
-        <div class="image">
-            <img src="images/products/nuts3.jpg" alt="">
-        </div>
+                while ($row = mysqli_fetch_assoc($result)) {
 
-        <div class="info">
-            <h3 class="title">Nuts</h3>
-            <div class="subInfo">
-                <div class="price">RM39.90<span>RM79.90</span></div>
-                <div class="stars">
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star-half"></i>
-                </div>
-            </div>
-        </div>
-        <div class="overlay">
-            <a href="#" style="--i:1;" class="fas fa-shopping-cart"></a>
-            <a href="#" style="--i:1;" class="fas fa-heart"></a>
-            <a href="#" style="--i:1;" class="fas fa-search"></a>
-        </div>
-    </div>
-
-    <div class="box2">
-        <div class="image">
-            <img src="images/products/noodles3.jpg" alt="">
-        </div>
-
-        <div class="info">
-            <h3 class="title">Noodles</h3>
-            <div class="subInfo">
-                <div class="price">RM49.90<span>RM109.90</span></div>
-                <div class="stars">
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star-half"></i>
-                </div>
-            </div>
-        </div>
-        <div class="overlay">
-            <a href="#" style="--i:1;" class="fas fa-shopping-cart"></a>
-            <a href="#" style="--i:1;" class="fas fa-heart"></a>
-            <a href="#" style="--i:1;" class="fas fa-search"></a>
-        </div>
-    </div>
-
-    <div class="box2">
-        <div class="image">
-            <img src="images/products/noodles3.jpg" alt="">
-        </div>
-
-        <div class="info">
-            <h3 class="title">Noodles</h3>
-            <div class="subInfo">
-                <div class="price">RM49.90<span>RM109.90</span></div>
-                <div class="stars">
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star-half"></i>
-                </div>
-            </div>
-        </div>
-        <div class="overlay">
-            <a href="#" style="--i:1;" class="fas fa-shopping-cart"></a>
-            <a href="#" style="--i:1;" class="fas fa-heart"></a>
-            <a href="#" style="--i:1;" class="fas fa-search"></a>
-        </div>
-    </div>
-
-    <div class="box2">
-        <div class="image">
-            <img src="images/products/bisuits3.jpg" alt="">
-        </div>
-
-        <div class="info">
-            <h3 class="title">Bisuits</h3>
-            <div class="subInfo">
-                <div class="price"> RM59.90<span>RM99.90</span></div>
-                <div class="stars">
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star-half"></i>
-                </div>
-            </div>
-        </div>
-        <div class="overlay">
-            <a href="#" style="--i:1;" class="fas fa-shopping-cart"></a>
-            <a href="#" style="--i:1;" class="fas fa-heart"></a>
-            <a href="#" style="--i:1;" class="fas fa-search"></a>
-        </div>
-    </div>
-
-    <div class="box2">
-        <div class="image">
-            <img src="images/products/bisuits3.jpg" alt="">
-        </div>
-
-        <div class="info">
-            <h3 class="title">Bisuits</h3>
-            <div class="subInfo">
-                <div class="price"> RM59.90<span>RM99.90</span></div>
-                <div class="stars">
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star-half"></i>
-                </div>
-            </div>
-        </div>
-        <div class="overlay">
-            <a href="#" style="--i:1;" class="fas fa-shopping-cart"></a>
-            <a href="#" style="--i:1;" class="fas fa-heart"></a>
-            <a href="#" style="--i:1;" class="fas fa-search"></a>
-        </div>
-    </div>
-
-    <div class="box2">
-        <div class="image">
-            <img src="images/products/bisuits3.jpg" alt="">
-        </div>
-
-        <div class="info">
-            <h3 class="title">Bisuits</h3>
-            <div class="subInfo">
-                <div class="price"> RM59.90<span>RM99.90</span></div>
-                <div class="stars">
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star-half"></i>
-                </div>
-            </div>
-        </div>
-        <div class="overlay">
-            <a href="#" style="--i:1;" class="fas fa-shopping-cart"></a>
-            <a href="#" style="--i:1;" class="fas fa-heart"></a>
-            <a href="#" style="--i:1;" class="fas fa-search"></a>
-        </div>
-    </div>
+                    echo "<div class='card2'>" . "<img style='width:100%'" . "src=" . $row['productImage'] . ">";
+                    echo "<h1>" . $row['productName'] . "</h1>";
+                    echo "<p class = 'price'". ">" . $row['productPrice'] . "</p>";
+                    echo "<p><button>Add to Cart</button></p>";
+                    echo "</div>";
+                }
+            } else {
+                echo "No product is found!";
+            }
+            ?>
 </div>
 
 

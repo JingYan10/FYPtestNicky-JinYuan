@@ -56,7 +56,7 @@ if ($resultCheck > 0) {
             }
             echo ' </tbody></table>';
         }else {
-            echo 'There is no user to ban';
+            echo '<p style = "color : #fff">There is no user to ban</P>';
         }      
     ?>
        <div style="margin-bottom:50px;"></div>
@@ -89,7 +89,7 @@ if ($resultCheck > 0) {
             }
             echo ' </tbody></table>';
         }else {
-            echo 'There is no user to unban';
+            echo '<p style = "color : #fff">There is no user to unban</p>';
         }      
     ?>
        <div style="margin-bottom:50px;"></div>
