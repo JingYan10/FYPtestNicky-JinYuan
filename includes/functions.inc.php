@@ -401,7 +401,6 @@ function generateFriendCode($conn)
         $count++;
     }else{
         $friendCode = uniqid().uniqid().$count;
-
     }
     return $friendCode;
 }

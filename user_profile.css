@@ -234,13 +234,25 @@ table th {
   display: inline-block;
   font-size: 14px;
   margin-left: 10px;
-  cursor: pointer
+  cursor: pointer;
 }
 .productSearchBar{
   height: 40px;
   font-size:18px;
   font-weight: 400;
 }
-
+.btnCreateBidding{
+  background-color: #0455be;
+  border: none;
+  color: white;
+  padding: 12px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px;
+  margin-top: 10px;
+  margin-left: 28px;
+  cursor: pointer;
+}
   
   
