@@ -87,7 +87,7 @@ function createUser($conn, $firstName, $lastName, $email, $password, $userImage)
     exit();
 }
 
-function createSellerDocument($conn, $identityCard, $fullName,$documentLocation, $userEmail)
+function createSellerDocument($conn, $identityCard, $fullName, $documentLocation, $userEmail)
 {
     require_once 'databaseHandler.inc.php';
     $registrationType = "seller";
@@ -99,14 +99,13 @@ function createSellerDocument($conn, $identityCard, $fullName,$documentLocation,
         exit();
     }
 
-    mysqli_stmt_bind_param($stmt, "sssss", $identityCard, $fullName, $documentLocation, $registrationType ,$userEmail);
+    mysqli_stmt_bind_param($stmt, "sssss", $identityCard, $fullName, $documentLocation, $registrationType, $userEmail);
     mysqli_stmt_execute($stmt);
     mysqli_stmt_close($stmt);
-   
-
 }
 
-function updateUserSellerStatus($conn,$userEmail){
+function updateUserSellerStatus($conn, $userEmail)
+{
     // require_once 'databaseHandler.inc.php';
 
     $sellerStatus = "pending";
@@ -185,25 +184,24 @@ function loginUser($conn, $email, $password)
         $result = mysqli_query($conn, $sql);
         $resultCheck = mysqli_num_rows($result);
         if ($resultCheck > 0) {
-         while ($row = mysqli_fetch_assoc($result)) {
+            while ($row = mysqli_fetch_assoc($result)) {
 
                 $_SESSION["userRole"] = $row['userRole'];
-
             }
         }
         //Obtain user role
-        if( $_SESSION["userRole"] == "admin"){
+        if ($_SESSION["userRole"] == "admin") {
             header("location: ../adminProfile.php");
             exit();
-        }
-        else{
+        } else {
             header("location: ../index.php");
             exit();
         }
     }
 }
 
-function checkOldPassword($conn,$email,$oldPassword){
+function checkOldPassword($conn, $email, $oldPassword)
+{
     $isExistUser = isExistUser($conn, $email);
 
     if ($isExistUser == false) {
@@ -219,9 +217,9 @@ function checkOldPassword($conn,$email,$oldPassword){
     } else if ($checkPassword == true) {
         return true;
     }
-
 }
-function changePassword($conn,$email,$newPassword){
+function changePassword($conn, $email, $newPassword)
+{
     $encryptedPassword = password_hash($newPassword, PASSWORD_DEFAULT);
     $sql = "UPDATE users SET userPassword = '$encryptedPassword' WHERE userEmail = '$email'; ";
     $stmt = mysqli_stmt_init($conn);
@@ -238,15 +236,15 @@ function invalidIC($IC)
 {
     $result;
 
-    if(strlen($IC) !=12 || !preg_match("/^[0-9]*$/", $IC) ){
+    if (strlen($IC) != 12 || !preg_match("/^[0-9]*$/", $IC)) {
         $result = true;
     } else {
         $result = false;
     }
     return $result;
-
 }
-function invalidFullName($fullName){
+function invalidFullName($fullName)
+{
     $result;
     if (!preg_match("/^[a-zA-z]*$/", $fullName)) {
         $result = true;
@@ -255,7 +253,8 @@ function invalidFullName($fullName){
     }
     return $result;
 }
-function invalidProductName($productName){
+function invalidProductName($productName)
+{
     $result;
     if (!preg_match("/^[a-zA-Z ]*$/", $productName)) {
         $result = true;
@@ -264,7 +263,8 @@ function invalidProductName($productName){
     }
     return $result;
 }
-function invalidProductQuantity($productQuantity){
+function invalidProductQuantity($productQuantity)
+{
     $result;
     if (!preg_match("/^[0-9]*$/", $productQuantity)) {
         $result = true;
@@ -273,7 +273,8 @@ function invalidProductQuantity($productQuantity){
     }
     return $result;
 }
-function invalidProductPrice($productPrice){
+function invalidProductPrice($productPrice)
+{
     $result;
     if (!preg_match("/^\d{0,8}(\.\d{1,4})?$/", $productPrice)) {
         $result = true;
@@ -282,7 +283,8 @@ function invalidProductPrice($productPrice){
     }
     return $result;
 }
-function createProduct($conn,$productName, $productImage, $productQuantity,$productPrice, $email){
+function createProduct($conn, $productName, $productImage, $productQuantity, $productPrice, $email)
+{
     //$sql = "INSERT INTO product (productName, productImage, productQuantity, productPrice, userEmail) VALUES (?, ?, ?, ?, ?);";
     $sql = "INSERT INTO product (productName, productImage, productQuantity, productPrice, userEmail) VALUES ('$productName', '$productImage', $productQuantity, '$productPrice', '$email');";
     $stmt = mysqli_stmt_init($conn);
@@ -293,7 +295,7 @@ function createProduct($conn,$productName, $productImage, $productQuantity,$prod
 
     // $intProductQuantity = (int)$productQuantity;
     // $doubleProductPrice = (double)$productPrice;
-    
+
     // mysqli_stmt_bind_param($stmt, "ssids", $productName, $productImage, $intProductQuantity, $doubleProductPrice, $userEmail);
     mysqli_stmt_execute($stmt);
     mysqli_stmt_close($stmt);
@@ -301,7 +303,8 @@ function createProduct($conn,$productName, $productImage, $productQuantity,$prod
     exit();
 }
 
-function editProduct($conn,$productID, $productName, $productImage, $productQuantity,$productPrice, $email){
+function editProduct($conn, $productID, $productName, $productImage, $productQuantity, $productPrice, $email)
+{
     $sql = "UPDATE product SET productName  = '$productName', productImage = '$productImage', productQuantity = $productQuantity, productPrice = $productPrice  WHERE productID = '$productID'; ";
     $stmt = mysqli_stmt_init($conn);
     if (!mysqli_stmt_prepare($stmt, $sql)) {
@@ -313,7 +316,8 @@ function editProduct($conn,$productID, $productName, $productImage, $productQuan
     header("location: ../user_profile.php");
     exit();
 }
-function deleteProduct($conn,$productID,$email){
+function deleteProduct($conn, $productID, $email)
+{
     $sql = "UPDATE product SET deleteStatus  = 'yes'  WHERE productID = '$productID'; ";
     $stmt = mysqli_stmt_init($conn);
     if (!mysqli_stmt_prepare($stmt, $sql)) {
@@ -326,7 +330,8 @@ function deleteProduct($conn,$productID,$email){
     exit();
 }
 
-function banUser($conn, $email){
+function banUser($conn, $email)
+{
     $sql = "UPDATE users SET banStatus  = 'Banned' WHERE userEmail = '$email'; ";
     $stmt = mysqli_stmt_init($conn);
     if (!mysqli_stmt_prepare($stmt, $sql)) {
@@ -339,7 +344,8 @@ function banUser($conn, $email){
     exit();
 }
 
-function UnbanUser($conn, $email){
+function UnbanUser($conn, $email)
+{
     $sql = "UPDATE users SET banStatus  = 'UnBanned' WHERE userEmail = '$email'; ";
     $stmt = mysqli_stmt_init($conn);
     if (!mysqli_stmt_prepare($stmt, $sql)) {
@@ -350,4 +356,48 @@ function UnbanUser($conn, $email){
     mysqli_stmt_close($stmt);
     header("location: ../user_profile_ban.php");
     exit();
+}
+function searchProduct($conn, $email, $searchData)
+{
+    $sql;
+    if ($searchData == 'al') {
+        $sql = "SELECT * FROM product WHERE userEmail='tete1234@gmail.com' AND deleteStatus IS NULL ";
+    } else {
+        $sql = "SELECT * FROM product WHERE userEmail='tete1234@gmail.com' AND deleteStatus IS NULL AND productName LIKE '%" . $searchData . "%' ";
+    }
+    $result = mysqli_query($conn, $sql);
+    $resultCheck = mysqli_num_rows($result);
+    if ($resultCheck > 0) {
+        while ($row = mysqli_fetch_assoc($result)) {
+            echo "<tr>";
+            echo "<td>" . "P00" . $row['productID'] . "</td>";
+            echo "<td>" . $row['productName'] . "</td>";
+            echo "<td>" . "<img style='height:140px;width:140px;' src=" . $row['productImage'] . ">" . "</td>";
+            echo "<td>" . $row['productQuantity'] . "</td>";
+            echo "<td>" . $row['productPrice'] . "</td>";
+            echo "<td>";
+            $productData = "productID=" . $row['productID'] . "&productName=" . $row['productName'] . "&productImage=" . $row['productImage'] . "&productQuantity=" . $row['productQuantity'] . "&productPrice=" . $row['productPrice'];
+            echo "<a href='editProduct.php?" . $productData . "'>" . "<button class='btnEditProduct'>edit</button></a>";
+            echo "<a href='deleteProduct.php?" . $productData . "'>" . "<button class='btnDeleteProduct'>delete</button></a>";
+            echo "</td>";
+            echo "</tr>";
+        }
+    }
+}
+function generateFriendCode()
+{
+    $databaseFriendCode;
+    require_once 'databaseHandler.inc.php';
+    $sql = "SELECT * FROM users";
+    $result = mysqli_query($conn, $sql);
+    $resultCheck = mysqli_num_rows($result);
+    if ($resultCheck > 0) {
+        while ($row = mysqli_fetch_assoc($result)) {
+            $databaseFriendCode =  $row['friendCode'];
+        }
+    }
+    if($databaseFriendCode!=uniqid()){
+        $friendCode = uniqid().uniqid();
+    }
+    return $friendCode;
 }

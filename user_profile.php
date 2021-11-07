@@ -91,7 +91,6 @@ if ($_SESSION["userRole"] == "seller") {
 ?>
 
 
-
 <script>
     function toggleProductListing() {
         targetDiv = document.getElementById("product-listing");
@@ -101,6 +100,23 @@ if ($_SESSION["userRole"] == "seller") {
             targetDiv.style.display = "block";
         }
     }
+</script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("#search").keypress(function() {
+            $.ajax({
+                type: 'POST',
+                url: 'includes/searchProduct.inc.php',
+                data: {
+                    name: $("#search").val(),
+                },
+                success: function(data) {
+                    $("#output").html(data);
+
+                }
+            });
+        });
+    });
 </script>
 
 <?php

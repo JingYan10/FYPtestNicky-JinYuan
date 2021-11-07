@@ -236,24 +236,11 @@ table th {
   margin-left: 10px;
   cursor: pointer
 }
-
-.btnSearchProduct{
-  background-color: #0455be;
-  border: none;
-  color: white;
-  padding: 12px 32px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 14px;
-  margin-left: 10px;
-  cursor: pointer
+.productSearchBar{
+  height: 40px;
+  font-size:18px;
+  font-weight: 400;
 }
-.btnEditProduct:hover, .btnDeleteProduct:hover, .btnSearchProduct:hover{
-  background-color: #16bbf1;
-  box-shadow: 10px 10px 15px rgba(0,0,0,0.05);
-}
-
 
   
   

@@ -3,8 +3,7 @@
         <div class="productInfo">
             <a href="createProduct.php"><input type="button" class="btnCreateProduct" value="createProduct"></a>
             <button class="btnShowProductListing" onclick="toggleProductListing()">show product listing</button>
-            <input type="text" name="search_text" id="search_text">
-            <button class="btnSearchProduct">Search</button>
+            <input type="text" class="productSearchBar" name="search" id="search" placeholder="search by product name">
             <div id="product-listing" style="display:none;" class="product-listing">
 
 
@@ -26,7 +25,7 @@
                                     <th scope="col">product price</th>
                                     <th scope="col"></th>
                                 </tr>
-                            </thead><tbody>';
+                            </thead><tbody id="output">';
                     while ($row = mysqli_fetch_assoc($result)) {
                         echo "<tr>";
                         echo "<td>" . "P00" . $row['productID'] . "</td>";
@@ -38,6 +37,7 @@
                         $productData = "productID=" . $row['productID'] . "&productName=" . $row['productName'] . "&productImage=" . $row['productImage'] . "&productQuantity=" . $row['productQuantity'] . "&productPrice=" . $row['productPrice'];
                         echo "<a href='editProduct.php?" . $productData . "'>" . "<button class='btnEditProduct'>edit</button></a>";
                         echo "<a href='deleteProduct.php?" . $productData . "'>" . "<button class='btnDeleteProduct'>delete</button></a>";
+                        echo "<a href='createBidding.php?" . $productData . "'>" . "<button class='btnCreateBidding'>create bidding</button></a>";
                         echo "</td>";
                         echo "</tr>";
                     }
