@@ -384,10 +384,9 @@ function searchProduct($conn, $email, $searchData)
         }
     }
 }
-function generateFriendCode()
+function generateFriendCode($conn)
 {
-    $databaseFriendCode;
-    require_once 'databaseHandler.inc.php';
+    
     $sql = "SELECT * FROM users";
     $result = mysqli_query($conn, $sql);
     $resultCheck = mysqli_num_rows($result);
