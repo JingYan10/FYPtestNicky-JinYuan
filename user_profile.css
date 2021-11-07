@@ -234,10 +234,14 @@ table th {
   display: inline-block;
   font-size: 14px;
   margin-left: 10px;
-  cursor: pointer
+  cursor: pointer;
 }
-
-.btnSearchProduct{
+.productSearchBar{
+  height: 40px;
+  font-size:18px;
+  font-weight: 400;
+}
+.btnCreateBidding{
   background-color: #0455be;
   border: none;
   color: white;
@@ -246,14 +250,9 @@ table th {
   text-decoration: none;
   display: inline-block;
   font-size: 14px;
-  margin-left: 10px;
-  cursor: pointer
+  margin-top: 10px;
+  margin-left: 28px;
+  cursor: pointer;
 }
-.btnEditProduct:hover, .btnDeleteProduct:hover, .btnSearchProduct:hover{
-  background-color: #16bbf1;
-  box-shadow: 10px 10px 15px rgba(0,0,0,0.05);
-}
-
-
   
   

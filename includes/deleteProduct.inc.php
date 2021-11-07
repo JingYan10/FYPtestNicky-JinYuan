@@ -8,7 +8,6 @@ if (isset($_POST["submit"])) {
     $email = $_SESSION["userEmail"];
     
 
-    echo $productID.$email;
 
     require_once 'databaseHandler.inc.php';
     require_once 'functions.inc.php';
