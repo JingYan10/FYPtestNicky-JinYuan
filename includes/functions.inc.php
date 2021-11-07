@@ -386,7 +386,8 @@ function searchProduct($conn, $email, $searchData)
 }
 function generateFriendCode($conn)
 {
-    
+    $friendCode="";
+    $count = 0;
     $sql = "SELECT * FROM users";
     $result = mysqli_query($conn, $sql);
     $resultCheck = mysqli_num_rows($result);
@@ -397,6 +398,10 @@ function generateFriendCode($conn)
     }
     if($databaseFriendCode!=uniqid()){
         $friendCode = uniqid().uniqid();
+        $count++;
+    }else{
+        $friendCode = uniqid().uniqid().$count;
+
     }
     return $friendCode;
 }
