@@ -42,8 +42,9 @@ if ($resultCheck > 0) {
 
                     echo "<div class='card2'>" . "<img style='width:100%'" . "src=" . $row['productImage'] . ">";
                     echo "<h1>" . $row['productName'] . "</h1>";
-                    echo "<p class = 'price'". ">" . $row['productPrice'] . "</p>";
-                    echo "<p><button>Add to Cart</button></p>";
+                    echo "<p class = 'price'". ">" ."RM" . $row['productPrice'] . "</p>";
+                    echo "<p>" . "Some text about the jeans. Super slim and comfy lorem ipsum lorem jeansum. Lorem jeamsun denim lorem jeansum" ."</p>";
+                    echo "<p>" . "<a href='includes/addToCart.inc.php?".$userData."'>". "<button class='btnAddToCart'>Add To Cart</button></a>". "</p>";
                     echo "</div>";
                 }
             } else {
