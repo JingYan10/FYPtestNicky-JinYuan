@@ -405,9 +405,9 @@ function generateFriendCode($conn)
     return $friendCode;
 }
 
-function addToCart($conn, $cartID, $productPrice, $productName, $productImage, $productQuantity)
+function addToCart($conn, $productID, $productQuantity, $userEmail)
 {
-    $sql = "INSERT INTO cart (productName, productImage, productQuantity, productPrice, cartID) VALUES ('$productName', '$productImage', $productQuantity, '$productPrice');";
+    $sql = "INSERT INTO cart (productID, productQuantity, userEmail) VALUES ('$productID', $productQuantity, '$userEmail');";
     $stmt = mysqli_stmt_init($conn);
     if (!mysqli_stmt_prepare($stmt, $sql)) {
         header("location: ../product.php?error=stmtFailed");

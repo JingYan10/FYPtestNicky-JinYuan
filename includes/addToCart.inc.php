@@ -1,12 +1,11 @@
 <?php
 session_start();
 
-    $productName = $_GET["productName"]; 
-    $productImage = $_GET["productImage"]; 
-    $productPrice = $_GET["productPrice"]; 
+    $productID = $_GET["productID"]; 
     $productQuantity = $_GET["productQuantity"];
+    $userEmail = $_SESSION["userEmail"];
 
     require_once 'databaseHandler.inc.php';
     require_once 'functions.inc.php';
 
-    addToCart($conn, $cartID, $productName, $productimage, $productPrice, $productQuantity);
+    addToCart($conn, $productID, $productQuantity, $userEmail);
