@@ -404,3 +404,18 @@ function generateFriendCode($conn)
     }
     return $friendCode;
 }
+
+function addToCart($conn, $cartID, $productPrice, $productName, $productImage, $productQuantity)
+{
+    $sql = "INSERT INTO cart (productName, productImage, productQuantity, productPrice, cartID) VALUES ('$productName', '$productImage', $productQuantity, '$productPrice');";
+    $stmt = mysqli_stmt_init($conn);
+    if (!mysqli_stmt_prepare($stmt, $sql)) {
+        header("location: ../product.php?error=stmtFailed");
+        exit();
+    }
+
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_close($stmt);
+    header("location: ../product.php?error=none");
+    exit();
+}

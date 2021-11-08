@@ -44,7 +44,9 @@ if ($resultCheck > 0) {
                     echo "<h1>" . $row['productName'] . "</h1>";
                     echo "<p class = 'price'". ">" ."RM" . $row['productPrice'] . "</p>";
                     echo "<p>" . "Some text about the jeans. Super slim and comfy lorem ipsum lorem jeansum. Lorem jeamsun denim lorem jeansum" ."</p>";
-                    echo "<p>" . "<a href='includes/addToCart.inc.php?".$userData."'>". "<button class='btnAddToCart'>Add To Cart</button></a>". "</p>";
+                    $productdata = "productID=".$row['productID'];
+                    $productQuantity = "&productQuantity=".$row['productQuantity'];
+                    echo "<p>" . "<a href='includes/addToCart.inc.php?".$productdata.$productQuantity."'>". "<button class='btnAddToCart'>Add To Cart</button></a>". "</p>";
                     echo "</div>";
                 }
             } else {
