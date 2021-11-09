@@ -19,14 +19,32 @@ include_once 'includes/databaseHandler.inc.php';
 
 
         <div class="bidding-info">
-        <input type="text" class="productSearchBar" name="search" id="search" placeholder="search by biddingID">
+            <div class="bidding-function-container">
+                <input type="text" class="biddingSearchBar" name="search2" id="search2" placeholder="search by biddingID">
+                <a href="bidding.php?search=active"><button class="btnSearchActive">active</button></a>
+                <a href="bidding.php?search=ended"><button class="btnSearchEnded">ended</button></a>
+            </div>
+
             <?php
-            $sql = "SELECT * FROM bidding ";
+
+            $sql;
+            if (isset($_GET["search"])) {
+                $search = $_GET["search"];
+                if ($search == "active") {
+                    $sql = "SELECT * FROM bidding where biddingWinner IS NULL";
+                } else if ($search == "ended") {
+                    $sql = "SELECT * FROM bidding where biddingWinner IS NOT NULL";
+                } else {
+                    $sql = "SELECT * FROM bidding ";
+                }
+            } else {
+                $sql = "SELECT * FROM bidding ";
+            }
             $result = mysqli_query($conn, $sql);
             $resultCheck = mysqli_num_rows($result);
 
 
-            
+
 
             $biddingEndingTime = "";
             if ($resultCheck > 0) {
@@ -56,13 +74,17 @@ include_once 'includes/databaseHandler.inc.php';
                     echo "<td>" . $row['totalBidder'] . "</td>";
                     echo "<td>";
                     $biddingData = "biddingID=" . $row['biddingID'];
-                    echo "<a href='biddingDetail.php?" . $biddingData . "'>" . "<button class='btnJoinBidding'>join</button></a>";
+                    if ($row['biddingWinner'] == null) {
+                        echo "<a href='biddingDetail.php?" . $biddingData . "'>" . "<button class='btnJoinBidding'>join</button></a>";
+                    } else {
+                    }
+
                     echo "</td>";
                     echo "</tr>";
                 }
                 echo ' </tbody></table>';
             } else {
-                echo 'there is no product created';
+                echo "<p style='margin-left:350px'>there is no product created</p>";
             }
             ?>
         </div>
@@ -79,7 +101,24 @@ include_once 'footer.php';
 ?>
 
 <!--javascript-->
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("#search2").keypress(function() {
+            $.ajax({
+                async: false,
+                type: 'POST',
+                url: 'includes/searchBidding.inc.php',
+                data: {
+                    name2: $("#search2").val(),
+                },
+                success: function(data) {
+                    $("#output").html(data);
 
+                }
+            });
+        });
+    });
+</script>
 <!--for backtotop()-->
 <script>
     var btn = $('#button');
@@ -121,6 +160,7 @@ include_once 'footer.php';
             $("#Menuitems").css("display", "none");
     });
 </script>
+
 </body>
 
 </html>

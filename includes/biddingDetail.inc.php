@@ -22,8 +22,8 @@ if(isset($_POST["submit"])){
     // echo "bidding ID = ".$biddingID."<br>";
     // echo $biddingEndingTime."<br>";
     // echo $currentTime."<br>";
-    echo $dateBiddingEndingTime;
-    echo "totalBidder : ".$totalBidder;
+    // echo $dateBiddingEndingTime;
+    // echo "totalBidder : ".$totalBidder;
 
     require_once 'databaseHandler.inc.php';
     require_once 'functions.inc.php';
@@ -47,9 +47,9 @@ if(isset($_POST["submit"])){
     
     
 
-    // createBiddingParticipant($conn,$biddingID,$biddingPrice,$email,$totalBidder,$currentTime);
-    // updateBidding($conn,$biddingPrice,$totalBidder,$biddingID);
-    // deductCoin($conn,$biddingPrice,$email,$biddingID);
+    createBiddingParticipant($conn,$biddingID,$biddingPrice,$email,$totalBidder,$currentTime);
+    updateBidding($conn,$biddingPrice,$totalBidder,$biddingID);
+    deductCoin($conn,$biddingPrice,$email,$biddingID);
 
 }
 else{

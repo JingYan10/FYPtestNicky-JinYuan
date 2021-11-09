@@ -386,7 +386,7 @@ function searchProduct($conn, $email, $searchData)
 }
 function generateFriendCode($conn)
 {
-    $friendCode="";
+    $friendCode = "";
     $count = 0;
     $sql = "SELECT * FROM users";
     $result = mysqli_query($conn, $sql);
@@ -396,16 +396,17 @@ function generateFriendCode($conn)
             $databaseFriendCode =  $row['friendCode'];
         }
     }
-    if($databaseFriendCode!=uniqid()){
-        $friendCode = uniqid().uniqid();
+    if ($databaseFriendCode != uniqid()) {
+        $friendCode = uniqid() . uniqid();
         $count++;
-    }else{
-        $friendCode = uniqid().uniqid().$count;
+    } else {
+        $friendCode = uniqid() . uniqid() . $count;
     }
     return $friendCode;
 }
-function createBidding($conn,$productID,$biddingEndingTime,$biddingStartingPrice,$biddingEndingPrice,$totalBidder){
-    
+function createBidding($conn, $productID, $biddingEndingTime, $biddingStartingPrice, $biddingEndingPrice, $totalBidder)
+{
+
     $sql = "INSERT INTO bidding (biddingProductID, biddingEndingTime, biddingStartingPrice, biddingEndingPrice, totalBidder) VALUES ($productID, '$biddingEndingTime', $biddingStartingPrice, $biddingEndingPrice, $totalBidder);";
     $stmt = mysqli_stmt_init($conn);
     if (!mysqli_stmt_prepare($stmt, $sql)) {
@@ -417,7 +418,8 @@ function createBidding($conn,$productID,$biddingEndingTime,$biddingStartingPrice
     header("location: ../user_profile.php");
     exit();
 }
-function createBiddingParticipant($conn,$biddingID,$biddingPrice,$email,$totalBidder,$biddingTime){
+function createBiddingParticipant($conn, $biddingID, $biddingPrice, $email, $totalBidder, $biddingTime)
+{
     $sql = "INSERT INTO biddingparticipant (biddingID, userEmail, biddingPrice, biddingTime) VALUES ('$biddingID', '$email', $biddingPrice, '$biddingTime');";
     $stmt = mysqli_stmt_init($conn);
     if (!mysqli_stmt_prepare($stmt, $sql)) {
@@ -427,7 +429,8 @@ function createBiddingParticipant($conn,$biddingID,$biddingPrice,$email,$totalBi
     mysqli_stmt_execute($stmt);
     mysqli_stmt_close($stmt);
 }
-function updateBidding($conn,$biddingPrice,$totalBidder,$biddingID){
+function updateBidding($conn, $biddingPrice, $totalBidder, $biddingID)
+{
     $newTotalBidder = (int) $totalBidder + 1;
     $sql = "UPDATE bidding SET biddingEndingPrice = '$biddingPrice', totalBidder = '$newTotalBidder' WHERE biddingID = '$biddingID'; ";
     $stmt = mysqli_stmt_init($conn);
@@ -437,9 +440,9 @@ function updateBidding($conn,$biddingPrice,$totalBidder,$biddingID){
     }
     mysqli_stmt_execute($stmt);
     mysqli_stmt_close($stmt);
-    
 }
-function deductCoin($conn,$biddingPrice,$email,$biddingID){
+function deductCoin($conn, $biddingPrice, $email, $biddingID)
+{
     $transactionStatus = "deduct1";
     $sql = "INSERT INTO coin (coinAmount, transactionStatus, userEmail, biddingID) VALUES ($biddingPrice, '$transactionStatus', '$email', '$biddingID');";
     $stmt = mysqli_stmt_init($conn);
@@ -449,7 +452,7 @@ function deductCoin($conn,$biddingPrice,$email,$biddingID){
     }
     mysqli_stmt_execute($stmt);
     mysqli_stmt_close($stmt);
-    header("location: ../biddingDetail.php?biddingID=".$biddingID);
+    header("location: ../biddingDetail.php?biddingID=" . $biddingID);
 }
 function addToCart($conn, $productID, $productQuantity, $userEmail)
 {
@@ -464,4 +467,35 @@ function addToCart($conn, $productID, $productQuantity, $userEmail)
     mysqli_stmt_close($stmt);
     header("location: ../product.php?error=none");
     exit();
+}
+function searchBidding($conn, $searchData)
+{
+    $sql;
+    if ($searchData == 'al') {
+        $sql = "SELECT * FROM bidding WHERE biddingWinner IS NULL ";
+    } else {
+        $sql = "SELECT * FROM bidding WHERE biddingID = '$searchData' ";
+    }
+    $result = mysqli_query($conn, $sql);
+    $resultCheck = mysqli_num_rows($result);
+    if ($resultCheck > 0) {
+        while ($row = mysqli_fetch_assoc($result)) {
+            echo "<tr>";
+            echo "<td>" . "B00" . $row['biddingID'] . "</td>";
+            echo "<td>" . $row['biddingProductID'] . "</td>";
+            date_default_timezone_set("Asia/Kuala_Lumpur");
+            $biddingEndingTime = $row['biddingEndingTime'];
+            $timeBiddingEndingTime = strtotime($biddingEndingTime);
+            $dateBiddingEndingTime = date("d M Y h:i:s", $timeBiddingEndingTime);
+            echo "<td>" . $dateBiddingEndingTime . "</td>";
+            echo "<td>" . $row['biddingStartingPrice'] . "</td>";
+            echo "<td>" . $row['biddingEndingPrice'] . "</td>";
+            echo "<td>" . $row['totalBidder'] . "</td>";
+            echo "<td>";
+            $biddingData = "biddingID=" . $row['biddingID'];
+            echo "<a href='biddingDetail.php?" . $biddingData . "'>" . "<button class='btnJoinBidding'>join</button></a>";
+            echo "</td>";
+            echo "</tr>";
+        }
+    }
 }

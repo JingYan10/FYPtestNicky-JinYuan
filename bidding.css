@@ -25,6 +25,10 @@
 
 /*table*/
 
+table {
+    margin-left: 55px;
+}
+
 table td,
 table th {
     border: 1px solid #ddd;
@@ -65,4 +69,49 @@ table th {
 .btnJoinBidding:hover {
     background-color: #16bbf1;
     box-shadow: 10px 10px 15px rgba(0, 0, 0, 0.05);
+}
+
+.biddingSearchBar {
+    margin-left: 220px;
+    height: 35px;
+    font-size: 18px;
+    font-weight: 400;
+}
+
+.btnSearchActive {
+    margin-top: 5px;
+    background-color: #0455be;
+    border: none;
+    color: white;
+    padding: 12px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    margin-left: 0px;
+    cursor: pointer;
+}
+
+.btnSearchEnded {
+    margin-top: 5px;
+    background-color: #0455be;
+    border: none;
+    color: white;
+    padding: 12px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    margin-left: 0px;
+    cursor: pointer;
+}
+
+.btnSearchActive:hover,
+.btnSearchEnded:hover {
+    background-color: #16bbf1;
+    box-shadow: 10px 10px 15px rgba(0, 0, 0, 0.05);
+}
+
+.bidding-function-container {
+    margin-bottom: 40px;
 }
