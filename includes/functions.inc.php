@@ -404,7 +404,53 @@ function generateFriendCode($conn)
     }
     return $friendCode;
 }
-
+function createBidding($conn,$productID,$biddingEndingTime,$biddingStartingPrice,$biddingEndingPrice,$totalBidder){
+    
+    $sql = "INSERT INTO bidding (biddingProductID, biddingEndingTime, biddingStartingPrice, biddingEndingPrice, totalBidder) VALUES ($productID, '$biddingEndingTime', $biddingStartingPrice, $biddingEndingPrice, $totalBidder);";
+    $stmt = mysqli_stmt_init($conn);
+    if (!mysqli_stmt_prepare($stmt, $sql)) {
+        header("location: ../createBidding.php?error=stmtFailed");
+        exit();
+    }
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_close($stmt);
+    header("location: ../user_profile.php");
+    exit();
+}
+function createBiddingParticipant($conn,$biddingID,$biddingPrice,$email,$totalBidder,$biddingTime){
+    $sql = "INSERT INTO biddingparticipant (biddingID, userEmail, biddingPrice, biddingTime) VALUES ('$biddingID', '$email', $biddingPrice, '$biddingTime');";
+    $stmt = mysqli_stmt_init($conn);
+    if (!mysqli_stmt_prepare($stmt, $sql)) {
+        header("location: ../biddingDetail.php?error=stmtFailed");
+        exit();
+    }
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_close($stmt);
+}
+function updateBidding($conn,$biddingPrice,$totalBidder,$biddingID){
+    $newTotalBidder = (int) $totalBidder + 1;
+    $sql = "UPDATE bidding SET biddingEndingPrice = '$biddingPrice', totalBidder = '$newTotalBidder' WHERE biddingID = '$biddingID'; ";
+    $stmt = mysqli_stmt_init($conn);
+    if (!mysqli_stmt_prepare($stmt, $sql)) {
+        header("location: ../biddingDetail.php?error=stmtFailed");
+        exit();
+    }
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_close($stmt);
+    
+}
+function deductCoin($conn,$biddingPrice,$email,$biddingID){
+    $transactionStatus = "deduct1";
+    $sql = "INSERT INTO coin (coinAmount, transactionStatus, userEmail, biddingID) VALUES ($biddingPrice, '$transactionStatus', '$email', '$biddingID');";
+    $stmt = mysqli_stmt_init($conn);
+    if (!mysqli_stmt_prepare($stmt, $sql)) {
+        header("location: ../biddingDetail.php?error=stmtFailed");
+        exit();
+    }
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_close($stmt);
+    header("location: ../biddingDetail.php?biddingID=".$biddingID);
+}
 function addToCart($conn, $productID, $productQuantity, $userEmail)
 {
     $sql = "INSERT INTO cart (productID, productQuantity, userEmail) VALUES ('$productID', $productQuantity, '$userEmail');";

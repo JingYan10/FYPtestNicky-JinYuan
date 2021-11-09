@@ -1,8 +1,8 @@
-<?php
-    session_start();
-?>
+
 |<?php
+session_start();
     include_once 'header.php';
+    
 ?>
 <link rel="stylesheet" href="header&footer.css">
 
