@@ -38,7 +38,7 @@
                         <li><a href="index.php">Home</a></li>
                         <li><a href="product.php">Products</a></li>
                         <li><a href="cart.php">Cart</a></li>
-                        <li><a href="">Bidding</a></li>
+                        <li><a href="bidding.php">Bidding</a></li>
                         
                         <?php
                             if(isset($_SESSION["userEmail"])){

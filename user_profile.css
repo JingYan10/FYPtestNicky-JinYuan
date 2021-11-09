@@ -1,24 +1,29 @@
-.main-container{
+.main-container {
     width: 1200px;
     background: royalblue;
     display: flex;
 }
-.main-container div:nth-of-type(1){
+
+.main-container div:nth-of-type(1) {
     flex-basis: 30%;
 }
-.main-container div:nth-of-type(2){
+
+.main-container div:nth-of-type(2) {
     flex-basis: 70%;
 }
-.userImage p{
+
+.userImage p {
     text-align: center;
 }
-.userImage img{
+
+.userImage img {
     text-align: center;
     margin-top: 80px;
     width: 200px;
     height: 200px;
     border-radius: 50%;
 }
+
 .userInfocard {
     height: 300px;
     width: 350px;
@@ -27,112 +32,128 @@
     margin-right: 50px;
     background: white;
     border-radius: 10px;
-    box-shadow: 10px 10px 15px rgba(0,0,0,0.05);
+    box-shadow: 10px 10px 15px rgba(0, 0, 0, 0.05);
 }
-.userInfo{
+
+.userInfo {
     margin-top: 50px;
     margin-left: 50px;
 }
-.userData{
+
+.userData {
     margin-bottom: 10px;
 }
-.userData label{
+
+.userData label {
     font-size: 15px;
     font-weight: 800;
     width: 150px;
     display: inline-block;
 }
-.userData input{
+
+.userData input {
     font-size: 16px;
 }
-.btnEdit{
-background-color: #0455be;
-  border: none;
-  color: white;
-  padding: 12px 32px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 14px;
-  margin-left: 10px;
-  cursor: pointer;
-}
-.btnEdit:hover{
-    background-color: #16bbf1;
-    box-shadow: 10px 10px 15px rgba(0,0,0,0.05);
-}
-.btnEditPassword{
-    margin-top: 5px;
+
+.btnEdit {
     background-color: #0455be;
-      border: none;
-      color: white;
-      padding: 12px 32px;
-      text-align: center;
-      text-decoration: none;
-      display: inline-block;
-      font-size: 14px;
-      margin-left: 66px;
-      cursor: pointer;
-}
-.btnEditPassword:hover{
-    background-color: #16bbf1;
-    box-shadow: 10px 10px 15px rgba(0,0,0,0.05);
-}
-.btnEditImage{
-    margin-top: 5px;
-    background-color: #0455be;
-      border: none;
-      color: white;
-      padding: 12px 32px;
-      text-align: center;
-      text-decoration: none;
-      display: inline-block;
-      font-size: 14px;
-      cursor: pointer;
-}
-.btnEditImage:hover{
-    background-color: #16bbf1;
-    box-shadow: 10px 10px 15px rgba(0,0,0,0.05);
-}
-.btnUpgradeSeller{
-    margin-top: 5px;
-    background-color: #0455be;
-      border: none;
-      color: white;
-      padding: 12px 32px;
-      text-align: center;
-      text-decoration: none;
-      display: inline-block;
-      font-size: 14px;
-      margin-left: -9px;
-      cursor: pointer;
-}
-.btnUpgradeSeller:hover{
-    background-color: #16bbf1;
-    box-shadow: 10px 10px 15px rgba(0,0,0,0.05);
-}
-.btnUpgradeDeliverer{
-    margin-top: 5px;
-    background-color: #0455be;
-      border: none;
-      color: white;
-      padding: 12px 32px;
-      text-align: center;
-      text-decoration: none;
-      display: inline-block;
-      font-size: 14px;
-      margin-left: 13px;
-      cursor: pointer;
+    border: none;
+    color: white;
+    padding: 12px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    margin-left: 10px;
+    cursor: pointer;
 }
 
+.btnEdit:hover {
+    background-color: #16bbf1;
+    box-shadow: 10px 10px 15px rgba(0, 0, 0, 0.05);
+}
+
+.btnEditPassword {
+    margin-top: 5px;
+    background-color: #0455be;
+    border: none;
+    color: white;
+    padding: 12px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    margin-left: 66px;
+    cursor: pointer;
+}
+
+.btnEditPassword:hover {
+    background-color: #16bbf1;
+    box-shadow: 10px 10px 15px rgba(0, 0, 0, 0.05);
+}
+
+.btnEditImage {
+    margin-top: 5px;
+    background-color: #0455be;
+    border: none;
+    color: white;
+    padding: 12px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.btnEditImage:hover {
+    background-color: #16bbf1;
+    box-shadow: 10px 10px 15px rgba(0, 0, 0, 0.05);
+}
+
+.btnUpgradeSeller {
+    margin-top: 5px;
+    background-color: #0455be;
+    border: none;
+    color: white;
+    padding: 12px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    margin-left: -9px;
+    cursor: pointer;
+}
+
+.btnUpgradeSeller:hover {
+    background-color: #16bbf1;
+    box-shadow: 10px 10px 15px rgba(0, 0, 0, 0.05);
+}
+
+.btnUpgradeDeliverer {
+    margin-top: 5px;
+    background-color: #0455be;
+    border: none;
+    color: white;
+    padding: 12px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    margin-left: 13px;
+    cursor: pointer;
+}
+
+
 /*seller container*/
-.seller-container{
+
+.seller-container {
     margin-top: 50px;
     width: 1200px;
     background: rgb(52, 96, 230);
     display: flex;
 }
-.product-container{
+
+.product-container {
     width: 1000px;
     margin-top: 50px;
     margin-bottom: 50px;
@@ -140,36 +161,41 @@ background-color: #0455be;
     margin-right: 100px;
     background: white;
     border-radius: 10px;
-    box-shadow: 10px 10px 15px rgba(0,0,0,0.05);
+    box-shadow: 10px 10px 15px rgba(0, 0, 0, 0.05);
 }
-.productInfo{
+
+.productInfo {
     margin-top: 50px;
     margin-left: 50px;
 }
-.btnCreateProduct{
+
+.btnCreateProduct {
     margin-top: 5px;
     background-color: #0455be;
-      border: none;
-      color: white;
-      padding: 12px 32px;
-      text-align: center;
-      text-decoration: none;
-      display: inline-block;
-      font-size: 14px;
-      margin-left: 0px;
-      cursor: pointer;
+    border: none;
+    color: white;
+    padding: 12px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    margin-left: 0px;
+    cursor: pointer;
 }
-.btnCreateProduct:hover{
+
+.btnCreateProduct:hover {
     background-color: #16bbf1;
-    box-shadow: 10px 10px 15px rgba(0,0,0,0.05);
+    box-shadow: 10px 10px 15px rgba(0, 0, 0, 0.05);
 }
-.product-listing{
+
+.product-listing {
     margin-top: 10px;
     width: 90%;
 }
-.btnShowProductListing{
-  margin-top: 5px;
-  background-color: #0455be;
+
+.btnShowProductListing {
+    margin-top: 5px;
+    background-color: #0455be;
     border: none;
     color: white;
     padding: 12px 32px;
@@ -181,78 +207,83 @@ background-color: #0455be;
     margin-bottom: 20px;
     cursor: pointer;
 }
-.btnShowProductListing:hover{
-  background-color: #16bbf1;
-  box-shadow: 10px 10px 15px rgba(0,0,0,0.05);
+
+.btnShowProductListing:hover {
+    background-color: #16bbf1;
+    box-shadow: 10px 10px 15px rgba(0, 0, 0, 0.05);
 }
+
+
 /*table*/
 
+
 /*table for product listing*/
-#customers {
-  font-family: Arial, Helvetica, sans-serif;
-  border-collapse: collapse;
-  width: 100%;
+
+table td,
+table th {
+    border: 1px solid #ddd;
+    padding: 8px;
 }
 
-table td, table th {
-  border: 1px solid #ddd;
-  padding: 8px;
-}
 
 /* table tr:nth-child(even){
   background-color: #f2f2f2;
 } */
+
 table tr:hover {
-  background-color: #ddd;}
+    background-color: #ddd;
+}
 
 table th {
-  padding-top: 12px;
-  padding-bottom: 12px;
-  text-align: left;
-  background-color: #04AA6D;
-  color: white;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #04AA6D;
+    color: white;
 }
-.btnEditProduct{
-  background-color: #0455be;
-  border: none;
-  color: white;
-  padding: 12px 32px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 14px;
-  margin-left: 10px;
-  cursor: pointer;
+
+.btnEditProduct {
+    background-color: #0455be;
+    border: none;
+    color: white;
+    padding: 12px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    margin-left: 10px;
+    cursor: pointer;
 }
-.btnDeleteProduct{
-  background-color: #0455be;
-  border: none;
-  color: white;
-  padding: 12px 32px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 14px;
-  margin-left: 10px;
-  cursor: pointer;
+
+.btnDeleteProduct {
+    background-color: #0455be;
+    border: none;
+    color: white;
+    padding: 12px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    margin-left: 10px;
+    cursor: pointer;
 }
-.productSearchBar{
-  height: 40px;
-  font-size:18px;
-  font-weight: 400;
+
+.productSearchBar {
+    height: 40px;
+    font-size: 18px;
+    font-weight: 400;
 }
-.btnCreateBidding{
-  background-color: #0455be;
-  border: none;
-  color: white;
-  padding: 12px 32px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 14px;
-  margin-top: 10px;
-  margin-left: 28px;
-  cursor: pointer;
+
+.btnCreateBidding {
+    background-color: #0455be;
+    border: none;
+    color: white;
+    padding: 12px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    margin-top: 10px;
+    margin-left: 28px;
+    cursor: pointer;
 }
-  
-  

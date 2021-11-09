@@ -12,20 +12,28 @@ include_once 'header.php';
 <!--content here-->
 
 <?php
-    if(isset($_GET["error"])){
-        $_SESSION["productID"];
-        $_SESSION["productName"];
-        $_SESSION["productImage"];
-        $_SESSION["productQuantity"];
-        $_SESSION["productPrice"];
-    }else{
-        $_SESSION["productID"] = $_GET["productID"];
-        $_SESSION["productName"] = $_GET["productName"];
-        $_SESSION["productImage"] = $_GET["productImage"];
-        $_SESSION["productQuantity"] = $_GET["productQuantity"];
-        $_SESSION["productPrice"] = $_GET["productPrice"];
-    }
-    
+if (isset($_GET["error"])) {
+    $_SESSION["productID"];
+    $_SESSION["productName"];
+    $_SESSION["productImage"];
+    $_SESSION["productQuantity"];
+    $_SESSION["productPrice"];
+} else {
+    $_SESSION["productID"] = $_GET["productID"];
+    $_SESSION["productName"] = $_GET["productName"];
+    $_SESSION["productImage"] = $_GET["productImage"];
+    $_SESSION["productQuantity"] = $_GET["productQuantity"];
+    $_SESSION["productPrice"] = $_GET["productPrice"];
+}
+//dateTime validation
+date_default_timezone_set("Asia/Kuala_Lumpur");
+$mindate = date("Y-m-d");
+$mintime = date("h:i");
+$min = $mindate . "T" . $mintime;
+$maxdate = date("Y-m-d", strtotime("+10 Days"));
+$maxtime = date("h:i");
+$max = $maxdate . "T" . $maxtime;
+
 ?>
 
 
@@ -35,7 +43,7 @@ include_once 'header.php';
         <form action="includes/createBidding.inc.php" method="post" enctype="multipart/form-data">
 
             <div class="txt_field">
-                <p>Product ID : <?php echo "P00".$_SESSION['productID']; ?></p>
+                <p>Product ID : <?php echo "P00" . $_SESSION['productID']; ?></p>
             </div>
             <div class="txt_field">
                 <p>Product name : <?php echo $_SESSION['productName']; ?></p>
@@ -45,8 +53,8 @@ include_once 'header.php';
                 <img style="width:140px;height:140px;" src="<?php echo $_SESSION['productImage']; ?>" alt="">
             </div>
             <div class="txt_field">
-                <p>bidding endting time</p>
-                <input type="datetime-local" name="biddingEndingTime" required>
+                <p>bidding ending time</p>
+                <input type="datetime-local" name="biddingEndingTime" min=<?php echo"$min"?> max=<?php echo"$max"?> required>
             </div>
             <div class="txt_field">
                 <input type="text" name="biddingStartingPrice" required>
@@ -59,30 +67,11 @@ include_once 'header.php';
         </form>
 
         <?php
-        // if (isset($_GET["error"])) {
-        //     if ($_GET["error"] == "emptyInput") {
-        //         echo "<div style='text-align:center;color:red;font-weight:600'>fill up the blank space</div>";
-        //     } else if ($_GET["error"] == "invalidName") {
-        //         echo "<div style='text-align:center;color:red;font-weight:600'>firstname / lastname cannot have digit(s)</div>";
-        //     } else if ($_GET["error"] == "invalidEmail") {
-        //         echo "<div style='text-align:center;color:red;font-weight:600'>inccorect email format</div>";
-        //     } else if ($_GET["error"] == "mismatchPassword") {
-        //         echo "<div style='text-align:center;color:red;font-weight:600'>password and confirm password are not matched</div>";
-        //     } else if ($_GET["error"] == "existingUser") {
-        //         echo "<div style='text-align:center;color:red;font-weight:600'>this email has registered before</div>";
-        //     } else if ($_GET["error"] == "stmtFailed") {
-        //         echo "<div style='text-align:center;color:red;font-weight:600'>something went wrong, please try again later</div>";
-        //     } else if ($_GET["error"] == "imgType") {
-        //         echo "<div style='text-align:center;color:red;font-weight:600'>inccorect image type, please upload  in (jpg/jpeg/png) format</div>";
-        //     } else if ($_GET["error"] == "errorImgSize") {
-        //         echo "<div style='text-align:center;color:red;font-weight:600'> image size too big, <br> please reupload smaller image size</div>";
-        //     } else if ($_GET["error"] == "errorImgUpload") {
-        //         echo "<div style='text-align:center;color:red;font-weight:600'> something went wrong while uploading image, please try again</div>";
-        //     } else if ($_GET["error"] == "none") {
-        //         header("location: login.php");
-        //         exit();
-        //     }
-        // }
+        if (isset($_GET["error"])) {
+            if ($_GET["error"] == "invalidBiddingStartingPrice") {
+                echo "<div style='text-align:center;color:red;font-weight:600'>bidding starting price should only have digits</div>";
+            } 
+        }
         ?>
     </div>
 </section>
