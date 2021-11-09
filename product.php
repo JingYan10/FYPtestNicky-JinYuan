@@ -38,7 +38,7 @@ if ($resultCheck > 0) {
 
     $userEmail = $_SESSION["userEmail"];
 
-    $sql2 = "SELECT * FROM cart where userEmail = '$userEmail'";
+    $sql2 = "SELECT * FROM cart where userEmail = 'ngjinyuan91@gmail.com'";
     $result2 = mysqli_query($conn2, $sql2);
     $resultCheck2 = mysqli_num_rows($result2);
 
@@ -56,7 +56,7 @@ if ($resultCheck > 0) {
                     echo "<p>" . "Some text about the jeans. Super slim and comfy lorem ipsum lorem jeansum. Lorem jeamsun denim lorem jeansum" . "</p>";
                     $productdata = "productID=" . $row['productID'];
                     $productQuantity = "&productQuantity=" . $row['productQuantity'];
-                    echo "<p>" . "<a href='includes/addToCart.inc.php?" . $productdata . $productQuantity . "'>" . "<button disabled class='btnAddToCart'>Add To Cart</button></a>" . "</p>";
+                    echo "<p>" . "<a href='includes/addToCart.inc.php?" . $productdata . $productQuantity . "'>" . "<button disabled class='btnAddToCartDisabled'>Add To Cart</button></a>" . "</p>";
                     echo "</div>";
                 }
             } else {
