@@ -234,100 +234,43 @@ p{
   }
   
 /*Product.css*/
-*{
-    margin:0; padding: 0;
-    box-sizing: border-box;
-    text-transform: capitalize;
-    text-decoration: none;
-    font-family: Arial, Helvetica, sans-serif;
-    transition: all 0.4s cubic-bezier(0,1.57,.67,1.18);
-}
-.box-container2{
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.new-product-container2{
+    display:flex;
     flex-wrap: wrap;
-    background:#ccc;
-}
+    background-color: #fff;    
+   }
+   .card2 {
+     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+     max-width: 350px;
+     margin: auto;
+     text-align: center;
+     font-family: arial;
+     flex-basis : 33.333333%;
+     margin-bottom: 20px;
+     margin-top: 20px;
+   }
+   
+   .price {
+     color: grey;
+     font-size: 22px;
+   }
+   
+   .card2 button {
+     border: none;
+     outline: 0;
+     padding: 12px;
+     color: white;
+     background-color: #000;
+     text-align: center;
+     cursor: pointer;
+     width: 100%;
+     font-size: 18px;
+   }
+   
+   .card2 button:hover {
+     opacity: 0.7;
+   }
 
-.box2{
-    flex:auto;
-    background:#fff;
-    border: 1px solid rgba(0, 0, 0, .3);
-    position: relative;
-    overflow: hidden;
-    margin: 20px;
-}
-
-.box2 .image img{
-    height: 200px;
-    width:100%;
-    object-fit:cover;
-    filter: drop-shadow(0 3px 5px rgba(0,0,0,.7));
-}
-
-.box2 .info .title{
-    padding:10px;
-    color: #666;
-    font-size:20px;
-}
-
-.box2 .info .subInfo{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding:15px 10px;
-    border-top: 1px solid rgba(0, 0, 0, .3)
-}
-
-.box2 .info .subInfo .price{
-    color:#ff3300;
-    font-size:20px;
-}
-
-.box2 .info .subInfo .price span{
-    font-size:15px;
-    color:#999;
-    margin-left: 10px;
-    text-decoration: line-through;
-}
-
-.box2 .info .subInfo .stars i{
-    color:orange;
-    font-size: 17px;
-}
-
-.box2 .overlay{
-    position: absolute;
-    top:0; left:0;
-    height: 223px;
-    width: 100%;
-    background: rgba(0, 0, 0, .3);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition:none;
-    transform: scale(0);
-}
-
-.box2:hover .overlay{
-    transform: scale(1);
-}
-
-.box2 .overlay a{
-    color:#666;
-    background:#fff;
-    margin:10px;
-    padding:13px 15px;
-    font-size:25px;
-    transform: translateY(-150px);
-    transition-property: tranform;
-    transition-delay: calc(.1s * var(--i));
-}
-
-.box2 .overlay a:hover{
-    color:orange;
-}
-.box2:hover .overlay a{
-    transform: translateY(0px);
-}
+    h1{
+       color: black;
+   }

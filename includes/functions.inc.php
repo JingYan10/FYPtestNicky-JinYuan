@@ -450,5 +450,18 @@ function deductCoin($conn,$biddingPrice,$email,$biddingID){
     mysqli_stmt_execute($stmt);
     mysqli_stmt_close($stmt);
     header("location: ../biddingDetail.php?biddingID=".$biddingID);
+}
+function addToCart($conn, $productID, $productQuantity, $userEmail)
+{
+    $sql = "INSERT INTO cart (productID, productQuantity, userEmail) VALUES ('$productID', $productQuantity, '$userEmail');";
+    $stmt = mysqli_stmt_init($conn);
+    if (!mysqli_stmt_prepare($stmt, $sql)) {
+        header("location: ../product.php?error=stmtFailed");
+        exit();
+    }
+
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_close($stmt);
+    header("location: ../product.php?error=none");
     exit();
 }
