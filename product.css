@@ -275,7 +275,7 @@ p {
 .new-product-container2 {
     display: flex;
     flex-wrap: wrap;
-    background-color: #fff;
+    <<<<<<< HEAD background-color: #fff;
 }
 
 .card2 {
@@ -315,7 +315,39 @@ h1 {
 }
 
 .btnAddToCartDisabled {
+    =======background-color: #fff;
+}
+
+.card2 {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    max-width: 350px;
+    margin: auto;
+    text-align: center;
+    font-family: arial;
+    flex-basis: 33.333333%;
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+
+.price {
+    color: grey;
+    font-size: 22px;
+}
+
+.btnAddToCart {
     border: none;
+    outline: 0;
+    padding: 12px;
+    color: white;
+    background-color: #000;
+    text-align: center;
+    cursor: pointer;
+    width: 100%;
+    font-size: 18px;
+}
+
+.btnAddToCartDisabled {
+    >>>>>>>fd03fbe0e346a949147d7ec6ab4552130236d63f border: none;
     outline: 0;
     padding: 12px;
     color: none;
@@ -324,4 +356,12 @@ h1 {
     cursor: not-allowed;
     width: 100%;
     font-size: 18px;
+}
+
+.card2 button:hover {
+    opacity: 0.7;
+}
+
+h1 {
+    color: black;
 }
