@@ -38,41 +38,51 @@ if ($resultCheck > 0) {
 
     $userEmail = $_SESSION["userEmail"];
 
-    $sql2 = "SELECT * FROM cart where userEmail = 'ngjinyuan91@gmail.com'";
+    $sql2 = "SELECT * FROM cart where userEmail = '$userEmail'";
     $result2 = mysqli_query($conn2, $sql2);
     $resultCheck2 = mysqli_num_rows($result2);
+    $b = array("");
+    if ($resultCheck2 > 0) {
 
-    if ($resultCheck > 0) {
+        while ($row2 = mysqli_fetch_assoc($result2)) {
+           
+            array_push($b, $row2['productID']);
 
-        while ($row = mysqli_fetch_assoc($result)) {
-
-            if ($resultCheck2 > 0) {
-
-                while ($row2 = mysqli_fetch_assoc($result2)) {
-
-                    echo "<div class='card2'>" . "<img style='width:100%'" . "src=" . $row['productImage'] . ">";
-                    echo "<h1>" . $row['productName'] . "</h1>";
-                    echo "<p class = 'price'" . ">" . "RM" . $row['productPrice'] . "</p>";
-                    echo "<p>" . "Some text about the jeans. Super slim and comfy lorem ipsum lorem jeansum. Lorem jeamsun denim lorem jeansum" . "</p>";
-                    $productdata = "productID=" . $row['productID'];
-                    $productQuantity = "&productQuantity=" . $row['productQuantity'];
-                    echo "<p>" . "<a href='includes/addToCart.inc.php?" . $productdata . $productQuantity . "'>" . "<button disabled class='btnAddToCartDisabled'>Add To Cart</button></a>" . "</p>";
-                    echo "</div>";
-                }
-            } else {
-                echo "<div class='card2'>" . "<img style='width:100%'" . "src=" . $row['productImage'] . ">";
-                echo "<h1>" . $row['productName'] . "</h1>";
-                echo "<p class = 'price'" . ">" . "RM" . $row['productPrice'] . "</p>";
-                echo "<p>" . "Some text about the jeans. Super slim and comfy lorem ipsum lorem jeansum. Lorem jeamsun denim lorem jeansum" . "</p>";
-                $productdata = "productID=" . $row['productID'];
-                $productQuantity = "&productQuantity=" . $row['productQuantity'];
-                echo "<p>" . "<a href='includes/addToCart.inc.php?" . $productdata . $productQuantity . "'>" . "<button class='btnAddToCart'>Add To Cart</button></a>" . "</p>";
-                echo "</div>";
-            }
+            //print_r ($b);
+            //echo "(from sql) product ID in cart : ".$row2['productID']."<br>";
         }
     } else {
         echo "No product is found!";
     }
+            if ($resultCheck > 0) {
+
+                while ($row = mysqli_fetch_assoc($result)) {
+                    if (in_array($row['productID'], $b)) {
+                        echo "<div class='card2'>" . "<img style='width:100%'" . "src=" . $row['productImage'] . ">";
+                        echo "<h1>" . $row['productName'] . "</h1>";
+                        echo "<p class = 'price'" . ">" . "RM" . $row['productPrice'] . "</p>";
+                        echo "<p>" . "Some text about the jeans. Super slim and comfy lorem ipsum lorem jeansum. Lorem jeamsun denim lorem jeansum" . "</p>";
+                        $productdata = "productID=" . $row['productID'];
+                        $productQuantity = "&productQuantity=" . $row['productQuantity'];
+                        echo "<p>" . "<a href='includes/addToCart.inc.php?" . $productdata . $productQuantity . "'>" . "<button disabled class='btnAddToCartDisabled'>Add To Cart</button></a>" . "</p>";
+                        echo "</div>";
+                        //echo "cart found productID : ".$row['productID']."<br>";
+                    } else {
+                        echo "<div class='card2'>" . "<img style='width:100%'" . "src=" . $row['productImage'] . ">";
+                        echo "<h1>" . $row['productName'] . "</h1>";
+                        echo "<p class = 'price'" . ">" . "RM" . $row['productPrice'] . "</p>";
+                        echo "<p>" . "Some text about the jeans. Super slim and comfy lorem ipsum lorem jeansum. Lorem jeamsun denim lorem jeansum" . "</p>";
+                        $productdata = "productID=" . $row['productID'];
+                        $productQuantity = "&productQuantity=" . $row['productQuantity'];
+                        echo "<p>" . "<a href='includes/addToCart.inc.php?" . $productdata . $productQuantity . "'>" . "<button class='btnAddToCart'>Add To Cart</button></a>" . "</p>";
+                        echo "</div>";
+                        //echo "normal  productID : ".$row['productID']."<br>";
+                    }
+                }
+            } else {
+            }
+        
+    
     ?>
 </div>
 
