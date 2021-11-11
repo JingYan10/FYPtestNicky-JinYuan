@@ -103,7 +103,7 @@ include_once 'footer.php';
 <!--javascript-->
 <script type="text/javascript">
     $(document).ready(function() {
-        $("#search2").keypress(function() {
+        $("#search2").keyup(function() {
             $.ajax({
                 async: false,
                 type: 'POST',

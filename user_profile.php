@@ -24,6 +24,7 @@ if ($resultCheck > 0) {
         $_SESSION["userRole"] = $row['userRole'];
         $_SESSION["userImage"] = $row['userImage'];
         $_SESSION["sellerStatus"] = $row['sellerStatus'];
+        $_SESSION["delivererStatus"] = $row['delivererStatus'];
     }
 } else {
     header("location: ../login.php?error=noUserProfile");
@@ -65,6 +66,9 @@ if ($resultCheck > 0) {
                 if ($_SESSION["sellerStatus"] == "pending") {
                     echo '<label>Seller request</label><label style="margin-left:5px;">pending</label>';
                 }
+                if($_SESSION["delivererStatus"] == "pending"){
+                    echo '<br><label>Deliverer request</label><label style="margin-left:5px;margin-top:5px;">pending</label>';
+                }
                 ?>
 
             </div>
@@ -72,11 +76,15 @@ if ($resultCheck > 0) {
             <a href="user_profile_edit.php"><input type="button" class="btnEdit" value="Edit"></a>
             <br>
             <?php
-            if ($_SESSION["sellerStatus"] == null) {
+            if ($_SESSION["sellerStatus"] == null && $_SESSION["delivererStatus"] == null) {
                 echo '<a href="becomeSeller.php"><input type="button" class="btnUpgradeSeller" value="Become a seller"></a>';
-                echo '<a href="user_profile_edit.php"><input type="button" class="btnUpgradeDeliverer" value="Become a deliverer"></a> ';
-            } else {
-                echo '<a href="user_profile_edit.php"><input type="button" style="margin-left:170px;" class="btnUpgradeDeliverer" value="Become a deliverer"></a>';
+                echo '<a href="becomeDeliverer.php"><input type="button" class="btnUpgradeDeliverer" value="Become a deliverer"></a> ';
+            } else if($_SESSION["sellerStatus"] == null) {
+                echo '<a href="becomeSeller.php"><input type="button" class="btnUpgradeSeller" value="Become a seller"></a>';
+               
+            }
+            else if ($_SESSION["delivererStatus"] == null){
+                echo '<a href="becomeDeliverer.php"><input type="button" style="margin-left:170px;" class="btnUpgradeDeliverer" value="Become a deliverer"></a>';
             }
             ?>
 
@@ -103,7 +111,7 @@ if ($_SESSION["userRole"] == "seller") {
 </script>
 <script type="text/javascript">
     $(document).ready(function() {
-        $("#search").keypress(function() {
+        $("#search").keyup(function() {
             $.ajax({
                 type: 'POST',
                 url: 'includes/searchProduct.inc.php',

@@ -7,13 +7,15 @@ if(isset($_POST["submit"])){
 
     require_once 'databaseHandler.inc.php';
     require_once 'functions.inc.php';
+    
 
     if(emptyInputLogin($email,$password) != false){
         header("location: ../login.php?error=emptyInput");
         exit();
     }
-
+    updateBiddingWinner($conn);
     loginUser($conn,$email,$password);
+    
 }
 else{
     header("location: ../login.php?error=emptyInput");

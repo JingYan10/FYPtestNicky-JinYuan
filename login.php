@@ -26,7 +26,7 @@ include_once 'header.php';
                 <label>Password</label>
             </div>
 
-            <div class="forgetPass">Forget Password ? </div>
+            <a href="forgetPassword.php"><div class="forgetPass">Forget Password ?</div> </a>  
 
             <button class="button" type="submit" name="submit">Login</button>
             <div class="signUpLink">

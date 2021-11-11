@@ -454,6 +454,68 @@ function deductCoin($conn, $biddingPrice, $email, $biddingID)
     mysqli_stmt_close($stmt);
     header("location: ../biddingDetail.php?biddingID=" . $biddingID);
 }
+function updateBiddingWinner($conn)
+{
+    date_default_timezone_set("Asia/Kuala_Lumpur");
+    $currentDate = date("d/m/y h:i:s");
+
+    $sql = "SELECT * FROM bidding ";
+    $result = mysqli_query($conn, $sql);
+    $resultCheck = mysqli_num_rows($result);
+    if ($resultCheck > 0) {
+        while ($row = mysqli_fetch_assoc($result)) {
+            $_SESSION["biddingEndingTime"] = $row['biddingEndingTime'];
+
+            $timeBiddingEndingTime = strtotime($_SESSION["biddingEndingTime"]);
+            $dateBiddingEndingTime = date('d/m/y h:i:s', $timeBiddingEndingTime);
+
+
+            // echo "bidding ending time -> ".$dateBiddingEndingTime."<br>";
+            // echo "current time -> ".$currentDate."<br>";
+
+            if ($dateBiddingEndingTime <= $currentDate) {
+                $_SESSION["biddingID"] = $row['biddingID'];
+                $_SESSION["biddingEndingPrice"] = $row['biddingEndingPrice'];
+            }
+        }
+        $biddingID = $_SESSION["biddingID"];
+        $biddingEndingPrice = $_SESSION["biddingEndingPrice"];
+
+        // echo "biddingID : ".$biddingID."<br>";
+        // echo "biddingPrice : ".$biddingEndingPrice."<br>";
+
+        $sql = "SELECT * FROM biddingparticipant where biddingID = '$biddingID' AND biddingPrice = $biddingEndingPrice ";
+        $result = mysqli_query($conn, $sql);
+        $resultCheck = mysqli_num_rows($result);
+
+        if ($resultCheck > 0) {
+            while ($row = mysqli_fetch_assoc($result)) {
+                $_SESSION["biddingWinner"] = $row['userEmail'];
+            }
+        }
+        // echo $_SESSION["biddingWinner"];
+        $biddingWinner = $_SESSION["biddingWinner"];
+
+        $sql = "UPDATE bidding SET biddingWinner = '$biddingWinner' WHERE biddingID = $biddingID;";
+        $stmt = mysqli_stmt_init($conn);
+        if (!mysqli_stmt_prepare($stmt, $sql)) {
+            header("location: ../pinChangePassword.php?error=stmtFailed");
+            exit();
+        }
+        mysqli_stmt_execute($stmt);
+        mysqli_stmt_close($stmt);
+
+        $transactionStatus = "deduct2";
+        $sql = "UPDATE coin SET transactionStatus = '$transactionStatus' WHERE biddingID = $biddingID AND coinAmount = $biddingEndingPrice ";
+        $stmt = mysqli_stmt_init($conn);
+        if (!mysqli_stmt_prepare($stmt, $sql)) {
+            header("location: ../pinChangePassword.php?error=stmtFailed");
+            exit();
+        }
+        mysqli_stmt_execute($stmt);
+        mysqli_stmt_close($stmt);
+    }
+}
 function addToCart($conn, $productID, $productQuantity, $userEmail)
 {
     $sql = "INSERT INTO cart (productID, productQuantity, userEmail) VALUES ('$productID', $productQuantity, '$userEmail');";
@@ -498,4 +560,50 @@ function searchBidding($conn, $searchData)
             echo "</tr>";
         }
     }
+}
+function pinChangePassword($conn, $email, $newPassword)
+{
+    $encryptedPassword = password_hash($newPassword, PASSWORD_DEFAULT);
+    $sql = "UPDATE users SET userPassword = '$encryptedPassword' WHERE userEmail = '$email'; ";
+    $stmt = mysqli_stmt_init($conn);
+    if (!mysqli_stmt_prepare($stmt, $sql)) {
+        header("location: ../pinChangePassword.php?error=stmtFailed");
+        exit();
+    }
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_close($stmt);
+    header("location: ../login.php");
+    exit();
+}
+function createDelivererDocument($conn, $identityCard, $fullName, $documentLocation, $userEmail)
+{
+    require_once 'databaseHandler.inc.php';
+    $registrationType = "deliverer";
+    $sql = "INSERT INTO verifierdocument (identityCard, fullName, documentLocation, registerationType, userEmail) VALUES (?, ?, ?, ?, ? );";
+    $stmt = mysqli_stmt_init($conn);
+
+    if (!mysqli_stmt_prepare($stmt, $sql)) {
+        header("location: ../signUp.php?error=stmtFailed");
+        exit();
+    }
+
+    mysqli_stmt_bind_param($stmt, "sssss", $identityCard, $fullName, $documentLocation, $registrationType, $userEmail);
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_close($stmt);
+}
+function updateUserDelivererStatus($conn, $userEmail)
+{
+    // require_once 'databaseHandler.inc.php';
+
+    $delivererStatus = "pending";
+    $sql = "UPDATE users SET delivererStatus = '$delivererStatus' WHERE userEmail = '$userEmail'; ";
+    $stmt = mysqli_stmt_init($conn);
+    if (!mysqli_stmt_prepare($stmt, $sql)) {
+        header("location: ../becomeDeliverer.php?error=stmtFailed");
+        exit();
+    }
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_close($stmt);
+    header("location: ../becomeDeliverer.php?error=none");
+    exit();
 }
