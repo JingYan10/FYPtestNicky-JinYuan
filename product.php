@@ -64,7 +64,7 @@ if ($resultCheck > 0) {
                         echo "<p>" . "Some text about the jeans. Super slim and comfy lorem ipsum lorem jeansum. Lorem jeamsun denim lorem jeansum" . "</p>";
                         $productdata = "productID=" . $row['productID'];
                         $productQuantity = "&productQuantity=" . $row['productQuantity'];
-                        echo "<p>" . "<a href='includes/addToCart.inc.php?" . $productdata . $productQuantity . "'>" . "<button disabled class='btnAddToCartDisabled'>Add To Cart(Disabled)</button></a>" . "</p>";
+                        echo "<p>" . "<a href='includes/addToCart.inc.php?" . $productdata . $productQuantity . "'>" . "<button disabled class='btnAddToCartDisabled'>Add To Cart</button></a>" . "</p>";
                         echo "</div>";
                         //echo "cart found productID : ".$row['productID']."<br>";
                     } else {
