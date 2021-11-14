@@ -45,7 +45,7 @@ if ($resultCheck > 0) {
     if ($resultCheck2 > 0) {
 
         while ($row2 = mysqli_fetch_assoc($result2)) {
-           
+           //if product that exist in cart, store into array with productID
             array_push($b, $row2['productID']);
 
             //print_r ($b);

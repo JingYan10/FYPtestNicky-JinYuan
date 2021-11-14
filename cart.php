@@ -4,6 +4,7 @@ session_start();
 ?>
 <?php
 include_once 'header.php';
+include_once 'includes/databaseHandler.inc.php';
 ?>
 
 <!--link to css-->
@@ -17,7 +18,64 @@ include_once 'header.php';
             <h5 class="Action">Remove all</h5>
         </div>
 
-        <div class="Cart-Items">
+    <?php
+
+
+        $sql = " SELECT * FROM product ";
+        $result = mysqli_query($conn, $sql);
+        $resultCheck = mysqli_num_rows($result);
+
+        $userEmail = $_SESSION["userEmail"];
+
+        $sql2 = "SELECT * FROM cart where userEmail = '$userEmail'";
+        $result2 = mysqli_query($conn2, $sql2);
+        $resultCheck2 = mysqli_num_rows($result2);
+        $c = array("");
+
+        if ($resultCheck2 > 0) {
+
+            while ($row2 = mysqli_fetch_assoc($result2)) {
+               //if product that exist in cart, store into array with productID
+                array_push($c, $row2['productID']);
+    
+                //print_r ($b);
+                //echo "(from sql) product ID in cart : ".$row2['productID']."<br>";
+            }
+        } else {
+            echo "No product is found!";
+        }
+
+         if ($resultCheck > 0) {
+             
+         }while($row = mysqli_fetch_assoc($result)){
+
+            if (in_array($row['productID'], $c)){ 
+                echo "<div class = 'Cart-Items'>";
+                echo "<div class = 'image-box'>". "<img src = " . $row['productImage'] . ">";
+                echo "</div>";
+                echo "<div class = 'about'>";
+                echo "<h1 class = 'title'>" . $row['productName']. "</h1>";
+                // echo "<h3 class = 'subtitle'>" . 
+                echo "</div>";
+                echo "<div class = 'counter'>"; 
+                echo "<div class = 'btnSub'>-</div>";
+                echo "<div class = 'count'>" . $row['productQuantity'] . "</div>";
+                echo "<div class = 'btnAdd'>+</div>";
+                echo "</div>";
+                echo "<div class = prices'>";
+                echo "<div class = 'amount'>" . $row['productPrice'] . "</div>";
+                echo "<div class = 'remove'><u>Remove</u></div>";
+                echo "</div>";
+                echo "</div>";
+            } else{
+
+            }
+        }
+
+    ?>
+
+
+        <!-- <div class="Cart-Items">
             <div class="image-box">
                 <img src="images/products/noodles3.jpg" height="120px" }} />
             </div>
@@ -36,28 +94,8 @@ include_once 'header.php';
                 <div class="save"><u>Save for later</u></div>
                 <div class="remove"><u>Remove</u></div>
             </div>
-        </div>
+        </div> -->
 
-        <div class="Cart-Items pad">
-            <div class="image-box">
-                <img src="images/products/nuts3.jpg" height="120px" }} />
-            </div>
-            <div class="about">
-                <h1 class="title">Nuts</h1>
-                <h3 class="subtitle">250ml</h3>
-
-            </div>
-            <div class="counter">
-                <div class="btn">+</div>
-                <div class="count">1</div>
-                <div class="btn">-</div>
-            </div>
-            <div class="prices">
-                <div class="amount">$3.19</div>
-                <div class="save"><u>Save for later</u></div>
-                <div class="remove"><u>Remove</u></div>
-            </div>
-        </div>
         <hr>
         <div class="checkout">
             <div class="total">
