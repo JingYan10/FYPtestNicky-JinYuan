@@ -1,6 +1,3 @@
-/* Website template */
-/*header*/
-
 h1{
 	margin-top: 10px;
   	color: #fff;
@@ -239,7 +236,7 @@ p{
 	margin: 0;
 	padding: 0;
 	background: linear-gradient(to bottom right, #E3F0FF, #FAFCFF);
-	height: 100vh;
+	height: 100%;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -316,7 +313,7 @@ p{
 	justify-content: space-between;
 	align-items: center;
 }
-.btn{
+.btnAdd{
 	width: 40px;
 	height: 40px;
 	border-radius: 50%;
@@ -330,6 +327,22 @@ p{
 	color: #202020;
 	cursor: pointer;
 }
+
+.btnSub{
+	width: 40px;
+	height: 40px;
+	border-radius: 50%;
+	background-color: #d9d9d9;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-size: 20px;
+	font-family: 'Open Sans';
+	font-weight: 900;
+	color: #202020;
+	cursor: pointer;
+}
+
 .count{
 	font-size: 20px;
 	font-family: 'Open Sans';
