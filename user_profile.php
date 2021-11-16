@@ -79,13 +79,7 @@ if ($resultCheck > 0) {
             if ($_SESSION["sellerStatus"] == null && $_SESSION["delivererStatus"] == null) {
                 echo '<a href="becomeSeller.php"><input type="button" class="btnUpgradeSeller" value="Become a seller"></a>';
                 echo '<a href="becomeDeliverer.php"><input type="button" class="btnUpgradeDeliverer" value="Become a deliverer"></a> ';
-            } else if($_SESSION["sellerStatus"] == null) {
-                echo '<a href="becomeSeller.php"><input type="button" class="btnUpgradeSeller" value="Become a seller"></a>';
-               
-            }
-            else if ($_SESSION["delivererStatus"] == null){
-                echo '<a href="becomeDeliverer.php"><input type="button" style="margin-left:170px;" class="btnUpgradeDeliverer" value="Become a deliverer"></a>';
-            }
+            } 
             ?>
 
         </div>
@@ -96,6 +90,10 @@ if ($resultCheck > 0) {
 if ($_SESSION["userRole"] == "seller") {
     include_once 'sellerContainer.php';
 }
+else if ($_SESSION["userRole"] == "deliverer") {
+    include_once 'delivererContainer.php';
+}
+
 ?>
 
 
