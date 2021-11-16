@@ -10,6 +10,9 @@ include_once 'includes/databaseHandler.inc.php';
 <!--link to css-->
 <link rel="stylesheet" href="cart.css">
 
+
+ 
+
 <!--content here-->
 <div class="Main-Container">
     <div class="CartContainer">
@@ -19,18 +22,19 @@ include_once 'includes/databaseHandler.inc.php';
         </div>
 
     <?php
-
-
         $sql = " SELECT * FROM product ";
         $result = mysqli_query($conn, $sql);
         $resultCheck = mysqli_num_rows($result);
 
         $userEmail = $_SESSION["userEmail"];
+       
 
         $sql2 = "SELECT * FROM cart where userEmail = '$userEmail'";
         $result2 = mysqli_query($conn2, $sql2);
         $resultCheck2 = mysqli_num_rows($result2);
         $c = array("");
+
+       
 
         if ($resultCheck2 > 0) {
 
@@ -42,13 +46,18 @@ include_once 'includes/databaseHandler.inc.php';
                 //echo "(from sql) product ID in cart : ".$row2['productID']."<br>";
             }
         } else {
-            echo "No product is found!";
+            header("location: ../../product.php?error=noCartData"); //directory problem 
+            exit();
         }
 
          if ($resultCheck > 0) {
              
          }while($row = mysqli_fetch_assoc($result)){
 
+            $productQuantity = $row['productQuantity'];
+            $productID = $row['productID'];
+            
+            //the buttons are stupid af they dont know which button to add fucking retarded piece of shit mtfk
             if (in_array($row['productID'], $c)){ 
                 echo "<div class = 'Cart-Items'>";
                 echo "<div class = 'image-box'>". "<img src = " . $row['productImage'] . ">";
@@ -58,19 +67,22 @@ include_once 'includes/databaseHandler.inc.php';
                 // echo "<h3 class = 'subtitle'>" . 
                 echo "</div>";
                 echo "<div class = 'counter'>"; 
-                echo "<div class = 'btnSub'>-</div>";
-                echo "<div class = 'count'>" . $row['productQuantity'] . "</div>";
-                echo "<div class = 'btnAdd'>+</div>";
+                echo "<button class = 'btnSub' onclick = 'btnSub()'>-</button>";
+                echo "<input type = number min = '1' max = '$productQuantity' id = 'quantity' value = '1'>";
+                echo "<button class = 'btnAdd' onclick = 'btnAdd()'>+</button>";
                 echo "</div>";
                 echo "<div class = prices'>";
                 echo "<div class = 'amount'>" . $row['productPrice'] . "</div>";
-                echo "<div class = 'remove'><u>Remove</u></div>";
+                // echo "<a href='includes/removeFromCart.inc.php?productID = $productID><button>'" . $row['productPrice'] . "</button></a>";
+                echo "<a href='includes/removeFromCart.inc.php?productID=$productID'>" . "<div class = 'remove'><u>Remove</u></div></a>";
                 echo "</div>";
                 echo "</div>";
+                echo "<input type='hidden' id='productQuantity' name='productQuantity' value='$productQuantity'>";
             } else{
 
             }
-        }
+
+        } 
 
     ?>
 
@@ -161,6 +173,29 @@ include_once 'footer.php';
         else
             $("#Menuitems").css("display", "none");
     });
+
+</script>
+<script>
+    function btnAdd() {
+        add = document.getElementById("quantity").value;
+        productQuantity = document.getElementById("productQuantity").value;
+        newAdd = parseInt(add)+1;
+        if (add >= productQuantity) {
+            newAdd = productQuantity;
+        } else{
+            newAdd = parseInt(add)+1;
+        }
+        document.getElementById("quantity").value = newAdd;       
+}
+
+    function btnSub() {
+        sub = document.getElementById("quantity").value;
+        newSub = parseInt(sub)-1;
+        if (sub <= 1){
+            newSub = 1;
+        }
+        document.getElementById("quantity").value = newSub;      
+}
 </script>
 </body>
 

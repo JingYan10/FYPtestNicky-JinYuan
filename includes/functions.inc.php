@@ -530,6 +530,20 @@ function addToCart($conn, $productID, $productQuantity, $userEmail)
     header("location: ../product.php?error=none");
     exit();
 }
+
+function removeFromCart($conn, $productID,  $userEmail){
+    $sql = "DELETE FROM cart WHERE productID='$productID' AND userEmail = '$userEmail';";
+    $stmt = mysqli_stmt_init($conn);
+    if (!mysqli_stmt_prepare($stmt, $sql)) {
+        header("location: ../cart.php?error=stmtFailed");
+        exit();
+    }
+
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_close($stmt);
+    header("location: ../cart.php?error=none");
+    exit();
+}
 function searchBidding($conn, $searchData)
 {
     $sql;
