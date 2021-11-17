@@ -7,6 +7,12 @@ if(isset($_POST["submit"])){
     $email = $_POST["email"];
     $password = $_POST["password"];
     $confirmPassword = $_POST["confirmPassword"];
+    $phoneNumber = $_POST["phoneNumber"];
+    $houseAddress = $_POST["houseAddress"];
+
+
+    // echo "phone Number : ".$phoneNumber."<br>";
+    // echo "house Address : ".$houseAddress."<br>";
 
     $file = $_FILES['file'];
     $fileName = $_FILES['file']['name'];
@@ -37,6 +43,10 @@ if(isset($_POST["submit"])){
         header("location: ../signUp.php?error=invalidEmail");
         exit();
     }
+    if(invalidPhoneNumber($phoneNumber)){
+        header("location: ../signUp.php?error=invalidPhoneNumber");
+        exit();
+    }
     if(matchingPassword($password,$confirmPassword) != false){
         header("location: ../signUp.php?error=mismatchPassword");
         exit();
@@ -45,6 +55,7 @@ if(isset($_POST["submit"])){
         header("location: ../signUp.php?error=existingUser");
         exit();
     }
+    
 
     if(in_array($fileActualExt,$allowed)){
         if($fileError == 0){
@@ -54,7 +65,7 @@ if(isset($_POST["submit"])){
                 move_uploaded_file($fileTmpName, $fileDestination);
 
                 $userImage = "includes/".$fileDestination;
-                createUser($conn,$firstName,$lastName,$email,$password,$userImage);
+                createUser($conn,$firstName,$lastName,$email,$password,$userImage,$phoneNumber,$houseAddress);
              
         
             }else{

@@ -33,6 +33,16 @@ function invalidEmail($email)
     return $result;
 }
 
+function invalidPhoneNumber($phoneNumber){
+    $result;
+    if (!preg_match("/^(\+?6?01)[0-46-9]-*[0-9]{7,8}$/", $phoneNumber)) {
+        $result = true;
+    } else {
+        $result = false;
+    }
+    return $result;
+}
+
 function matchingPassword($password, $confirmPassword)
 {
     $result;
@@ -69,9 +79,9 @@ function isExistUser($conn, $email)
 
 
 
-function createUser($conn, $firstName, $lastName, $email, $password, $userImage)
+function createUser($conn, $firstName, $lastName, $email, $password, $userImage, $userPhoneNumber, $userHouseAddress)
 {
-    $sql = "INSERT INTO users (userEmail, userFirstName, userLastName, userPassword, userRole, userImage) VALUES (?, ?, ?, ?, ?, ?);";
+    $sql = "INSERT INTO users (userEmail, userFirstName, userLastName, userPassword, userRole, userImage, userPhoneNumber, userHouseAddress) VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
     $stmt = mysqli_stmt_init($conn);
     $role = "member";
     if (!mysqli_stmt_prepare($stmt, $sql)) {
@@ -80,7 +90,7 @@ function createUser($conn, $firstName, $lastName, $email, $password, $userImage)
     }
 
     $encryptedPassword = password_hash($password, PASSWORD_DEFAULT);
-    mysqli_stmt_bind_param($stmt, "ssssss", $email, $firstName, $lastName, $encryptedPassword, $role, $userImage);
+    mysqli_stmt_bind_param($stmt, "ssssssss", $email, $firstName, $lastName, $encryptedPassword, $role, $userImage, $userPhoneNumber, $userHouseAddress);
     mysqli_stmt_execute($stmt);
     mysqli_stmt_close($stmt);
     header("location: ../signUp.php?error=none");
@@ -767,7 +777,7 @@ function createBoughtProductData($conn, $productID, $productQuantity, $paymentID
     $resultCheck = mysqli_num_rows($result);
 
     $foundDelivererData = array(); //store useremail & taskdone
-    $foundDelivererData2 = array(array());
+   
 
     $assignedDelivererEmail = "";
 
@@ -797,7 +807,8 @@ function createBoughtProductData($conn, $productID, $productQuantity, $paymentID
             }
         }
     } else {
-        $sql = "SELECT * FROM workingShift";
+        $workingShiftReplacement = getWorkingShiftReplacement($conn);
+        $sql = "SELECT * FROM workingShift where shiftNO = '$workingShiftReplacement'";
 
         $stmt = mysqli_stmt_init($conn);
         $result = mysqli_query($conn, $sql);
@@ -805,120 +816,138 @@ function createBoughtProductData($conn, $productID, $productQuantity, $paymentID
 
         if ($resultCheck > 0) {
             while ($row = mysqli_fetch_assoc($result)) {
-                $foundDelivererData2['shiftNO'][] = $row['shiftNo'];
-                $foundDelivererData2['taskDone'][] = $row['taskDone'];
-                $foundDelivererData2['userEmail'][] = $row['userEmail'];
-
-                //$foundDelivererData2 = $row['shiftNO'];
+                $foundDelivererData[] = $row['userEmail'];
+                $foundDelivererData[] += $row['taskDone'];
+            }
+            if ($resultCheck == 1) {
+                $firstDelivererEmail = $foundDelivererData[0];
+                $assignedDelivererEmail = $firstDelivererEmail;
+            }
+            if ($resultCheck == 2) {
+                $firstDelivererEmail = $foundDelivererData[0];
+                $firstDelivererTaskDone = $foundDelivererData[1];
+                $secondDelivererEmail = $foundDelivererData[2];
+                $secondDelivererTaskDone = $foundDelivererData[3];
+    
+                // assign job to the deliverer based on the tasks that they've done
+                if ($firstDelivererTaskDone == 0 && $secondDelivererTaskDone == 0) {
+                    $assignedDelivererEmail = $firstDelivererEmail;
+                } else if ($firstDelivererTaskDone > $secondDelivererTaskDone) {
+                    $assignedDelivererEmail = $secondDelivererEmail;
+                } else if ($secondDelivererTaskDone > $firstDelivererTaskDone) {
+                    $assignedDelivererEmail = $firstDelivererEmail;
+                }
             }
         }
+        $shiftNo =substr($workingShiftReplacement,5);
     }
 
-    //shipmentDate = +1day of the product purchase day
-    date_default_timezone_set("Asia/Kuala_Lumpur");
-    $shipmentDate = date('d/m/y h:i:s', strtotime('+1 day'));
+//shipmentDate = +1day of the product purchase day
+date_default_timezone_set("Asia/Kuala_Lumpur");
+$shipmentDate = date('d/m/y h:i:s', strtotime('+1 day'));
 
 
 
-    //insert into shipment
+//insert into shipment
 
-    $shipmentStatus = "taskAssigned";
-    $sql = "INSERT INTO shipment (soldProductID, soldProductQuantity, shipmentDate, userEmail, shipmentStatus, shiftNO) VALUES ('$soldProductID', $productQuantity, '$shipmentDate', '$assignedDelivererEmail','$shipmentStatus',$shiftNo)";
+$shipmentStatus = "taskAssigned";
+$sql = "INSERT INTO shipment (soldProductID, soldProductQuantity, shipmentDate, userEmail, shipmentStatus, shiftNO) VALUES ('$soldProductID', $productQuantity, '$shipmentDate', '$assignedDelivererEmail','$shipmentStatus',$shiftNo)";
 
-    $stmt = mysqli_stmt_init($conn);
-    if (!mysqli_stmt_prepare($stmt, $sql)) {
-        header("location: ../buyProduct.inc.php?error=stmtFailed2");
-        exit();
-    }
-    mysqli_stmt_execute($stmt);
-    mysqli_stmt_close($stmt);
-
-    //find just added shipmentID
-    $sql = "SELECT * FROM shipment";
-
-    $stmt = mysqli_stmt_init($conn);
-    $result = mysqli_query($conn, $sql);
-    $resultCheck = mysqli_num_rows($result);
-    $shipmentID = 0;
-    if ($resultCheck > 0) {
-        while ($row = mysqli_fetch_assoc($result)) {
-            $shipmentID++;
-        }
-    }
-
-
-    // get latest shipmentID
-    $sql = "SELECT * FROM shipment";
-
-    $stmt = mysqli_stmt_init($conn);
-    $result = mysqli_query($conn, $sql);
-    $resultCheck = mysqli_num_rows($result);
-    $shipmentID = "";
-
-
-    $databaseShiftNo = "";
-    if ($resultCheck > 0) {
-        while ($row = mysqli_fetch_assoc($result)) {
-            $shipmentID = $row['shipmentID'];
-        }
-    }
-    // get latest soldProductID
-    $sql = "SELECT * FROM soldProduct";
-
-    $stmt = mysqli_stmt_init($conn);
-    $result = mysqli_query($conn, $sql);
-    $resultCheck = mysqli_num_rows($result);
-    $soldProductID = "";
-
-
-    $databaseShiftNo = "";
-    if ($resultCheck > 0) {
-        while ($row = mysqli_fetch_assoc($result)) {
-            $soldProductID = $row['soldProductID'];
-        }
-    }
-
-    //update soldProduct with gotten shipmentID
-
-    $sql = "UPDATE soldProduct SET shipmentID = '$shipmentID' WHERE soldProductID = $soldProductID  ";
-    $stmt = mysqli_stmt_init($conn);
-    if (!mysqli_stmt_prepare($stmt, $sql)) {
-        header("location: ../buyProduct.inc.php?error=stmtFailed3");
-        exit();
-    }
-    mysqli_stmt_execute($stmt);
-    mysqli_stmt_close($stmt);
-    echo "done";
-
-    //get deliverer current taskdone
-    $sql = "SELECT * FROM workingshift WHERE userEmail = '$assignedDelivererEmail'";
-
-    $stmt = mysqli_stmt_init($conn);
-    $result = mysqli_query($conn, $sql);
-    $resultCheck = mysqli_num_rows($result);
-    $currentTaskDone = 0;
-
-
-    if ($resultCheck > 0) {
-        while ($row = mysqli_fetch_assoc($result)) {
-            $currentTaskDone = (int) $row['taskDone'];
-        }
-    }
-
-    //update taskdone of deliverer at workingshift
-    $newTaskDone = $currentTaskDone + 1;
-
-    $sql = "UPDATE workingshift SET taskDone = '$newTaskDone' WHERE  userEmail = '$assignedDelivererEmail'  ";
-    $stmt = mysqli_stmt_init($conn);
-    if (!mysqli_stmt_prepare($stmt, $sql)) {
-        header("location: ../buyProduct.inc.php?error=stmtFailed3");
-        exit();
-    }
-    mysqli_stmt_execute($stmt);
-    mysqli_stmt_close($stmt);
-    echo "done";
+$stmt = mysqli_stmt_init($conn);
+if (!mysqli_stmt_prepare($stmt, $sql)) {
+    header("location: ../buyProduct.inc.php?error=stmtFailed2");
+    exit();
 }
-function testing2($conn)
+mysqli_stmt_execute($stmt);
+mysqli_stmt_close($stmt);
+
+//find just added shipmentID
+$sql = "SELECT * FROM shipment";
+
+$stmt = mysqli_stmt_init($conn);
+$result = mysqli_query($conn, $sql);
+$resultCheck = mysqli_num_rows($result);
+$shipmentID = 0;
+if ($resultCheck > 0) {
+    while ($row = mysqli_fetch_assoc($result)) {
+        $shipmentID++;
+    }
+}
+
+
+// get latest shipmentID
+$sql = "SELECT * FROM shipment";
+
+$stmt = mysqli_stmt_init($conn);
+$result = mysqli_query($conn, $sql);
+$resultCheck = mysqli_num_rows($result);
+$shipmentID = "";
+
+
+$databaseShiftNo = "";
+if ($resultCheck > 0) {
+    while ($row = mysqli_fetch_assoc($result)) {
+        $shipmentID = $row['shipmentID'];
+    }
+}
+// get latest soldProductID
+$sql = "SELECT * FROM soldProduct";
+
+$stmt = mysqli_stmt_init($conn);
+$result = mysqli_query($conn, $sql);
+$resultCheck = mysqli_num_rows($result);
+$soldProductID = "";
+
+
+$databaseShiftNo = "";
+if ($resultCheck > 0) {
+    while ($row = mysqli_fetch_assoc($result)) {
+        $soldProductID = $row['soldProductID'];
+    }
+}
+
+//update soldProduct with gotten shipmentID
+
+$sql = "UPDATE soldProduct SET shipmentID = '$shipmentID' WHERE soldProductID = $soldProductID  ";
+$stmt = mysqli_stmt_init($conn);
+if (!mysqli_stmt_prepare($stmt, $sql)) {
+    header("location: ../buyProduct.inc.php?error=stmtFailed3");
+    exit();
+}
+mysqli_stmt_execute($stmt);
+mysqli_stmt_close($stmt);
+echo "done";
+
+//get deliverer current taskdone
+$sql = "SELECT * FROM workingshift WHERE userEmail = '$assignedDelivererEmail'";
+
+$stmt = mysqli_stmt_init($conn);
+$result = mysqli_query($conn, $sql);
+$resultCheck = mysqli_num_rows($result);
+$currentTaskDone = 0;
+
+
+if ($resultCheck > 0) {
+    while ($row = mysqli_fetch_assoc($result)) {
+        $currentTaskDone = (int) $row['taskDone'];
+    }
+}
+
+//update taskdone of deliverer at workingshift
+$newTaskDone = $currentTaskDone + 1;
+
+$sql = "UPDATE workingshift SET taskDone = '$newTaskDone' WHERE  userEmail = '$assignedDelivererEmail'  ";
+$stmt = mysqli_stmt_init($conn);
+if (!mysqli_stmt_prepare($stmt, $sql)) {
+    header("location: ../buyProduct.inc.php?error=stmtFailed3");
+    exit();
+}
+mysqli_stmt_execute($stmt);
+mysqli_stmt_close($stmt);
+echo "done";
+    
+}
+function getWorkingShiftReplacement($conn)
 {
     $sql = "SELECT * FROM workingShift";
 
@@ -938,6 +967,7 @@ function testing2($conn)
     $shift5TaskDone = 0;
     $shift6TaskDone = 0;
     $shift7TaskDone = 0;
+
 
     if ($resultCheck > 0) {
 
@@ -979,21 +1009,42 @@ function testing2($conn)
                     $shift7TaskDone += $foundDelivererData2['taskDone'][$i];
                     break;
             }
-            // remove all taskdone which is 0
-            
-        
-            // get highest taskDone
-            $lowestTaskDone = min(
-                $shift1TaskDone,
-                $shift2TaskDone,
-                $shift3TaskDone,
-                $shift4TaskDone,
-                $shift5TaskDone,
-                $shift6TaskDone,
-                $shift7TaskDone
-            );
         }
-    }
+        $arrayShiftTaskDone = array(
+            array('shiftNO' => 'shift1', 'taskDone' => $shift1TaskDone),
+            array('shiftNO' => 'shift2', 'taskDone' => $shift2TaskDone),
+            array('shiftNO' => 'shift3', 'taskDone' => $shift3TaskDone),
+            array('shiftNO' => 'shift4', 'taskDone' => $shift4TaskDone),
+            array('shiftNO' => 'shift5', 'taskDone' => $shift5TaskDone),
+            array('shiftNO' => 'shift6', 'taskDone' => $shift6TaskDone),
+            array('shiftNO' => 'shift7', 'taskDone' => $shift7TaskDone),
+        );
 
-    return $lowestTaskDone;
+        // remove all taskdone which is 0
+        $filterShiftTaskDone1 = array_filter($arrayShiftTaskDone, function ($var) {
+            return ($var['taskDone'] != 0);
+        });
+
+
+        // get shift that has lowest task done 
+        $min = min(array_column($filterShiftTaskDone1, 'taskDone'));
+
+        $data = $filterShiftTaskDone1;
+
+        $getLowestTaskDone =  array_filter(array_map(function ($data) use ($min) {
+            return $data['taskDone'] == $min ? $data : null;
+        }, $data));
+
+        //reassign the index of the array incase two result ease to trace
+        $newGetlowestTaskDone= array_values($getLowestTaskDone);
+
+     
+        $shiftResult = array_column($newGetlowestTaskDone,'shiftNO');
+
+        // get only the first data
+        $finalShiftResult = $shiftResult[0];
+        
+
+    }
+    return $finalShiftResult; 
 }

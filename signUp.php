@@ -27,6 +27,15 @@ include_once 'header.php';
                 <label>Email</label>
             </div>
             <div class="txt_field">
+                <input type="text" name="phoneNumber"  required>
+                <span></span>
+                <label>Phone number</label>
+            </div>
+            <div class="txt_field">
+                <p>House address</p>
+            <textarea rows="4" cols="33" name="houseAddress" class="houseAddress" required></textarea>
+            </div>
+            <div class="txt_field">
                 <input type="password" name="password" required>
                 <span></span>
                 <label>Password</label>
@@ -51,7 +60,9 @@ include_once 'header.php';
                 echo "<div style='text-align:center;color:red;font-weight:600'>firstname / lastname cannot have digit(s)</div>";
             } else if ($_GET["error"] == "invalidEmail") {
                 echo "<div style='text-align:center;color:red;font-weight:600'>inccorect email format</div>";
-            } else if ($_GET["error"] == "mismatchPassword") {
+            }else if ($_GET["error"] == "invalidPhoneNumber") {
+                echo "<div style='text-align:center;color:red;font-weight:600'>inccorect phone number format</div>";
+            }else if ($_GET["error"] == "mismatchPassword") {
                 echo "<div style='text-align:center;color:red;font-weight:600'>password and confirm password are not matched</div>";
             } else if ($_GET["error"] == "existingUser") {
                 echo "<div style='text-align:center;color:red;font-weight:600'>this email has registered before</div>";
@@ -72,7 +83,7 @@ include_once 'header.php';
     </div>
 </section>
 
-<div class="removethis" style="margin-bottom: 700px;"></div>
+<div class="removethis" style="margin-bottom: 900px;"></div>
 
 
 

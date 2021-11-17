@@ -9,19 +9,19 @@
             if ($resultCheck > 0) {
                 $_SESSION["workingShiftDataExistence"] = true;
             }
-            if($_SESSION["workingShiftDataExistence"] == false){
+            if ($_SESSION["workingShiftDataExistence"] == false) {
                 echo "<a href='selectWorkingShift.php'><input type='button' class='btnCreateProduct' value='Select working shift'></a>";
             }
             ?>
-            
-            
+
+
             <button class="btnShowProductListing" onclick="toggleProductListing()">show delivery jobs</button>
             <input type="text" class="productSearchBar" name="search" id="search" placeholder="search by product name">
             <div id="product-listing" style="display:none;" class="product-listing">
 
 
 
-            <div id="result"></div>
+                <div id="result"></div>
                 <?php
                 $userEmail = $_SESSION["userEmail"];
 
@@ -47,10 +47,9 @@
                         echo "<td>" . $row['soldProductQuantity'] . "</td>";
                         echo "<td>" . $row['shipmentDate'] . "</td>";
                         echo "<td>";
-                        $productData = "productID=" . $row['productID'] . "&productName=" . $row['productName'] . "&productImage=" . $row['productImage'] . "&productQuantity=" . $row['productQuantity'] . "&productPrice=" . $row['productPrice'];
-                        echo "<a href='editProduct.php?" . $productData . "'>" . "<button class='btnEditProduct'>edit</button></a>";
-                        echo "<a href='deleteProduct.php?" . $productData . "'>" . "<button class='btnDeleteProduct'>delete</button></a>";
-                        echo "<a href='createBidding.php?" . $productData . "'>" . "<button class='btnCreateBidding'>create bidding</button></a>";
+                        $shipmentData = "shipmentID=" . $row['shipmentID'] . "&soldProductID=" . $row['soldProductID'] . "&soldProductQuantity=" . $row['soldProductQuantity'] . "&shipmentDate=" . $row['shipmentDate'];
+                        echo "<a href='viewShipmentDetail.php?" . $shipmentData . "'>" . "<button class='btnEditProduct'>view</button></a>";
+                        
                         echo "</td>";
                         echo "</tr>";
                     }
