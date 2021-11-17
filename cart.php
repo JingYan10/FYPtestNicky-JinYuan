@@ -46,18 +46,19 @@ include_once 'includes/databaseHandler.inc.php';
                 //echo "(from sql) product ID in cart : ".$row2['productID']."<br>";
             }
         } else {
-            header("location: ../../product.php?error=noCartData"); //directory problem 
-            exit();
+            echo "<script> window.history.back(); </script>";
         }
 
          if ($resultCheck > 0) {
              
-         }while($row = mysqli_fetch_assoc($result)){
+         }
+         
+         while($row = mysqli_fetch_assoc($result)){
 
             $productQuantity = $row['productQuantity'];
             $productID = $row['productID'];
             
-            //the buttons are stupid af they dont know which button to add fucking retarded piece of shit mtfk
+            //problem : the buttons 
             if (in_array($row['productID'], $c)){ 
                 echo "<div class = 'Cart-Items'>";
                 echo "<div class = 'image-box'>". "<img src = " . $row['productImage'] . ">";
@@ -67,12 +68,12 @@ include_once 'includes/databaseHandler.inc.php';
                 // echo "<h3 class = 'subtitle'>" . 
                 echo "</div>";
                 echo "<div class = 'counter'>"; 
-                echo "<button class = 'btnSub' onclick = 'btnSub()'>-</button>";
-                echo "<input type = number min = '1' max = '$productQuantity' id = 'quantity' value = '1'>";
-                echo "<button class = 'btnAdd' onclick = 'btnAdd()'>+</button>";
+                echo "<button class = 'btnSub' onclick = 'btnSub($productID)'>-</button>";
+                echo "<input type = number min = '1' max = '$productQuantity' id = 'quantity$productID' value = '1'>";
+                echo "<button class = 'btnAdd' onclick = 'btnAdd($productID)'>+</button>";
                 echo "</div>";
                 echo "<div class = prices'>";
-                echo "<div class = 'amount'>" . $row['productPrice'] . "</div>";
+                echo "<div class = 'amount$productID'>" . $row['productPrice'] . "</div>";
                 // echo "<a href='includes/removeFromCart.inc.php?productID = $productID><button>'" . $row['productPrice'] . "</button></a>";
                 echo "<a href='includes/removeFromCart.inc.php?productID=$productID'>" . "<div class = 'remove'><u>Remove</u></div></a>";
                 echo "</div>";
@@ -176,26 +177,38 @@ include_once 'footer.php';
 
 </script>
 <script>
-    function btnAdd() {
-        add = document.getElementById("quantity").value;
+    function btnAdd(id) {
+        add = document.getElementById("quantity"+id).value; // before quantity
         productQuantity = document.getElementById("productQuantity").value;
-        newAdd = parseInt(add)+1;
+        amountQuantity = $(".amount" + id).text(); // value in html
+        newAdd = parseInt(add)+1; // after quantity
+
         if (add >= productQuantity) {
             newAdd = productQuantity;
         } else{
             newAdd = parseInt(add)+1;
         }
-        document.getElementById("quantity").value = newAdd;       
+        document.getElementById("quantity"+id).value = newAdd; 
+        
+        originalPrice = amountQuantity/add // divide up to find ori value exp = 100/5 = rm20
+        newPrice1 = Math.round((originalPrice*newAdd) * 100)/100; 
+        $(".amount"+id).text(newPrice1);   // set after quantity * original price
 }
 
-    function btnSub() {
-        sub = document.getElementById("quantity").value;
+    function btnSub(id) {
+        sub = document.getElementById("quantity"+id).value;
+        productQuantity = document.getElementById("productQuantity").value;
+        amountQuantity = $(".amount" + id).text();
         newSub = parseInt(sub)-1;
         if (sub <= 1){
             newSub = 1;
         }
-        document.getElementById("quantity").value = newSub;      
-}
+        document.getElementById("quantity"+id).value = newSub; 
+        originalPrice = amountQuantity/sub
+        newPrice = Math.round((originalPrice*newSub) * 100)/100; 
+        $(".amount"+id).text(newPrice);  
+    }
+        
 </script>
 </body>
 
