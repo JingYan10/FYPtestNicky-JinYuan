@@ -51,10 +51,8 @@ if ($resultCheck > 0) {
             //print_r ($b);
             //echo "(from sql) product ID in cart : ".$row2['productID']."<br>";
         }
-    } else {
-        echo "No product is found!";
-    }
-            if ($resultCheck > 0) {
+    } 
+        if ($resultCheck > 0) {
 
                 while ($row = mysqli_fetch_assoc($result)) {
                     if (in_array($row['productID'], $b)) {
