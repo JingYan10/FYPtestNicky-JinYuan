@@ -170,7 +170,14 @@
 	cursor: pointer;
 }
 
-.count{
+/* .count{
+	font-size: 20px;
+	font-family: 'Open Sans';
+	font-weight: 600;
+	color: #202020;
+} */
+
+.input[type = number]{
 	font-size: 20px;
 	font-family: 'Open Sans';
 	font-weight: 600;

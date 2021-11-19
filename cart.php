@@ -53,13 +53,17 @@ include_once 'includes/databaseHandler.inc.php';
              
          }
          
+         $totalPrice = 0;
          while($row = mysqli_fetch_assoc($result)){
-
+            
             $productQuantity = $row['productQuantity'];
             $productID = $row['productID'];
             
             //problem : the buttons 
             if (in_array($row['productID'], $c)){ 
+                
+                $totalPrice += $row['productPrice'];
+
                 echo "<div class = 'Cart-Items'>";
                 echo "<div class = 'image-box'>". "<img src = " . $row['productImage'] . ">";
                 echo "</div>";
@@ -70,6 +74,7 @@ include_once 'includes/databaseHandler.inc.php';
                 echo "<div class = 'counter'>"; 
                 echo "<button class = 'btnSub' onclick = 'btnSub($productID)'>-</button>";
                 echo "<input type = number min = '1' max = '$productQuantity' id = 'quantity$productID' value = '1'>";
+                // echo "</div>";
                 echo "<button class = 'btnAdd' onclick = 'btnAdd($productID)'>+</button>";
                 echo "</div>";
                 echo "<div class = prices'>";
@@ -116,7 +121,7 @@ include_once 'includes/databaseHandler.inc.php';
                     <div class="Subtotal">Sub-Total</div>
                     <div class="items">2 items</div>
                 </div>
-                <div class="total-amount">$6.18</div>
+                <div class="total-amount" id = "total-amount">$<?php echo $totalPrice ?></div>
             </div>
             <button class="button">Checkout</button>
         </div>
@@ -176,40 +181,56 @@ include_once 'footer.php';
     });
 
 </script>
+
 <script>
     function btnAdd(id) {
         add = document.getElementById("quantity"+id).value; // before quantity
         productQuantity = document.getElementById("productQuantity").value;
         amountQuantity = $(".amount" + id).text(); // value in html
         newAdd = parseInt(add)+1; // after quantity
+        totalPrice = parseFloat($(".total-amount").text().replace('$', '')); 
 
         if (add >= productQuantity) {
             newAdd = productQuantity;
         } else{
-            newAdd = parseInt(add)+1;
+            newAdd = parseInt(add) + 1;
         }
         document.getElementById("quantity"+id).value = newAdd; 
         
         originalPrice = amountQuantity/add // divide up to find ori value exp = 100/5 = rm20
         newPrice1 = Math.round((originalPrice*newAdd) * 100)/100; 
-        $(".amount"+id).text(newPrice1);   // set after quantity * original price
+
+        totalCalculate = totalPrice+originalPrice
+
+        $(".amount"+id).text(newPrice1);
+
+        if (add < productQuantity) {
+            $(".total-amount").text("$"+Math.round(totalCalculate*100)/100);   // set after quantity * original price
+        }      
 }
+
 
     function btnSub(id) {
         sub = document.getElementById("quantity"+id).value;
         productQuantity = document.getElementById("productQuantity").value;
         amountQuantity = $(".amount" + id).text();
         newSub = parseInt(sub)-1;
+        originalPrice = amountQuantity/sub
         if (sub <= 1){
             newSub = 1;
+        } else {
+            totalPrice1 =  parseFloat($(".total-amount").text().replace('$', '')) - originalPrice;
+
         }
         document.getElementById("quantity"+id).value = newSub; 
-        originalPrice = amountQuantity/sub
-        newPrice = Math.round((originalPrice*newSub) * 100)/100; 
-        $(".amount"+id).text(newPrice);  
-    }
         
+        newPrice = Math.round((originalPrice*newSub) * 100)/100; 
+    
+        $(".amount"+id).text(newPrice);
+        $(".total-amount").text("$"+Math.round((totalPrice1) * 100)/100);    
+    }     
 </script>
+
 </body>
 
 </html>

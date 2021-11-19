@@ -1,4 +1,4 @@
-*{
+/* *{
     box-sizing: border-box;
     -webkit-box-sizing: border-box;
 }
@@ -92,7 +92,7 @@ h1{
 }
 
 /* PROFILE.PHP */
-.profile_container{
+/* .profile_container{
     margin:  0 auto;
     max-width: 600px;
     background-color: #F8FAFC;
@@ -168,7 +168,7 @@ h1{
 
 /* ALL USERS */
 
-.all_users .usersWrapper{   
+/* .all_users .usersWrapper{   
     display: flex;
 
     flex-wrap: wrap;
@@ -257,11 +257,11 @@ h1{
 .unfriend:hover,.ignoreRequest:hover,.cancleRequest:hover{
     background-color: #E3342F;
     
-}
+}*/
 
 /* RESPONSIVE */
 @media only screen and (max-width: 560px) {
     .all_users .user_box{
         width: 100%;
     }
-  }
+  } 
