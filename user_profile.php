@@ -124,6 +124,22 @@ else if ($_SESSION["userRole"] == "deliverer") {
         });
     });
 </script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("#search2").keyup(function() {
+            $.ajax({
+                type: 'POST',
+                url: 'includes/searchShipment.inc.php',
+                data: {
+                    name2: $("#search2").val(),
+                },
+                success: function(data) {
+                    $("#output2").html(data);
+                }
+            });
+        });
+    });
+</script>
 
 <?php
 include_once 'footer.php';

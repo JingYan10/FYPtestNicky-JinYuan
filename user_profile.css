@@ -270,6 +270,7 @@ table th {
 
 .productSearchBar {
     height: 40px;
+    width: 420px;
     font-size: 18px;
     font-weight: 400;
 }

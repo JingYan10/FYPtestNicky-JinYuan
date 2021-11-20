@@ -16,7 +16,7 @@
 
 
             <button class="btnShowProductListing" onclick="toggleProductListing()">show delivery jobs</button>
-            <input type="text" class="productSearchBar" name="search" id="search" placeholder="search by product name">
+            <input type="text" class="productSearchBar" name="search2" id="search2" placeholder="search by shipment status, type (all) to display all">
             <div id="product-listing" style="display:none;" class="product-listing">
 
 
@@ -25,7 +25,7 @@
                 <?php
                 $userEmail = $_SESSION["userEmail"];
 
-                $sql = "SELECT * FROM shipment where userEmail='$userEmail' ";
+                $sql = "SELECT * FROM shipment where userEmail='$userEmail' GROUP BY shipmentArrangementNo; ";
                 $result = mysqli_query($conn, $sql);
                 $resultCheck = mysqli_num_rows($result);
 
@@ -33,23 +33,21 @@
                     echo '<table>
                             <thead>
                                 <tr>
-                                    <th scope="col">Shipment ID</th>
-                                    <th scope="col">Sold product ID</th>
-                                    <th scope="col">Product quantity</th>
                                     <th scope="col">Shipment date</th>
+                                    <th scope="col">Shipment Arrangement No</th>
+                                    <th scope="col">Shipment status</th>
                                     <th scope="col"></th>
                                 </tr>
-                            </thead><tbody id="output">';
-                    while ($row = mysqli_fetch_assoc($result)) {
-                        echo "<tr>";
-                        echo "<td>" . "S00" . $row['shipmentID'] . "</td>";
-                        echo "<td>" . $row['soldProductID'] . "</td>";
-                        echo "<td>" . $row['soldProductQuantity'] . "</td>";
-                        echo "<td>" . $row['shipmentDate'] . "</td>";
-                        echo "<td>";
-                        $shipmentData = "shipmentID=" . $row['shipmentID'] . "&soldProductID=" . $row['soldProductID'] . "&soldProductQuantity=" . $row['soldProductQuantity'] . "&shipmentDate=" . $row['shipmentDate'];
-                        echo "<a href='viewShipmentDetail.php?" . $shipmentData . "'>" . "<button class='btnEditProduct'>view</button></a>";
+                            </thead><tbody id="output2">';
                         
+                    while ($row = mysqli_fetch_assoc($result)) { 
+                        echo "<tr>";
+                        echo "<td>" . $row['shipmentDate'] . "</td>";
+                        echo "<td>" . $row['shipmentArrangementNo'] . "</td>";
+                        echo "<td>" . $row['shipmentStatus'] . "</td>";
+                        echo "<td>";
+                        $shipmentData = "shipmentID=" . $row['shipmentID'] . "&soldProductID=" . $row['soldProductID'] . "&soldProductQuantity=" . $row['soldProductQuantity'] . "&shipmentDate=" . $row['shipmentDate']."&shipmentArrangementNo=" . $row['shipmentArrangementNo']."&shipmentStatus=" . $row['shipmentStatus'];
+                        echo "<a href='viewShipmentDetail.php?" . $shipmentData . "'>" . "<button class='btnEditProduct'>view</button></a>";
                         echo "</td>";
                         echo "</tr>";
                     }
@@ -59,9 +57,6 @@
                 }
                 ?>
                 <div style="margin-bottom:50px;"></div>
-
-
-
 
 
             </div>
