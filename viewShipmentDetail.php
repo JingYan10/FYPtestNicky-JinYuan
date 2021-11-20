@@ -25,8 +25,9 @@ if (isset($_GET["error"])) {
     $_SESSION["soldProductPaymentID"];
     $_SESSION["soldProductUserEmail"];
     $_SESSION["soldProductShipmentID"];
-    $_SESSION["productName"];
-    $_SESSION["productImage"];
+    $_SESSION["shipmentArrangementNo"];
+    $_SESSION["shipmentStatus"];
+
 
     $_SESSION["userEmail"];
     $_SESSION["userFirstName"];
@@ -35,54 +36,66 @@ if (isset($_GET["error"])) {
     $_SESSION["userHouseAddress"];
 } else {
 
-
-    if (isset($_GET["shipmentID"])) {
-
-        $_SESSION["shipmentID"] = $_GET["shipmentID"];
-        $_SESSION["soldProductID"] = $_GET["shipmentID"];
-        $_SESSION["soldProductQuantity"] = $_GET["shipmentID"];
-        $_SESSION["shipmentDate"] = $_GET["shipmentDate"];
-
-        $shipmentID = $_SESSION["shipmentID"];
-        $shipmentSoldProductID = $_SESSION["soldProductID"];
+    $_SESSION["shipmentID"] = $_GET["shipmentID"];
+    $_SESSION["soldProductID"] = $_GET["soldProductID"];
+    $_SESSION["soldProductQuantity"] = $_GET["soldProductQuantity"];
+    $_SESSION["shipmentDate"] = $_GET["shipmentDate"];
+    $_SESSION["shipmentArrangementNo"] = $_GET["shipmentArrangementNo"];
+    $_SESSION["shipmentStatus"] = $_GET["shipmentStatus"];
 
 
+    // echo "shipment status = ".$_SESSION["shipmentStatus"];
+    $shipmentID = $_SESSION["shipmentID"];
+    $shipmentSoldProductID = $_SESSION["soldProductID"];
 
-        $sql = "SELECT * FROM soldProduct where soldProductID='$shipmentSoldProductID'";
-        $result = mysqli_query($conn, $sql);
-        $resultCheck = mysqli_num_rows($result);
-        if ($resultCheck > 0) {
-            while ($row = mysqli_fetch_assoc($result)) {
-                $_SESSION["soldProductProductID"] = $row['productID'];
-                $_SESSION["soldProductProductQuantity"] = $row['productQuantity'];
-                $_SESSION["soldProductPaymentID"] = $row['paymentID'];
-                $_SESSION["soldProductUserEmail"] = $row['userEmail'];
-                $_SESSION["soldProductShipmentID"] = $row['shipmentID'];
-                $_SESSION["soldProductUserEmail"] = $row['userEmail'];
-            }
-        } else {
-            header("location: ../login.php?error=noUserProfile");
-            exit();
-        }
-        $userEmail = $_SESSION["soldProductUserEmail"];
 
-        $sql = "SELECT * FROM users where userEmail='$userEmail'";
-        $result = mysqli_query($conn, $sql);
-        $resultCheck = mysqli_num_rows($result);
-        if ($resultCheck > 0) {
-            while ($row = mysqli_fetch_assoc($result)) {
-                $_SESSION["userFirstName"] = $row['userFirstName'];
-                $_SESSION["userLastName"] = $row['userLastName'];
-                $_SESSION["userPhoneNumber"] = $row['userPhoneNumber'];
-                $_SESSION["userHouseAddress"] = $row['userHouseAddress'];
-            }
-        } else {
-            header("location: ../login.php?error=noUserProfile");
-            exit();
-        }
+
+    //print_r($arraySoldProduct);
+
+}
+$shipmentArrangementNo = $_SESSION["shipmentArrangementNo"];
+
+// echo "<br> shipmentArrangementNo : ".$shipmentArrangementNo;
+
+$sql = "SELECT * FROM soldProduct where shipmentArrangementNo='$shipmentArrangementNo'";
+$result = mysqli_query($conn, $sql);
+$resultCheck = mysqli_num_rows($result);
+
+$arraySoldProduct = array();
+
+if ($resultCheck > 0) {
+    while ($row = mysqli_fetch_assoc($result)) {
+        $_SESSION["soldProductProductID"] = $row['productID'];
+        $_SESSION["soldProductProductQuantity"] = $row['productQuantity'];
+        $_SESSION["soldProductPaymentID"] = $row['paymentID'];
+        $_SESSION["soldProductUserEmail"] = $row['userEmail'];
+        $_SESSION["soldProductShipmentID"] = $row['shipmentID'];
+        $_SESSION["soldProductUserEmail"] = $row['userEmail'];
+        $arraySoldProduct['soldProductProductID'][] = $row['productID'];
+        $arraySoldProduct['soldProductProductQuantity'][] = $row['productQuantity'];
     }
+} else {
+    header("location: ../login.php?error=noUserProfile1");
+    exit();
 }
 
+$userEmail = $_SESSION["soldProductUserEmail"];
+
+$sql = "SELECT * FROM users where userEmail='$userEmail'";
+$result = mysqli_query($conn, $sql);
+$resultCheck = mysqli_num_rows($result);
+
+if ($resultCheck > 0) {
+    while ($row = mysqli_fetch_assoc($result)) {
+        $_SESSION["userFirstName"] = $row['userFirstName'];
+        $_SESSION["userLastName"] = $row['userLastName'];
+        $_SESSION["userPhoneNumber"] = $row['userPhoneNumber'];
+        $_SESSION["userHouseAddress"] = $row['userHouseAddress'];
+    }
+} else {
+    header("location: ../login.php?error=noUserProfile6");
+    exit();
+}
 
 ?>
 
@@ -123,21 +136,39 @@ if (isset($_GET["error"])) {
             <summary>Deliver Product</summary>
             <div class="content">
                 <?php
+
+
                 if (isset($_SESSION["soldProductProductID"])) {
-                    $soldProductProductID = $_SESSION["soldProductProductID"];
-                    $sql = "SELECT * FROM product where productID='$soldProductProductID'";
-                    $result = mysqli_query($conn, $sql);
-                    $resultCheck = mysqli_num_rows($result);
-                    if ($resultCheck > 0) {
-                        while ($row = mysqli_fetch_assoc($result)) {
-                            echo "Product name : ".$row['productName']."<br>";
-                            echo "Product quantity :".$_SESSION['soldProductProductQuantity']."<br>";
-                            echo "Product image : ".$row['productImage']."<br>";
+                    //$soldProductProductID = $_SESSION["soldProductProductID"];
+                    echo '<table>
+                            <thead>
+                                <tr>
+                                    <th scope="col">Product name</th>
+                                    <th scope="col">Product quantity</th>
+                                    <th scope="col">Product image</th>
+                                </tr>
+                            </thead><tbody id="output">';
+
+                    for ($i = 0; $i < sizeOf($arraySoldProduct['soldProductProductID']); $i++) {
+                        $soldProductProductID = $arraySoldProduct['soldProductProductID'][$i];
+
+                        $sql = "SELECT * FROM product where productID='$soldProductProductID'";
+                        $result = mysqli_query($conn, $sql);
+                        $resultCheck = mysqli_num_rows($result);
+                        if ($resultCheck > 0) {
+                            while ($row = mysqli_fetch_assoc($result)) {
+                                echo "<tr>";
+                                echo "<td>" . $row['productName'] . "</td>";
+                                echo "<td>" . $arraySoldProduct['soldProductProductQuantity'][$i] . "</td>";
+                                echo "<td>" . "<img style='height:140px;width:140px;' src=" . $row['productImage'] . ">" . "</td>";
+                                echo "</tr>";
+                            }
+                        } else {
+                            header("location: ../user_profile.php?error=noProductInfo");
+                            exit();
                         }
-                    } else {
-                        header("location: ../user_profile.php?error=noProductInfo");
-                        exit();
                     }
+                    echo ' </tbody></table>';
                 } else {
                     header("location: ../bidding.php?error=noSoldProductID");
                     exit();
@@ -145,6 +176,47 @@ if (isset($_GET["error"])) {
                 ?>
             </div>
         </details>
+
+
+
+        <?php
+        if (isset($_GET["error"])) {
+            if ($_GET["error"] == "noneDelivering") {
+                echo "<form action='includes/verifyDeliveryPin.inc.php' method='post'>";
+                echo "<details>";
+                echo "<summary> <input type='hidden' name='clientEmail' value='$userEmail'> <input type='hidden' name='shipmentArrangementNo' value='$shipmentArrangementNo'> <input type='text' name='deliveryPin' class='inputDeliveryPin' style='height:40px;' placeholder='deliver pin'><input class='btnDeliver' style='margin-left: 150px;' type='submit' name='submit'></summary>";
+                echo "</details>";
+                echo "</form>";
+            } else if ($_GET["error"] == "mismatchDeliveryPin") {
+                echo "<form action='includes/verifyDeliveryPin.inc.php' method='post'>";
+                echo "<details>";
+                echo "<summary> <input type='hidden' name='clientEmail' value='$userEmail'> <input type='hidden' name='shipmentArrangementNo' value='$shipmentArrangementNo'> <input type='text' name='deliveryPin' class='inputDeliveryPin' style='height:40px;' placeholder='deliver pin'><input class='btnDeliver' style='margin-left: 150px;' type='submit' name='submit'>";
+                echo "<p style='text-align:center;color:white;font-weight:600'>error delivery pin</p>";
+                echo "</summary>";
+                echo "</details>";
+                echo "</form>";
+            }
+        } else {
+
+            if ($_SESSION["shipmentStatus"] == "taskAssigned") {
+                echo "<details>";
+                $shipmentData = "shipmentArrangementNo=" . $shipmentArrangementNo . "&clientEmail=" . $userEmail;
+                echo "<summary> <a href='includes/updateShipmentStatus.inc.php?$shipmentData'><input class='btnDeliver' style='margin-left: 310px;' type='button' value='deliver'></a></summary>";
+                echo "</details>";
+            } else if ($_SESSION["shipmentStatus"] == "delivering") {
+                echo "<form action='includes/verifyDeliveryPin.inc.php' method='post'>";
+                echo "<details>";
+                echo "<summary> <input type='hidden' name='clientEmail' value='$userEmail'> <input type='hidden' name='shipmentArrangementNo' value='$shipmentArrangementNo'> <input type='text' name='deliveryPin' class='inputDeliveryPin' style='height:40px;' placeholder='deliver pin'><input class='btnDeliver' style='margin-left: 150px;' type='submit' name='submit'></summary>";
+                echo "</details>";
+                echo "</form>";
+            } else if ($_SESSION["shipmentStatus"] == "delivered") {
+                
+            }
+        }
+        ?>
+
+
+
 
     </div>
 
