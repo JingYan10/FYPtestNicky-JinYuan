@@ -50,7 +50,7 @@
                         ?>   
                     </ul>
                 </nav>
-                <a href=""><img src="images/images/cart.png" width="30px" height="30px" alt=""></a>
+                <a href="verifier.php"><img src="images/images/cart.png" width="30px" height="30px" alt=""></a>
                 <img src="images/images/menu.png" class="menu-icon" onclick="toggleMenu()">
             </div>
 
