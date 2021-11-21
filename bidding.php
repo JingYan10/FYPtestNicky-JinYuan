@@ -20,7 +20,7 @@ include_once 'includes/databaseHandler.inc.php';
 
         <div class="bidding-info">
             <div class="bidding-function-container">
-                <input type="text" class="biddingSearchBar" name="search2" id="search2" placeholder="search by biddingID">
+                <input type="text" class="biddingSearchBar" name="search2" id="search2" placeholder="search by biddingID (eg : B002) ">
                 <a href="bidding.php?search=active"><button class="btnSearchActive">active</button></a>
                 <a href="bidding.php?search=ended"><button class="btnSearchEnded">ended</button></a>
             </div>
@@ -84,7 +84,7 @@ include_once 'includes/databaseHandler.inc.php';
                 }
                 echo ' </tbody></table>';
             } else {
-                echo "<p style='margin-left:350px'>there is no product created</p>";
+                echo "<p style='margin-left:350px'>there is no active bidding</p>";
             }
             ?>
         </div>

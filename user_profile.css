@@ -25,7 +25,7 @@
 }
 
 .userInfocard {
-    height: 300px;
+    height: 360px;
     width: 350px;
     margin-top: 50px;
     margin-bottom: 50px;
@@ -68,7 +68,8 @@
     cursor: pointer;
 }
 
-.btnEdit:hover {
+.btnEdit:hover,
+.btnDeliveryPin:hover {
     background-color: #16bbf1;
     box-shadow: 10px 10px 15px rgba(0, 0, 0, 0.05);
 }
@@ -124,6 +125,7 @@
     cursor: pointer;
 }
 
+.btnUpgradeDeliverer:hover,
 .btnUpgradeSeller:hover {
     background-color: #16bbf1;
     box-shadow: 10px 10px 15px rgba(0, 0, 0, 0.05);
@@ -287,4 +289,28 @@ table th {
     margin-top: 10px;
     margin-left: 28px;
     cursor: pointer;
+}
+
+.btnDeliveryPin {
+    margin-top: 5px;
+    background-color: #56e074;
+    border: none;
+    color: rgb(0, 0, 0);
+    padding: 12px 23px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    margin-right: 10px;
+    margin-left: -10px;
+    cursor: pointer;
+    font-weight: 550;
+}
+
+.deliveryPin {
+    height: 35px;
+    width: 182px;
+    font-size: 14px;
+    font-weight: 400;
+    display: none;
 }

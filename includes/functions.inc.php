@@ -541,7 +541,20 @@ function addToCart($conn, $productID, $productQuantity, $userEmail)
     header("location: ../product.php?error=none");
     exit();
 }
+function addToWishlist($conn, $productID, $userEmail)
+{
+    $sql = "INSERT INTO wishlist (productID, userEmail) VALUES ('$productID', '$userEmail');";
+    $stmt = mysqli_stmt_init($conn);
+    if (!mysqli_stmt_prepare($stmt, $sql)) {
+        header("location: ../product.php?error=stmtFailed");
+        exit();
+    }
 
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_close($stmt);
+    header("location: ../product.php?error=none2");
+    exit();
+}
 function removeFromCart($conn, $productID,  $userEmail)
 {
     $sql = "DELETE FROM cart WHERE productID='$productID' AND userEmail = '$userEmail';";
@@ -559,8 +572,8 @@ function removeFromCart($conn, $productID,  $userEmail)
 function searchBidding($conn, $searchData)
 {
     $sql;
-    if ($searchData == 'al') {
-        $sql = "SELECT * FROM bidding WHERE biddingWinner IS NULL ";
+    if ($searchData == 'all') {
+        $sql = "SELECT * FROM bidding ";
     } else {
         $sql = "SELECT * FROM bidding WHERE biddingID = '$searchData' ";
     }
