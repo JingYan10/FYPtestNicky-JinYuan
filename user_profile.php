@@ -25,6 +25,7 @@ if ($resultCheck > 0) {
         $_SESSION["userImage"] = $row['userImage'];
         $_SESSION["sellerStatus"] = $row['sellerStatus'];
         $_SESSION["delivererStatus"] = $row['delivererStatus'];
+        $_SESSION["deliveryPin"] = $row['deliveryPin'];
     }
 } else {
     header("location: ../login.php?error=noUserProfile");
@@ -66,7 +67,7 @@ if ($resultCheck > 0) {
                 if ($_SESSION["sellerStatus"] == "pending") {
                     echo '<label>Seller request</label><label style="margin-left:5px;">pending</label>';
                 }
-                if($_SESSION["delivererStatus"] == "pending"){
+                if ($_SESSION["delivererStatus"] == "pending") {
                     echo '<br><label>Deliverer request</label><label style="margin-left:5px;margin-top:5px;">pending</label>';
                 }
                 ?>
@@ -79,18 +80,29 @@ if ($resultCheck > 0) {
             if ($_SESSION["sellerStatus"] == null && $_SESSION["delivererStatus"] == null) {
                 echo '<a href="becomeSeller.php"><input type="button" class="btnUpgradeSeller" value="Become a seller"></a>';
                 echo '<a href="becomeDeliverer.php"><input type="button" class="btnUpgradeDeliverer" value="Become a deliverer"></a> ';
-            } 
+            }
+            ?>
+            <?php
+            if ($_SESSION["deliveryPin"] != null) {
+                $deliveryPin = $_SESSION["deliveryPin"];
+                echo "
+                <div class='userData'>
+                <input type='button' class='btnDeliveryPin' onclick='toggleDeliveryPin()' value='Show delivery pin'>
+                <input type='text' class='deliveryPin' id='deliveryPin' value='$deliveryPin' disabled>
+            </div>
+                ";
+            }
             ?>
 
         </div>
+
     </div>
 </div>
 
 <?php
 if ($_SESSION["userRole"] == "seller") {
     include_once 'sellerContainer.php';
-}
-else if ($_SESSION["userRole"] == "deliverer") {
+} else if ($_SESSION["userRole"] == "deliverer") {
     include_once 'delivererContainer.php';
 }
 
@@ -106,7 +118,14 @@ else if ($_SESSION["userRole"] == "deliverer") {
             targetDiv.style.display = "block";
         }
     }
+
+    function toggleDeliveryPin() {
+        targetDiv = document.getElementById("deliveryPin");
+
+        targetDiv.style.display = "inline";
+    }
 </script>
+
 <script type="text/javascript">
     $(document).ready(function() {
         $("#search").keyup(function() {

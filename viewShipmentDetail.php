@@ -126,7 +126,7 @@ if ($resultCheck > 0) {
                 </div>
                 <div class="clientData">
                     <label>House address : </label>
-                    <textarea type="text" rows="4" cols="33" name="userHouseAddress" disabled> <?php echo  $_SESSION["userHouseAddress"]; ?></textarea>
+                    <iframe width="100%" height="500" src="https://maps.google.com/maps?q=<?php echo $_SESSION["userHouseAddress"]; ?>&output=embed"></iframe>
                 </div>
 
             </div>
@@ -210,7 +210,6 @@ if ($resultCheck > 0) {
                 echo "</details>";
                 echo "</form>";
             } else if ($_SESSION["shipmentStatus"] == "delivered") {
-                
             }
         }
         ?>
