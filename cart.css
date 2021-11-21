@@ -177,11 +177,16 @@
 	color: #202020;
 } */
 
-.input[type = number]{
+input{
 	font-size: 20px;
 	font-family: 'Open Sans';
 	font-weight: 600;
 	color: #202020;
+	outline: none;
+	border: none;
+    background-color: white;
+    text-align: center;
+	
 }
 
 .prices{

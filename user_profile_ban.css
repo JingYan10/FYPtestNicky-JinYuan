@@ -79,6 +79,13 @@ table {
       border-bottom: 0;
     }
   }
+
+  .btnBan{
+    font-family: sans-serif;
+    color: white;
+    background-color: black;
+    size: 20px;
+  }
   
   
   /* general styling */
