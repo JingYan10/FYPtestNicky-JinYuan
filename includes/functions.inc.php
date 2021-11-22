@@ -369,6 +369,36 @@ function UnbanUser($conn, $email)
     header("location: ../user_profile_ban.php");
     exit();
 }
+
+function approveUser($conn, $registryEmail, $registerationType){
+    $sql = "UPDATE users SET userRole  = '$registerationType' WHERE userEmail = '$registryEmail'; ";
+    
+    $stmt = mysqli_stmt_init($conn);
+    if (!mysqli_stmt_prepare($stmt, $sql)) {
+        header("location: ../verifier.php?error=stmtFailed");
+        exit();
+    }
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_close($stmt);
+    header("location: ../verifier.php");
+    $sql = "DELETE FROM verifierdocument WHERE userEmail='$registryEmail' AND registerationType = '$registerationType';";
+    exit();
+}
+
+function rejectUser($conn, $registryEmail, $registerationType){
+
+    $sql = "DELETE FROM verifierdocument WHERE userEmail='$registryEmail' AND registerationType = '$registerationType';";
+    $stmt = mysqli_stmt_init($conn);
+    if (!mysqli_stmt_prepare($stmt, $sql)) {
+        header("location: ../verifier.php?error=stmtFailed");
+        exit();
+    }
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_close($stmt);
+    header("location: ../verifier.php");
+    exit();
+}
+
 function searchProduct($conn, $email, $searchData)
 {
     $sql;
@@ -570,6 +600,22 @@ function removeFromCart($conn, $productID,  $userEmail)
     header("location: ../cart.php?error=none");
     exit();
 }
+
+function removeAllFromCart($conn, $userEmail)
+{
+    $sql = "DELETE FROM cart WHERE userEmail = '$userEmail';";
+    $stmt = mysqli_stmt_init($conn);
+    if (!mysqli_stmt_prepare($stmt, $sql)) {
+        header("location: ../cart.php?error=stmtFailed");
+        exit();
+    }
+
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_close($stmt);
+    header("location: ../product.php?error=none");
+    exit();
+}
+
 function searchBidding($conn, $searchData)
 {
     $sql;
