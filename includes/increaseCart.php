@@ -2,6 +2,8 @@
 
 $total = $_POST['valueOne'] * $_POST['valueTwo'];
 
-echo "$total"
+echo $_POST['valueOne'];
+
+// echo "$total"
 
 ?>

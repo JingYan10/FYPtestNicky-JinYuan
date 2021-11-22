@@ -599,6 +599,22 @@ function removeFromCart($conn, $productID,  $userEmail)
     header("location: ../cart.php?error=none");
     exit();
 }
+
+function removeAllFromCart($conn, $userEmail)
+{
+    $sql = "DELETE FROM cart WHERE userEmail = '$userEmail';";
+    $stmt = mysqli_stmt_init($conn);
+    if (!mysqli_stmt_prepare($stmt, $sql)) {
+        header("location: ../cart.php?error=stmtFailed");
+        exit();
+    }
+
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_close($stmt);
+    header("location: ../product.php?error=none");
+    exit();
+}
+
 function searchBidding($conn, $searchData)
 {
     $sql;

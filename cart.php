@@ -16,9 +16,13 @@ include_once 'includes/databaseHandler.inc.php';
 <!--content here-->
 <div class="Main-Container">
     <div class="CartContainer">
-        <div class="Header">
-            <h3 class="Heading">Shopping Cart</h3>
-            <h5 class="Action">Remove all</h5>
+        <div class="column-labels">
+            <label class="product-image">Image</label>
+            <label class="product-details">Product</label>
+            <label class="product-price">Price</label>
+            <label class="product-quantity">Quantity</label>
+            <label class="product-removal">Remove</label>
+            <label class="product-line-price">Total</label>
         </div>
 
         <?php
@@ -47,6 +51,7 @@ include_once 'includes/databaseHandler.inc.php';
             }
         } else {
             echo "<script> window.history.back(); </script>";
+            // echo "<script>alert('There is no item in cart!')</script>";
         }
 
         if ($resultCheck > 0) {
@@ -63,63 +68,63 @@ include_once 'includes/databaseHandler.inc.php';
 
                 $totalPrice += $row['productPrice'];
 
-                echo "<div class = 'Cart-Items'>";
-                echo "<div class = 'image-box'>" . "<img src = " . $row['productImage'] . ">";
-                echo "</div>";
-                echo "<div class = 'about'>";
-                echo "<h1 class = 'title'>" . $row['productName'] . "</h1>";
-                // echo "<h3 class = 'subtitle'>" . 
-                echo "</div>";
-                echo "<div class = 'counter'>";
-                echo "<button class = 'btnSub' onclick = 'btnSub($productID)'>-</button>";
-                echo "<input type = number min = '1' max = '$productQuantity' id = 'quantity$productID' value = '1' disabled >";
+                // echo "<div class = 'Cart-Items'>";
+                // echo "<div class = 'image-box'>" . "<img src = " . $row['productImage'] . ">";
                 // echo "</div>";
-                echo "<button class = 'btnAdd' onclick = 'btnAdd($productID)'>+</button>";
+                // echo "<div class = 'about'>";
+                // echo "<h1 class = 'title'>" . $row['productName'] . "</h1>";
+                // // echo "<h3 class = 'subtitle'>" . 
+                // echo "</div>";
+                // echo "<div class = 'counter'>";
+                // echo "<div class = 'amount$productID'>" . $row['productPrice'] . "</div>";
+                // // echo "<button class = 'btnSub' onclick = 'btnSub($productID)'>-</button>";
+                // echo "<input type = number min = '1' max = '$productQuantity' id = 'quantity$productID' class = 'itemQty' value = '1'>";
+                // // echo "</div>";
+                // // echo "<button class = 'btnAdd' onclick = 'btnAdd($productID)'>+</button>";
+                // echo "</div>";
+                // echo "<div class = prices'>";
+                // echo "<div class = 'amount$productID'>" . $row['productPrice'] . "</div>";
+                // // echo "<a href='includes/removeFromCart.inc.php?productID = $productID><button>'" . $row['productPrice'] . "</button></a>";
+                // echo "<a href='includes/removeFromCart.inc.php?productID=$productID'>" . "<div class = 'remove'><u>Remove</u></div></a>";
+                // echo "</div>";
+                // echo "</div>";
+                // echo "<input type='hidden' id='productQuantity' name='productQuantity' value='$productQuantity'>";
+
+                echo "<div class = 'product'>";
+                echo "<div class = 'product-image'>" . "<img src = " . $row['productImage'] . ">";
                 echo "</div>";
-                echo "<div class = prices'>";
-                echo "<div class = 'amount$productID'>" . $row['productPrice'] . "</div>";
-                // echo "<a href='includes/removeFromCart.inc.php?productID = $productID><button>'" . $row['productPrice'] . "</button></a>";
-                echo "<a href='includes/removeFromCart.inc.php?productID=$productID'>" . "<div class = 'remove'><u>Remove</u></div></a>";
+                echo "<div class = 'product-details'>";
+                echo "<div class ='product-title'>" . $row['productName'] . "</div>";
                 echo "</div>";
+                echo "<div class = 'product-price'>" . $row['productPrice'] . "</div>";
+                echo "<div class = 'product-quantity'>";
+                echo "<input type = 'number' value = '1' min = '1' max = '$productQuantity>";
                 echo "</div>";
-                echo "<input type='hidden' id='productQuantity' name='productQuantity' value='$productQuantity'>";
+                echo "<div class ='product-removal'>";
+                echo "<a href='includes/removeFromCart.inc.php?productID = $productID><button>'" . $row['productPrice'] . "</button></a>";
+                echo "</div>";
+                echo "<div class = 'product-line-price'></div>";
+                echo "</div>";
             } else {
-                
+
             }
         }
 
+
+
         ?>
-        <!-- <div class="Cart-Items">
-            <div class="image-box">
-                <img src="images/products/noodles3.jpg" height="120px" }} />
-            </div>
-            <div class="about">
-                <h1 class="title">Noodles</h1>
-                <h3 class="subtitle">250ml</h3>
 
-            </div>
-            <div class="counter">
-                <div class="btn">+</div>
-                <div class="count">2</div>
-                <div class="btn">-</div>
-            </div>
-            <div class="prices">
-                <div class="amount">$2.99</div>
-                <div class="save"><u>Save for later</u></div>
-                <div class="remove"><u>Remove</u></div>
-            </div>
-        </div> -->
+        <div class="totals">
+            <div class="totals-item">
 
-        <hr>
-        <div class="checkout">
-            <div class="total">
-                <div>
-                    <div class="Subtotal">Sub-Total</div>
-                    <div class="items">2 items</div>
+                <div class="totals-item totals-item-total">
+                    <label>Grand Total</label>
+                    <div class="totals-value" id="cart-total"></div>
                 </div>
-                <div class="total-amount" id="total-amount">$<?php echo $totalPrice ?></div>
             </div>
-            <button class="button">Checkout</button>
+
+            <button class="checkout">Checkout</button>
+
         </div>
     </div>
 </div>
@@ -178,6 +183,101 @@ include_once 'footer.php';
 </script>
 
 <script>
+    /* Set rates + misc */
+    var fadeTime = 300;
+
+
+    /* Assign actions */
+    $('.product-quantity input').change(function() {
+        updateQuantity(this);
+    });
+
+    $('.product-removal button').click(function() {
+        removeItem(this);
+    });
+
+
+    /* Recalculate cart */
+    function recalculateCart() {
+        var subtotal = 0;
+
+        /* Sum up row totals */
+        $('.product').each(function() {
+            subtotal += parseFloat($(this).children('.product-line-price').text());
+        });
+
+        /* Calculate totals */
+        var total = subtotal;
+
+        /* Update totals display */
+        $('.totals-value').fadeOut(fadeTime, function() {
+            $('#cart-subtotal').html(subtotal.toFixed(2));
+            $('#cart-total').html(total.toFixed(2));
+            if (total == 0) {
+                $('.checkout').fadeOut(fadeTime);
+            } else {
+                $('.checkout').fadeIn(fadeTime);
+            }
+            $('.totals-value').fadeIn(fadeTime);
+        });
+    }
+
+
+    /* Update quantity */
+    function updateQuantity(quantityInput) {
+        /* Calculate line price */
+        var productRow = $(quantityInput).parent().parent();
+        var price = parseFloat(productRow.children('.product-price').text());
+        var quantity = $(quantityInput).val();
+        var linePrice = price * quantity;
+
+        /* Update line price display and recalc cart totals */
+        productRow.children('.product-line-price').each(function() {
+            $(this).fadeOut(fadeTime, function() {
+                $(this).text(linePrice.toFixed(2));
+                recalculateCart();
+                $(this).fadeIn(fadeTime);
+            });
+        });
+    }
+
+    // function calculateRemaining(e) {
+
+    //     var total = 0;
+    //     var remaining = 0;
+
+    //     $('.amount').each(function() {
+    //         if ($(this).val()) {
+    //             value += parseFloat($(this).val());
+    //         }
+    //     });
+
+
+    //     $("#remaining").val(remaining);
+
+    // }
+
+
+    // $(document).ready(function() {
+
+    //     $(".itemQty").on('change', function(){
+
+    //         var add = document.getElementById("quantity"+id).value;
+    //         var productQuantity = document.getElementById("productQuantity").value;
+    //         console.log(productQuantity);
+
+    //         $.ajax({
+    //             url:'action.php',
+    //             method: 'post',
+    //             cache: false,
+    //             data: {add:"quantity"+id, productQuantity:productQuantity},
+    //             success: function(response){
+    //                 console.log(response); 
+    //             }
+    //         });
+    //     });
+    // })
+
     //     function btnAdd(id) {
     //         add = document.getElementById("quantity"+id).value; // before quantity
     //         productQuantity = document.getElementById("productQuantity").value;
@@ -223,26 +323,27 @@ include_once 'footer.php';
     //         $(".total-amount").text("$"+Math.round((totalPrice1) * 100)/100);    
     //     }     
 
-    $(document).ready(function() {
-        
-    });
+    // $(document).ready(function() {
 
-    function btnAdd(id) {
+    // });
 
-        
-        var add = document.getElementById("quantity"+id).value;
-        
-        var productQuantity = document.getElementById("productQuantity").value;
-        var price = $(".amount" + id).text(); 
+    // function btnAdd(id) {
 
-        $.post("includes/increaseCart.php", {valueOne: add,valueTwo: price}, function(data,status) {
+    //     var add = document.getElementById("quantity"+id).value;
+    //     var productQuantity = document.getElementById("productQuantity").value;
+    //     var totaProductPrice = add * productQuantity;
 
-            // alert("Data: " + data + "\nStatus: " + status);
+    //     var price = $(".amount" + id).text(); 
 
-            $("#total-amount").text("$"+data);
-        });
-    }
+    //     $.post("includes/increaseCart.php", {valueOne: add,valueTwo: price}, function(data,status) {
 
+    //         // alert("Data: " + data + "\nStatus: " + status);
+
+
+    //         $("#testing").text("$"+valueOne);
+    //         $("#total-amount").text("$"+data);
+    //     });
+    // }
 </script>
 
 </body>
