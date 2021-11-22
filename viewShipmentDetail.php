@@ -50,7 +50,7 @@ if (isset($_GET["error"])) {
 
 
 
-    //print_r($arraySoldProduct);
+
 
 }
 $shipmentArrangementNo = $_SESSION["shipmentArrangementNo"];
@@ -63,6 +63,8 @@ $resultCheck = mysqli_num_rows($result);
 
 $arraySoldProduct = array();
 
+$arraySoldProductProductID = array(); // store for notification purpose
+
 if ($resultCheck > 0) {
     while ($row = mysqli_fetch_assoc($result)) {
         $_SESSION["soldProductProductID"] = $row['productID'];
@@ -73,7 +75,9 @@ if ($resultCheck > 0) {
         $_SESSION["soldProductUserEmail"] = $row['userEmail'];
         $arraySoldProduct['soldProductProductID'][] = $row['productID'];
         $arraySoldProduct['soldProductProductQuantity'][] = $row['productQuantity'];
+        $arraySoldProductProductID[] +=$row['productID'];
     }
+    $_SESSION["arraySoldProductProductID"] = $arraySoldProductProductID;
 } else {
     header("location: ../login.php?error=noUserProfile1");
     exit();
@@ -173,11 +177,12 @@ if ($resultCheck > 0) {
                     header("location: ../bidding.php?error=noSoldProductID");
                     exit();
                 }
+
                 ?>
             </div>
         </details>
 
-
+    
 
         <?php
         if (isset($_GET["error"])) {
@@ -206,7 +211,7 @@ if ($resultCheck > 0) {
             } else if ($_SESSION["shipmentStatus"] == "delivering") {
                 echo "<form action='includes/verifyDeliveryPin.inc.php' method='post'>";
                 echo "<details>";
-                echo "<summary> <input type='hidden' name='clientEmail' value='$userEmail'> <input type='hidden' name='shipmentArrangementNo' value='$shipmentArrangementNo'> <input type='text' name='deliveryPin' class='inputDeliveryPin' style='height:40px;' placeholder='deliver pin'><input class='btnDeliver' style='margin-left: 150px;' type='submit' name='submit'></summary>";
+                echo "<summary>  <input type='hidden' name='clientEmail' value='$userEmail'> <input type='hidden' name='shipmentArrangementNo' value='$shipmentArrangementNo'> <input type='text' name='deliveryPin' class='inputDeliveryPin' style='height:40px;' placeholder='deliver pin'><input class='btnDeliver' style='margin-left: 150px;' type='submit' name='submit'></summary>";
                 echo "</details>";
                 echo "</form>";
             } else if ($_SESSION["shipmentStatus"] == "delivered") {

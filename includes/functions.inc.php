@@ -205,6 +205,7 @@ function loginUser($conn, $email, $password)
             header("location: ../adminProfile.php");
             exit();
         } else {
+
             header("location: ../index.php");
             exit();
         }
@@ -929,7 +930,8 @@ function decideDeliverer($conn, $shiftNo)
             // assign job to the deliverer based on the tasks that they've done
             if ($firstDelivererTaskDone == $secondDelivererTaskDone) {
                 $assignedDelivererEmail = $firstDelivererEmail;
-            } if ($firstDelivererTaskDone > $secondDelivererTaskDone) {
+            }
+            if ($firstDelivererTaskDone > $secondDelivererTaskDone) {
                 $assignedDelivererEmail = $secondDelivererEmail;
             } else if ($secondDelivererTaskDone > $firstDelivererTaskDone) {
                 $assignedDelivererEmail = $firstDelivererEmail;
@@ -963,18 +965,18 @@ function decideDeliverer($conn, $shiftNo)
                 // assign job to the deliverer based on the tasks that they've done
                 if ($firstDelivererTaskDone == $secondDelivererTaskDone) {
                     $assignedDelivererEmail = $firstDelivererEmail;
-                } if ($firstDelivererTaskDone > $secondDelivererTaskDone) {
+                }
+                if ($firstDelivererTaskDone > $secondDelivererTaskDone) {
                     $assignedDelivererEmail = $secondDelivererEmail;
                 } else if ($secondDelivererTaskDone > $firstDelivererTaskDone) {
                     $assignedDelivererEmail = $firstDelivererEmail;
                 }
-               
             }
         }
         $shiftNo = substr($workingShiftReplacement, 5);
     }
 
-    return array($assignedDelivererEmail,$shiftNo);
+    return array($assignedDelivererEmail, $shiftNo);
 }
 function createShipmentData($conn, $productID, $productQuantity, $paymentID, $email, $arrangementNo, $shiftNo, $assignedDelivererEmail)
 {
@@ -1040,10 +1042,9 @@ function createShipmentData($conn, $productID, $productQuantity, $paymentID, $em
     mysqli_stmt_execute($stmt);
     mysqli_stmt_close($stmt);
     echo "done";
-
-    
 }
-function updateTaskDoneDeliverer($conn,$assignedDelivererEmail){
+function updateTaskDoneDeliverer($conn, $assignedDelivererEmail)
+{
     //get deliverer current taskdone
     $sql = "SELECT * FROM workingshift WHERE userEmail = '$assignedDelivererEmail'";
 
@@ -1071,7 +1072,7 @@ function updateTaskDoneDeliverer($conn,$assignedDelivererEmail){
     mysqli_stmt_close($stmt);
     echo "done"; //remove this
 }
-function updateShipmentStatus($conn,$shipmentArrangementNo)
+function updateShipmentStatus($conn, $shipmentArrangementNo)
 {
     $shipmentStatus = "delivering";
     $sql = "UPDATE shipment SET shipmentStatus = '$shipmentStatus' WHERE shipmentArrangementNo = '$shipmentArrangementNo'; ";
@@ -1083,7 +1084,7 @@ function updateShipmentStatus($conn,$shipmentArrangementNo)
     mysqli_stmt_execute($stmt);
     mysqli_stmt_close($stmt);
 }
-function generateDeliveryPin($conn,$clientEmail)
+function generateDeliveryPin($conn, $clientEmail)
 {
     $shipmentStatus = "delivering";
     $deliveryPin  = uniqid();
@@ -1098,7 +1099,8 @@ function generateDeliveryPin($conn,$clientEmail)
     header("location: ../viewShipmentDetail.php?error=noneDelivering");
     exit();
 }
-function verifyDeliveryPin($conn,$deliveryPin,$clientEmail){
+function verifyDeliveryPin($conn, $deliveryPin, $clientEmail)
+{
     $result = false;
     //get delivery pin from client email
     $sql = "SELECT * FROM users WHERE userEmail = '$clientEmail'";
@@ -1115,17 +1117,16 @@ function verifyDeliveryPin($conn,$deliveryPin,$clientEmail){
         }
     }
 
-    if($deliveryPin==$databaseDeliveryPin){
+    if ($deliveryPin == $databaseDeliveryPin) {
         $result = true;
-    }
-    else{
+    } else {
         $result = false;
     }
 
     return $result;
-
 }
-function updateDeliveryDeliveredStatus($conn, $shipmentArrangementNo){
+function updateDeliveryDeliveredStatus($conn, $shipmentArrangementNo)
+{
     $shipmentStatus = "delivered";
     $sql = "UPDATE shipment SET shipmentStatus = '$shipmentStatus' WHERE  shipmentArrangementNo = '$shipmentArrangementNo'  ";
     $stmt = mysqli_stmt_init($conn);
@@ -1153,10 +1154,65 @@ function searchShipment($conn, $email, $searchData)
             echo "<td>" . $row['shipmentArrangementNo'] . "</td>";
             echo "<td>" . $row['shipmentStatus'] . "</td>";
             echo "<td>";
-            $shipmentData = "shipmentID=" . $row['shipmentID'] . "&soldProductID=" . $row['soldProductID'] . "&soldProductQuantity=" . $row['soldProductQuantity'] . "&shipmentDate=" . $row['shipmentDate']."&shipmentArrangementNo=" . $row['shipmentArrangementNo']."&shipmentStatus=" . $row['shipmentStatus'];
+            $shipmentData = "shipmentID=" . $row['shipmentID'] . "&soldProductID=" . $row['soldProductID'] . "&soldProductQuantity=" . $row['soldProductQuantity'] . "&shipmentDate=" . $row['shipmentDate'] . "&shipmentArrangementNo=" . $row['shipmentArrangementNo'] . "&shipmentStatus=" . $row['shipmentStatus'];
             echo "<a href='viewShipmentDetail.php?" . $shipmentData . "'>" . "<button class='btnEditProduct'>view</button></a>";
             echo "</td>";
             echo "</tr>";
         }
     }
+}
+function createProductReviewingNotification($conn, $productID, $userEmail)
+{
+    //insert product data to soldProduct
+
+    $notificationType = "productReview";
+    $notificationDescription = "review a bought product";
+    $neededID = $productID;
+    $typeID = "productID";
+    $receiverEmail = $userEmail;
+
+    $sql = "INSERT INTO notification (notificationType, notificationDescription, neededID, typeID, receiverEmail) VALUES ('$notificationType','$notificationDescription','$neededID','$typeID','$receiverEmail');";
+
+    $stmt = mysqli_stmt_init($conn);
+    if (!mysqli_stmt_prepare($stmt, $sql)) {
+        header("location: ../buyProduct.inc.php?error=stmtFailed10");
+        exit();
+    }
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_close($stmt);
+}
+function createProductRating($conn, $productID, $productRating, $userEmail)
+{
+    $sql = "INSERT INTO rating (productID, ratingNO, userEmail) VALUES ('$productID', '$productRating', '$userEmail');";
+    $stmt = mysqli_stmt_init($conn);
+    if (!mysqli_stmt_prepare($stmt, $sql)) {
+        header("location: ../productReview.php?error=stmtFailed1");
+        exit();
+    }
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_close($stmt);
+}
+function createProductComment($conn, $productID, $productComment, $userEmail)
+{
+    $sql = "INSERT INTO comments (productID, productComment, userEmail) VALUES ('$productID', '$productComment', '$userEmail');";
+    $stmt = mysqli_stmt_init($conn);
+    if (!mysqli_stmt_prepare($stmt, $sql)) {
+        header("location: ../productReview.php?error=stmtFailed2");
+        exit();
+    }
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_close($stmt);
+}
+function deleteProductReviewNotification($conn, $productID, $userEmail)
+{
+    $sql = "DELETE FROM notification WHERE neededID ='$productID' AND receiverEmail = '$userEmail';";
+    $stmt = mysqli_stmt_init($conn);
+    if (!mysqli_stmt_prepare($stmt, $sql)) {
+        header("location: ../productReview.php?error=stmtFailed3");
+        exit();
+    }
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_close($stmt);
+    header("location: ../product.php?error=none");
+    exit();
 }

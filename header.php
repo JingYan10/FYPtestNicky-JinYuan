@@ -39,10 +39,14 @@
                         <li><a href="product.php">Products</a></li>
                         <li><a href="cart.php">Cart</a></li>
                         <li><a href="bidding.php">Bidding</a></li>
+                        
                         <?php
                             if(isset($_SESSION["userEmail"])){
                                 echo "<li><a href='user_profile.php'>Profile</a></li>";
                                 echo "<li><a href='includes/logout.inc.php'>Log out</a></li>";
+                                //echo "<li>". include_once 'notification.php'."</li>";
+
+                                include_once 'notification.php';
                             }
                             else{
                                 echo "<li><a href='login.php'>Log in</a></li>";
