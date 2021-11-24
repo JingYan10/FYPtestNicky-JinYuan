@@ -370,9 +370,10 @@ function UnbanUser($conn, $email)
     exit();
 }
 
-function approveUser($conn, $registryEmail, $registerationType){
+function approveUser($conn, $registryEmail, $registerationType)
+{
     $sql = "UPDATE users SET userRole  = '$registerationType' WHERE userEmail = '$registryEmail'; ";
-    
+
     $stmt = mysqli_stmt_init($conn);
     if (!mysqli_stmt_prepare($stmt, $sql)) {
         header("location: ../verifier.php?error=stmtFailed");
@@ -385,7 +386,8 @@ function approveUser($conn, $registryEmail, $registerationType){
     exit();
 }
 
-function rejectUser($conn, $registryEmail, $registerationType){
+function rejectUser($conn, $registryEmail, $registerationType)
+{
 
     $sql = "DELETE FROM verifierdocument WHERE userEmail='$registryEmail' AND registerationType = '$registerationType';";
     $stmt = mysqli_stmt_init($conn);
@@ -1289,4 +1291,61 @@ function makePayment ($conn, $userEmail, $paymentAmount, $paymentStatus, $paymen
     mysqli_stmt_close($stmt);
     header("location: ../cart.php?error=none");
     exit();
+}
+function productRatingResult($finalRating)
+{
+    $printResult = "";
+    switch ($finalRating) {
+        case 0:
+            $printResult =
+                "<i class='fa fa-star fa-1x' data-index='0' style='color:black'></i>" .
+                "<i class='fa fa-star fa-1x' data-index='0' style='color:black'></i>" .
+                "<i class='fa fa-star fa-1x' data-index='0' style='color:black'></i>" .
+                "<i class='fa fa-star fa-1x' data-index='0' style='color:black'></i>" .
+                "<i class='fa fa-star fa-1x' data-index='0' style='color:black'></i>";
+            break;
+        case 1:
+            $printResult =
+                "<i class='fa fa-star fa-1x' data-index='0' style='color:yellow'></i>" .
+                "<i class='fa fa-star fa-1x' data-index='0' style='color:black'></i>" .
+                "<i class='fa fa-star fa-1x' data-index='0' style='color:black'></i>" .
+                "<i class='fa fa-star fa-1x' data-index='0' style='color:black'></i>" .
+                "<i class='fa fa-star fa-1x' data-index='0' style='color:black'></i>";
+            break;
+        case 2:
+            $printResult =
+                "<i class='fa fa-star fa-1x' data-index='0' style='color:yellow'></i>" .
+                "<i class='fa fa-star fa-1x' data-index='0' style='color:yellow'></i>" .
+                "<i class='fa fa-star fa-1x' data-index='0' style='color:black'></i>" .
+                "<i class='fa fa-star fa-1x' data-index='0' style='color:black'></i>" .
+                "<i class='fa fa-star fa-1x' data-index='0' style='color:black'></i>";
+            break;
+        case 3:
+            $printResult =
+                "<i class='fa fa-star fa-1x' data-index='0' style='color:yellow'></i>" .
+                "<i class='fa fa-star fa-1x' data-index='0' style='color:yellow'></i>" .
+                "<i class='fa fa-star fa-1x' data-index='0' style='color:yellow'></i>" .
+                "<i class='fa fa-star fa-1x' data-index='0' style='color:black'></i>" .
+                "<i class='fa fa-star fa-1x' data-index='0' style='color:black'></i>";
+            break;
+        case 4:
+            $printResult =
+                "<i class='fa fa-star fa-1x' data-index='0' style='color:yellow'></i>" .
+                "<i class='fa fa-star fa-1x' data-index='0' style='color:yellow'></i>" .
+                "<i class='fa fa-star fa-1x' data-index='0' style='color:yellow'></i>" .
+                "<i class='fa fa-star fa-1x' data-index='0' style='color:yellow'></i>" .
+                "<i class='fa fa-star fa-1x' data-index='0' style='color:black'></i>";
+            break;
+        case 5:
+            $printResult =
+                "<i class='fa fa-star fa-1x' data-index='0' style='color:yellow'></i>" .
+                "<i class='fa fa-star fa-1x' data-index='0' style='color:yellow'></i>" .
+                "<i class='fa fa-star fa-1x' data-index='0' style='color:yellow'></i>" .
+                "<i class='fa fa-star fa-1x' data-index='0' style='color:yellow'></i>" .
+                "<i class='fa fa-star fa-1x' data-index='0' style='color:yellow'></i>";
+            break;
+        default:
+           
+    }
+    return $printResult;
 }
