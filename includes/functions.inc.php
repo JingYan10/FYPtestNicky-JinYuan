@@ -565,7 +565,7 @@ function addToCart($conn, $productID, $productQuantity, $userEmail)
     $sql = "INSERT INTO cart (productID, productQuantity, userEmail) VALUES ('$productID', $productQuantity, '$userEmail');";
     $stmt = mysqli_stmt_init($conn);
     if (!mysqli_stmt_prepare($stmt, $sql)) {
-        header("location: ../product.php?error=stmtFailed");
+        header("location: ../product.php?error=stmtFailed6");
         exit();
     }
 
@@ -1262,6 +1262,34 @@ function deleteProductReviewNotification($conn, $productID, $userEmail)
     mysqli_stmt_execute($stmt);
     mysqli_stmt_close($stmt);
     header("location: ../product.php?error=none");
+    exit();
+}
+
+function updateProduct($conn, $email, $productID, $productQuantity) {
+    $sql = "UPDATE product set productQuantity = '$productQuantity' where productID = '$productID'";
+    $stmt = mysqli_stmt_init($conn);
+    if (!mysqli_stmt_prepare($stmt, $sql)) {
+        header("location: ../cart.php?error=stmtFailed");
+        exit();
+    }
+
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_close($stmt);
+    header("location: ../cart.php?error=none");
+    exit();
+}
+
+function makePayment ($conn, $userEmail, $paymentAmount, $paymentStatus, $paymentDate){
+    $sql = "INSERT INTO payment (paymentAmount, userEmail, paymentStatus, paymentDate) VALUES ('$paymentAmount', '$userEmail', '$paymentStatus', '$paymentDate');";
+    $stmt = mysqli_stmt_init($conn);
+    if (!mysqli_stmt_prepare($stmt, $sql)) {
+        header("location: ../cart.php?error=stmtFailed123");
+        exit();
+    }
+
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_close($stmt);
+    header("location: ../cart.php?error=none");
     exit();
 }
 function productRatingResult($finalRating)

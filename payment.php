@@ -1,23 +1,20 @@
 <?php
-// Start the session
 session_start();
-?>
-<?php
 include_once 'header.php';
-include_once 'includes/databaseHandler.inc.php';
 include_once 'includes/functions.inc.php';
+
 ?>
-
-<!--link to css-->
-<link rel="stylesheet" href="cart.css">
-
-
-
+<link rel="stylesheet" href="header&footer.css">
+<link rel="stylesheet" href="payment.css">
+<script src="https://www.paypal.com/sdk/js?client-id=AeVGLPsUt-ACbymXZlhlEgDq1yWTka3VFj5pEX5QrsSJX5bHf1rjSA88SbI2YKWImMRpgPouhAjnJCwF">
+    // Required. Replace YOUR_CLIENT_ID with your sandbox client ID.
+</script>
 
 
 
 <!--content here-->
-<div class="Main-Container">
+<h1>Page Header</h1>
+<div class="container">
     <form method="POST" action="buyProduct.inc.php" autocomplete="off">
         <div class="CartContainer">
             <div class="column-labels">
@@ -112,156 +109,22 @@ include_once 'includes/functions.inc.php';
                 </div>
                 <input type="hidden" name="grandTotal" id="grandTotalHidden" value="0">
                 <input type="hidden" name="paymentID" value="<?= $paymentData ?>">
-                <a href="payment.php" class="checkout" button type="submit">Checkout</button></a>
+                <!-- <a href="payment.php" class="checkout" button type="submit">Checkout</button></a> -->
 
             </div>
         </div>
     </form>
-    <!-- <div id="paypal-button-container"></div> -->
-
+    <div id="paypal-button-container"></div>
 </div>
 
 
 
 
-<!--footer-->
-<?php
-include_once 'footer.php';
-?>
 
-<!--javascript-->
 
-<!--for backtotop()-->
-<script>
-    var btn = $('#button');
 
-    $(window).scroll(function() {
-        if ($(window).scrollTop() > 300) {
-            btn.addClass('show');
-        } else {
-            btn.removeClass('show');
-        }
-    });
-
-    btn.on('click', function(e) {
-        e.preventDefault();
-        $('html, body').animate({
-            scrollTop: 0
-        }, '300');
-    });
-</script>
-
-<!--for toggleMenu()-->
-<script>
-    $(document).ready(function() {
-        $(".menu-icon").click(function() {
-            $("#Menuitems").fadeToggle(200);
-        });
-
-        var w = $(".container > .box-container > .box:first-child").width()
-        $(".box:last-child").css({
-            width: "" + w,
-            flex: "none"
-        })
-
-    });
-
-    $(window).bind("resize", function() {
-        if ($(window).width() > 800)
-            $("#Menuitems").css("display", "block");
-        else
-            $("#Menuitems").css("display", "none");
-    });
-</script>
 
 <script>
-    /* Set rates + misc */
-    var fadeTime = 300;
-
-
-    /* Assign actions */
-    $('.product-quantity input').change(function() {
-        updateQuantity(this);
-    });
-
-    $('.product-removal button').click(function() {
-        removeItem(this);
-    });
-
-
-    /* Recalculate cart */
-    function recalculateCart() {
-        var subtotal = 0;
-
-        /* Sum up row totals */
-        $('.product').each(function() {
-            subtotal += parseFloat($(this).children('.product-line-price').text());
-        });
-
-        /* Calculate totals */
-        var total = subtotal;
-
-        /* Update totals display */
-        $('.totals-value').fadeOut(fadeTime, function() {
-            $('#cart-subtotal').html(subtotal.toFixed(2));
-            $('#cart-total').html(total.toFixed(2));
-            if (total == 0) {
-                $('.checkout').fadeOut(fadeTime);
-            } else {
-                $('.checkout').fadeIn(fadeTime);
-            }
-            $('.totals-value').fadeIn(fadeTime);
-        });
-
-        $('#grandTotalHidden').val(total);
-    }
-
-
-    /* Update quantity */
-    function updateQuantity(quantityInput) {
-        /* Calculate line price */
-        var productRow = $(quantityInput).parent().parent();
-        var price = parseFloat(productRow.children('.product-price').text());
-        var quantity = $(quantityInput).val();
-        var linePrice = price * quantity;
-
-
-        /* Update line price display and recalc cart totals */
-        productRow.children('.product-line-price').each(function() {
-            $(this).fadeOut(fadeTime, function() {
-                $(this).text(linePrice.toFixed(2));
-                recalculateCart();
-                $(this).fadeIn(fadeTime);
-            });
-        });
-
-        productRow.children('.hiddenLinePrice').each(function() {
-            $(this).val(linePrice.toFixed(2));
-
-        });
-    }
-
-    function changeQuantity(a) {
-        var inputQty = $(a).val();
-        var productQuantity = $(a).attr("max");
-        var productID = $(a).attr("id");
-        var qty = productQuantity - inputQty;
-        console.log(productID);
-
-        $.ajax({
-            url: 'includes/updateProduct.inc.php',
-            type: 'post',
-            data: {
-                productID: productID,
-                qty: qty
-            },
-            success: function(result) {
-
-            }
-
-        })
-    }
-
     $(function() {
         paypal.Buttons({
             style: {
@@ -273,10 +136,10 @@ include_once 'footer.php';
         }).render('#paypal-button-container');
     })
 
-    
+
     function pay() {
         var total = $('#grandTotalHidden').val();
-        console.log ("test");
+        console.log("test");
 
         paypal.Buttons({
             createOrder: function(data, actions) {
@@ -307,7 +170,20 @@ include_once 'footer.php';
     }
 </script>
 
-</script>
+
+<?php
+
+// require_once 'includes/databaseHandler.inc.php';
+// require_once 'includes/functions.inc.php';
+
+
+// echo "friendCode : " . generateFriendCode($conn);
+?>
+<?php
+include_once 'footer.php';
+?>
+
+
 
 </body>
 
