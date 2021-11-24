@@ -1320,6 +1320,4 @@ function productRatingResult($finalRating)
            
     }
     return $printResult;
-    
-
 }
