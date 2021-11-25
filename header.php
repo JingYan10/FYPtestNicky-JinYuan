@@ -5,6 +5,7 @@
 <?php
 require_once 'includes/databaseHandler.inc.php';
 require_once 'includes/functions.inc.php';
+
 ?>
 
 <head>
@@ -41,7 +42,11 @@ require_once 'includes/functions.inc.php';
                 </div>
                 <nav>
                     <ul id="menuitems">
-                        <li><a href="coinLog.php" style="padding:5px 10px;border: 2px double white;"><?php echo checkCoinBalance($conn, $_SESSION["userEmail"]) . "coin(s)" ?></a></li>
+                        <?php
+                        if (isset($_SESSION["userEmail"])) {
+                            echo "<li><a href='coinLog.php' style='padding:5px 10px;border: 2px double white;'>" . checkCoinBalance($conn, $_SESSION["userEmail"]) . " coin(s) </a></li>";
+                        }
+                        ?>
                         <li><a href="index.php">Home</a></li>
                         <li><a href="product.php">Products</a></li>
                         <li><a href="cart.php">Cart</a></li>
