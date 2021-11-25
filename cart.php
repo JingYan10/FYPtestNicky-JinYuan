@@ -78,17 +78,17 @@ include_once 'includes/functions.inc.php';
                     <div class='product'>
                         <div class='product-image'>
                             <img src="<?= $row['productImage'] ?>">
-                            <input type="hidden" name="cart[<?= $productID ?>]['id']" value="<?= $productID ?>">
+                            <input type="hidden" name="cart[<?= $productID ?>][id]" value="<?= $productID ?>">
                         </div>
                         <div class='product-details'>
                             <div class='product-title'><?= $row['productName'] ?></div>
                         </div>
                         <div class='product-price' id='pprice'><?= $row['productPrice'] ?>
-                            <input type='hidden' class="hiddenLinePrice" name="cart[<?= $productID ?>]['product-line-price']" value="0">
-                            <input type='hidden' name="cart[<?= $productID ?>]['unit_price']" value="<?= $row['productPrice'] ?>">
+                            <input type='hidden' class="hiddenLinePrice" name="cart[<?= $productID ?>][product-line-price]" value="0">
+                            <input type='hidden' name="cart[<?= $productID ?>][unit_price]" value="<?= $row['productPrice'] ?>">
                         </div>
                         <div class='product-quantity' id='pquantity'>
-                            <input type='number' value='1' min='1' name="cart[<?= $productID ?>]['qty']" max='<?= $productQuantity ?>'>
+                            <input type='number' value='1' min='1' name="cart[<?= $productID ?>][qty]" max='<?= $productQuantity ?>'>
                         </div>
                         <div class='product-removal'>
                             <a href='includes/removeFromCart.inc.php?productID=<?= $productID ?>'><button type="button">Delete</button></a>
@@ -96,14 +96,18 @@ include_once 'includes/functions.inc.php';
                         </div>
 
                         <div class='product-line-price'>
+                            <?= $row['productPrice'] ?>
                         </div>
                     </div>
             <?php
-                    $arrayPaymentData['productID'][] = $row['productID'];
-                    $arrayPaymentData['productQuantity'][] = $row['productQuantity'];
+                    // $arrayPaymentData['productID'][] = $row['productID'];
+                    // $arrayPaymentData['productQuantity'][] = $row['productQuantity'];
                 } else {
                 }
             }
+
+            // $_SESSION["arrayPaymentData"] = $arrayPaymentData;
+          
             ?>
 
             <div class="totals">
@@ -111,22 +115,22 @@ include_once 'includes/functions.inc.php';
 
                     <div class="totals-item totals-item-total">
                         <label>Grand Total</label>
-                        <div class="totals-value" id="cart-total"></div>
+                        <div class="totals-value" id="cart-total"><?= $totalPrice?></div>
                     </div>
                 </div>
                 <input type="hidden" name="grandTotal" id="grandTotalHidden" value="0">
-                <input type="hidden" name="paymentID" value="<?= $paymentData ?>">
+                <input type="hidden" name="paymentID" id="paymentID" value= >
+                
                 <button class="checkout" button type="submit">Checkout</button>
-
             </div>
         </div>
     </form>
-    <div id="paypal-button-container"></div>
+    <!-- <div id="paypal-button-container"></div> -->
     <!-- <div id="paypal-button-container"></div> -->
 
 </div>
 
-
+<!-- <input type="hidden" name="paymentID" value="<?//= json_encode($arrayPaymentData) ?>"> -->
 
 
 <!--footer-->
@@ -250,72 +254,72 @@ include_once 'footer.php';
         });
     }
 
-    function changeQuantity(a) {
-        var inputQty = $(a).val();
-        var productQuantity = $(a).attr("max");
-        var productID = $(a).attr("id");
-        var qty = productQuantity - inputQty;
-        console.log(productID);
+    // function changeQuantity(a) {
+    //     var inputQty = $(a).val();
+    //     var productQuantity = $(a).attr("max");
+    //     var productID = $(a).attr("id");
+    //     var qty = productQuantity - inputQty;
+    //     console.log(productID);
 
-        $.ajax({
-            url: 'includes/updateProduct.inc.php',
-            type: 'post',
-            data: {
-                productID: productID,
-                qty: qty
-            },
-            success: function(result) {
+    //     $.ajax({
+    //         url: 'includes/updateProduct.inc.php',
+    //         type: 'post',
+    //         data: {
+    //             productID: productID,
+    //             qty: qty
+    //         },
+    //         success: function(result) {
 
-            }
+    //         }
 
-        })
-    }
+    //     })
+    // }
 
-    $(function() {
-        paypal.Buttons({
-            style: {
-                layout: 'vertical',
-                color: 'blue',
-                shape: 'rect',
-                label: 'paypal'
-            },
-        }).render('#paypal-button-container');
-    })
+    // $(function() {
+    //     paypal.Buttons({
+    //         style: {
+    //             layout: 'vertical',
+    //             color: 'blue',
+    //             shape: 'rect',
+    //             label: 'paypal'
+    //         },
+    //     }).render('#paypal-button-container');
+    // })
 
     
-    function pay() {
-        // var total = $to;
+    // function pay() {
+    //     // var total = $to;
         
-        // console.log (total);
-        // var total = $('#grandTotalHidden').val();
+    //     // console.log (total);
+    //     // var total = $('#grandTotalHidden').val();
         
-        paypal.Buttons({
-            createOrder: function(data, actions) {
-                // This function sets up the details of the transaction, including the amount and line item details.
-                return actions.order.create({
-                    purchase_units: [{
-                        amount: {
-                            value: total
-                        }
-                    }]
-                });
-            },
-            onApprove: function(data, actions) {
-                // This function captures the funds from the transaction.
-                return actions.order.capture().then(function(details) {
-                    // This function shows a transaction success message to your buyer.
-                    console.log(details);
+    //     paypal.Buttons({
+    //         createOrder: function(data, actions) {
+    //             // This function sets up the details of the transaction, including the amount and line item details.
+    //             return actions.order.create({
+    //                 purchase_units: [{
+    //                     amount: {
+    //                         value: total
+    //                     }
+    //                 }]
+    //             });
+    //         },
+    //         onApprove: function(data, actions) {
+    //             // This function captures the funds from the transaction.
+    //             return actions.order.capture().then(function(details) {
+    //                 // This function shows a transaction success message to your buyer.
+    //                 console.log(details);
 
-                    if (details.status == 'success') {
-                        // ajax update product 
-                        // ajax update cart
-                        // payment status
-                    }
-                    alert('Transaction completed by ' + details.payer.name.given_name);
-                });
-            }
-        });
-    }
+    //                 if (details.status == 'success') {
+    //                     // ajax update product 
+    //                     // ajax update cart
+    //                     // payment status
+    //                 }
+    //                 alert('Transaction completed by ' + details.payer.name.given_name);
+    //             });
+    //         }
+    //     });
+    // }
 </script>
 
 </script>

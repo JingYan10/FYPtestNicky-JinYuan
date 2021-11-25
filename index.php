@@ -95,6 +95,7 @@
                         <li><a href="index.php">Home</a></li>
                         <li><a href="product.php">Products</a></li>
                         <li><a href="cart.php">Cart</a></li>
+                        <li><a href="verifier.php">Verify</a></li>
                         <li><a href="faq.php">About</a></li>
                         <?php
                             if(isset($_SESSION["userEmail"])){
@@ -107,7 +108,7 @@
                         ?>   
                     </ul>
                 </nav>
-                <a href="verifier.php"><img src="images/images/cart.png" width="30px" height="30px" alt=""></a>
+                <!-- <a href="verifier.php"><img src="images/images/cart.png" width="30px" height="30px" alt=""></a> -->
                 <img src="images/images/menu.png" class="menu-icon" onclick="toggleMenu()">
             </div>
 
