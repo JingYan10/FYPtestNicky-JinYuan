@@ -636,20 +636,21 @@ function removeFromCart($conn, $productID,  $userEmail)
     exit();
 }
 
-// function removeAllFromCart($conn, $userEmail)
-// {
-//     $sql = "DELETE FROM cart WHERE userEmail = '$userEmail';";
-//     $stmt = mysqli_stmt_init($conn);
-//     if (!mysqli_stmt_prepare($stmt, $sql)) {
-//         header("location: ../cart.php?error=stmtFailed");
-//         exit();
-//     }
+function removeAllFromCart($conn, $userEmail)
+{
+    $sql = "DELETE FROM cart WHERE userEmail = '$userEmail';";
+    $stmt = mysqli_stmt_init($conn);
+    if (!mysqli_stmt_prepare($stmt, $sql)) {
+        header("location: ../cart.php?error=stmtFailed");
+        exit();
+    }
 
-//     mysqli_stmt_execute($stmt);
-//     mysqli_stmt_close($stmt);
-//     header("location: ../product.php?error=none");
-//     exit();
-// }
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_close($stmt);
+    header("location: ../product.php?error=none");
+    exit();
+}
+
 
 function searchBidding($conn, $searchData)
 {
@@ -821,6 +822,8 @@ function generateNewShipmentArrangementNo($conn)
     $soldProductNewShipmentArrangementNo = "";
     if ($resultCheck > 0) {
         while ($row = mysqli_fetch_assoc($result)) {
+            // print_r($row);
+            // die();
             $soldProductNewShipmentArrangementNo = $row['shipmentArrangementNo'];
         }
     } else {
@@ -842,7 +845,7 @@ function createSoldProductData($conn, $productID, $productQuantity, $paymentID, 
 
     $stmt = mysqli_stmt_init($conn);
     if (!mysqli_stmt_prepare($stmt, $sql)) {
-        header("location: ../buyProduct.inc.php?error=stmtFailed1");
+        header("location: ../buyProduct.inc.php?error=stmtFailed92");
         exit();
     }
     mysqli_stmt_execute($stmt);
@@ -1269,7 +1272,7 @@ function createProductRating($conn, $productID, $productRating, $userEmail)
     $sql = "INSERT INTO rating (productID, ratingNO, userEmail) VALUES ('$productID', '$productRating', '$userEmail');";
     $stmt = mysqli_stmt_init($conn);
     if (!mysqli_stmt_prepare($stmt, $sql)) {
-        header("location: ../productReview.php?error=stmtFailed1");
+        header("location: ../productReview.php?error=stmtFailed90");
         exit();
     }
     mysqli_stmt_execute($stmt);

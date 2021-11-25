@@ -11,17 +11,17 @@ $products = json_decode($_POST['product'], true);
 
 $sql = "SELECT * FROM payment";
 
-    $stmt = mysqli_stmt_init($conn);
-    $result = mysqli_query($conn, $sql);
-    $resultCheck = mysqli_num_rows($result);
-    $paymentID = "";
+$stmt = mysqli_stmt_init($conn);
+$result = mysqli_query($conn, $sql);
+$resultCheck = mysqli_num_rows($result);
+$paymentID = "";
 
 
-    $databaseShiftNo = "";
-    if ($resultCheck > 0) {
-        while ($row = mysqli_fetch_assoc($result)) {
-            $paymentID = $row['paymentID'];
-        }
+$databaseShiftNo = "";
+if ($resultCheck > 0) {
+    while ($row = mysqli_fetch_assoc($result)) {
+        $paymentID = $row['paymentID'];
+    }
 }
 
 
@@ -44,16 +44,16 @@ $shipmentDate = date('d/m/y h:i:s', strtotime('+1 day'));
 
 $buyProductTestingArray = [];
 
-        foreach ($products['cart'] as $key => $product){
+foreach ($products['cart'] as $key => $product) {
 
-            $row =[
-                'productID' => $product['id'],
-                'productQuantity' => $product['qty'],
-                'paymentID' => $paymentID
-            ];
+    $row = [
+        'productID' => $product['id'],
+        'productQuantity' => $product['qty'],
+        'paymentID' => $paymentID
+    ];
 
-            array_push($buyProductTestingArray,$row);
-        }
+    array_push($buyProductTestingArray, $row);
+}
 // print_r ($buyProductArr);
 
 // $buyProductTestingArray = array(
@@ -62,12 +62,14 @@ $buyProductTestingArray = [];
 //     array('productID' => '4', 'productQuantity' => 4, 'paymentID' => 1),
 // );
 
+// print_r($buyProductTestingArray); echo "<br>";
+// print_r($buyProductTestingArray2); echo "<br>";
 
 $newArrangementNo = generateNewShipmentArrangementNo($conn);
 $previousShiftNo = generatenewShiftNo($conn);
 
-$assignedDelivererEmail = decideDeliverer($conn,$previousShiftNo)[0];
-$newShiftNo = decideDeliverer($conn,$previousShiftNo)[1];
+$assignedDelivererEmail = decideDeliverer($conn, $previousShiftNo)[0];
+$newShiftNo = decideDeliverer($conn, $previousShiftNo)[1];
 
 
 // echo "<br>new shift :   ".$newShiftNo;
@@ -80,23 +82,19 @@ $newShiftNo = decideDeliverer($conn,$previousShiftNo)[1];
 for ($i = 0; $i < sizeof($buyProductTestingArray); $i++) {
     // echo "<br>".$buyProductTestingArray[$i]['productID'];
     // echo "<br>".$buyProductTestingArray[$i]['productQuantity'];
-    createSoldProductData($conn, $buyProductTestingArray[$i]['productID'], $buyProductTestingArray[$i]['productQuantity'], $paymentID, $email, $newArrangementNo);
-    createShipmentData($conn, $buyProductTestingArray[$i]['productID'], $buyProductTestingArray[$i]['productQuantity'], $paymentID, $email, $newArrangementNo, $newShiftNo,$assignedDelivererEmail);
+    createSoldProductData($conn, $buyProductTestingArray[$i]['productID'], $buyProductTestingArray[$i]['productQuantity'],  $buyProductTestingArray[$i]['paymentID'], $email, $newArrangementNo);
+    createShipmentData($conn, $buyProductTestingArray[$i]['productID'], $buyProductTestingArray[$i]['productQuantity'],  $buyProductTestingArray[$i]['paymentID'], $email, $newArrangementNo, $newShiftNo, $assignedDelivererEmail);
 }
-updateTaskDoneDeliverer($conn,$assignedDelivererEmail);
+updateTaskDoneDeliverer($conn, $assignedDelivererEmail);
 
-function removeAllFromCart($conn, $userEmail)
-{
-    $sql = "DELETE FROM cart WHERE userEmail = '$userEmail';";
-    $stmt = mysqli_stmt_init($conn);
-    if (!mysqli_stmt_prepare($stmt, $sql)) {
-        header("location: ../cart.php?error=stmtFailed");
-        exit();
-    }
 
-    mysqli_stmt_execute($stmt);
-    mysqli_stmt_close($stmt);
-    header("location: ../product.php?error=none");
+$sql = "DELETE FROM cart WHERE userEmail = '$email';";
+$stmt = mysqli_stmt_init($conn);
+if (!mysqli_stmt_prepare($stmt, $sql)) {
+    return false;
     exit();
 }
+
+mysqli_stmt_execute($stmt);
+mysqli_stmt_close($stmt);
 

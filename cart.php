@@ -22,7 +22,7 @@ include_once 'includes/functions.inc.php';
 
 <!--content here-->
 <div class="Main-Container">
-    <form method="POST" action="payment.php" autocomplete="off">
+    <form method="POST" action="payment.php" autocomplete="off" id = "cartForm">
         <div class="CartContainer">
             <div class="column-labels">
                 <label class="product-image">Image</label>
@@ -118,10 +118,10 @@ include_once 'includes/functions.inc.php';
                         <div class="totals-value" id="cart-total"><?= $totalPrice?></div>
                     </div>
                 </div>
-                <input type="hidden" name="grandTotal" id="grandTotalHidden" value="0">
+                <input type="hidden" name="grandTotal" id="grandTotalHidden" value="<?= $totalPrice?>">
                 <input type="hidden" name="paymentID" id="paymentID" value= >
                 
-                <button class="checkout" button type="submit">Checkout</button>
+                <button class="checkout" button type="button" onclick ="calculateTotal()">Checkout</button>
             </div>
         </div>
     </form>
@@ -254,72 +254,13 @@ include_once 'footer.php';
         });
     }
 
-    // function changeQuantity(a) {
-    //     var inputQty = $(a).val();
-    //     var productQuantity = $(a).attr("max");
-    //     var productID = $(a).attr("id");
-    //     var qty = productQuantity - inputQty;
-    //     console.log(productID);
+    function calculateTotal() {
+        var grandTotal = $('#grandTotalHidden').val();
 
-    //     $.ajax({
-    //         url: 'includes/updateProduct.inc.php',
-    //         type: 'post',
-    //         data: {
-    //             productID: productID,
-    //             qty: qty
-    //         },
-    //         success: function(result) {
-
-    //         }
-
-    //     })
-    // }
-
-    // $(function() {
-    //     paypal.Buttons({
-    //         style: {
-    //             layout: 'vertical',
-    //             color: 'blue',
-    //             shape: 'rect',
-    //             label: 'paypal'
-    //         },
-    //     }).render('#paypal-button-container');
-    // })
-
-    
-    // function pay() {
-    //     // var total = $to;
-        
-    //     // console.log (total);
-    //     // var total = $('#grandTotalHidden').val();
-        
-    //     paypal.Buttons({
-    //         createOrder: function(data, actions) {
-    //             // This function sets up the details of the transaction, including the amount and line item details.
-    //             return actions.order.create({
-    //                 purchase_units: [{
-    //                     amount: {
-    //                         value: total
-    //                     }
-    //                 }]
-    //             });
-    //         },
-    //         onApprove: function(data, actions) {
-    //             // This function captures the funds from the transaction.
-    //             return actions.order.capture().then(function(details) {
-    //                 // This function shows a transaction success message to your buyer.
-    //                 console.log(details);
-
-    //                 if (details.status == 'success') {
-    //                     // ajax update product 
-    //                     // ajax update cart
-    //                     // payment status
-    //                 }
-    //                 alert('Transaction completed by ' + details.payer.name.given_name);
-    //             });
-    //         }
-    //     });
-    // }
+        if (grandTotal >= 1) {
+            $('#cartForm').submit();
+        }
+    }
 </script>
 
 </script>

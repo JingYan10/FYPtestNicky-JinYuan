@@ -66,7 +66,11 @@ require_once 'includes/functions.inc.php';
                         ?>
                     </ul>
                 </nav>
-                <a href="verifier.php"><img src="images/images/cart.png" width="30px" height="30px" alt=""></a>
+                <?php 
+                 if ( $_SESSION["userRole"] == 'verifier')
+                 echo '<a href="verifier.php"><img src="images/images/cart.png" width="30px" height="30px" alt=""></a>';
+                ?>
+               
                 <img src="images/images/menu.png" class="menu-icon" onclick="toggleMenu()">
             </div>
 
