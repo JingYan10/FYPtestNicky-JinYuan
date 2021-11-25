@@ -1,5 +1,9 @@
 /* Global "table" column settings */
 
+h1 {
+    font-family: 'Times New Roman', Times, serif;
+}
+
 .product-image {
     float: left;
     width: 20%;

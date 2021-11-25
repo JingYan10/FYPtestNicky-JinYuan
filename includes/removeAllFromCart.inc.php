@@ -1,7 +1,6 @@
 <?php
 session_start();
 
-    
     $userEmail = $_SESSION["userEmail"];
 
     require_once 'databaseHandler.inc.php';

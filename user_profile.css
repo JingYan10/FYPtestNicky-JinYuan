@@ -68,6 +68,19 @@
     cursor: pointer;
 }
 
+#btnSearchFriend {
+    background-color: #0455be;
+    border: none;
+    color: white;
+    padding: 12px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    margin-left: 10px;
+    cursor: pointer;
+}
+
 .btnEdit:hover,
 .btnDeliveryPin:hover {
     background-color: #16bbf1;
@@ -313,4 +326,50 @@ table th {
     font-size: 14px;
     font-weight: 400;
     display: none;
+}
+
+.search {
+    width: 100%;
+    position: relative;
+    display: flex;
+}
+
+.searchTerm {
+    width: 30%;
+    border: 3px solid #00B4CC;
+    border-right: none;
+    padding: 19px;
+    height: 20px;
+    border-radius: 5px 0 0 5px;
+    outline: none;
+    color: #9DBFAF;
+    margin-left: 9px;
+}
+
+.searchTerm:focus {
+    color: #00B4CC;
+}
+
+.searchButton {
+    width: 45px;
+    height: 40px;
+    border: 1px solid #00B4CC;
+    background: #00B4CC;
+    text-align: center;
+    color: #fff;
+    border-radius: 0 5px 5px 0;
+    cursor: pointer;
+    font-size: 20px;
+    margin-top: 10px;
+}
+
+
+/*Resize the wrap to see the search bar change!*/
+
+.wrap {
+    width: 30%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
