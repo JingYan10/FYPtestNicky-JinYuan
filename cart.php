@@ -11,6 +11,10 @@ include_once 'includes/functions.inc.php';
 <!--link to css-->
 <link rel="stylesheet" href="cart.css">
 
+<!-- <script src="https://www.paypal.com/sdk/js?client-id=AeVGLPsUt-ACbymXZlhlEgDq1yWTka3VFj5pEX5QrsSJX5bHf1rjSA88SbI2YKWImMRpgPouhAjnJCwF">
+    // Required. Replace YOUR_CLIENT_ID with your sandbox client ID.
+</script> -->
+
 
 
 
@@ -18,7 +22,7 @@ include_once 'includes/functions.inc.php';
 
 <!--content here-->
 <div class="Main-Container">
-    <form method="POST" action="buyProduct.inc.php" autocomplete="off">
+    <form method="POST" action="payment.php" autocomplete="off">
         <div class="CartContainer">
             <div class="column-labels">
                 <label class="product-image">Image</label>
@@ -112,11 +116,12 @@ include_once 'includes/functions.inc.php';
                 </div>
                 <input type="hidden" name="grandTotal" id="grandTotalHidden" value="0">
                 <input type="hidden" name="paymentID" value="<?= $paymentData ?>">
-                <a href="payment.php" class="checkout" button type="submit">Checkout</button></a>
+                <button class="checkout" button type="submit">Checkout</button>
 
             </div>
         </div>
     </form>
+    <div id="paypal-button-container"></div>
     <!-- <div id="paypal-button-container"></div> -->
 
 </div>
@@ -189,6 +194,7 @@ include_once 'footer.php';
     });
 
 
+
     /* Recalculate cart */
     function recalculateCart() {
         var subtotal = 0;
@@ -214,6 +220,9 @@ include_once 'footer.php';
         });
 
         $('#grandTotalHidden').val(total);
+
+        
+        // return total;
     }
 
 
@@ -275,9 +284,11 @@ include_once 'footer.php';
 
     
     function pay() {
-        var total = $('#grandTotalHidden').val();
-        console.log ("test");
-
+        // var total = $to;
+        
+        // console.log (total);
+        // var total = $('#grandTotalHidden').val();
+        
         paypal.Buttons({
             createOrder: function(data, actions) {
                 // This function sets up the details of the transaction, including the amount and line item details.
