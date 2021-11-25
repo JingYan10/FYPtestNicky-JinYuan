@@ -63,7 +63,7 @@ include_once 'includes/functions.inc.php';
                     echo "<div class='product-price' id='price'>$twoDecimalPrice </div>";
                     echo "<div class='product-removal'>";
                     $productData = "productID=" . $row2['productID'] . "&productQuantity=1&wishlist=yes";
-                    echo "<a href='includes/addToCart.inc.php?$productData'><button>Add to cart</button></a>";
+                    echo "<a href='includes/wishlistAddtoCart.inc.php?$productData'><button>Add to cart</button></a>";
                     echo "</div>";
                     echo "</div>";
                 }

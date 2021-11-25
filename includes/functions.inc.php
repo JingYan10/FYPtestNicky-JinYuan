@@ -1522,3 +1522,4 @@ function acceptFriend($conn, $currentUserEmail, $friendEmail){
 }
 
 // sql to get whole friendlist for current user select * from friendlist where firstUserEmail = '$currentUserEmail' OR secondUserEmail = '$currentUserEmail';
+

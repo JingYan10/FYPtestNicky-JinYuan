@@ -1,0 +1,116 @@
+.bidding-container {
+    width: 1200px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.bidding-inner-container {
+    width: 500px;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    margin-left: 340px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 10px 10px 15px rgba(0, 0, 0, 0.05);
+}
+
+.bidding-info {
+    padding-top: 50px;
+    padding-bottom: 50px;
+    margin-left: 50px;
+}
+
+
+/*table*/
+
+table {
+    margin-left: 120px;
+}
+
+table td,
+table th {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+
+/* table tr:nth-child(even){
+    background-color: #f2f2f2;
+  } */
+
+table tr:hover {
+    background-color: #ddd;
+}
+
+table th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #4d4d4d;
+    color: white;
+}
+
+.btnJoinBidding {
+    margin-top: 5px;
+    background-color: #0455be;
+    border: none;
+    color: white;
+    padding: 12px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    margin-left: 0px;
+    cursor: pointer;
+}
+
+.btnJoinBidding:hover {
+    background-color: #16bbf1;
+    box-shadow: 10px 10px 15px rgba(0, 0, 0, 0.05);
+}
+
+.biddingSearchBar {
+    margin-left: 180px;
+    height: 35px;
+    width: 320px;
+    font-size: 18px;
+    font-weight: 400;
+}
+
+.btnDeduct {
+    margin-top: 5px;
+    background-color: #e43939;
+    border: none;
+    color: white;
+    padding: 12px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    margin-left: 100px;
+    cursor: pointer;
+}
+
+.btnAdd {
+    margin-top: 5px;
+    background-color: #0455be;
+    border: none;
+    color: white;
+    padding: 12px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    margin-left: 0px;
+    cursor: pointer;
+}
+
+.btnDeduct:hover,
+.btnAdd:hover {
+    background-color: #16bbf1;
+    box-shadow: 10px 10px 15px rgba(0, 0, 0, 0.05);
+}
+
+.bidding-function-container {
+    margin-bottom: 40px;
+}
