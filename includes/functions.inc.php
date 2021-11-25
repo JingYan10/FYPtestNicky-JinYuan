@@ -428,25 +428,21 @@ function searchProduct($conn, $email, $searchData)
         }
     }
 }
-function generateFriendCode($conn)
+
+function decreaseProductQuantityForBidding($conn, $productID, $productQuantity)
 {
-    $friendCode = "";
-    $count = 0;
-    $sql = "SELECT * FROM users";
-    $result = mysqli_query($conn, $sql);
-    $resultCheck = mysqli_num_rows($result);
-    if ($resultCheck > 0) {
-        while ($row = mysqli_fetch_assoc($result)) {
-            $databaseFriendCode =  $row['friendCode'];
-        }
+    echo $productQuantity;
+    echo $productID;
+    $deductQuantity = $productQuantity - 1;
+    echo $deductQuantity;
+    $sql = "UPDATE product SET productQuantity = '$deductQuantity' WHERE productID = '$productID'; ";
+    $stmt = mysqli_stmt_init($conn);
+    if (!mysqli_stmt_prepare($stmt, $sql)) {
+        header("location: ../userProfile.php?error=stmtFailed12");
+        exit();
     }
-    if ($databaseFriendCode != uniqid()) {
-        $friendCode = uniqid() . uniqid();
-        $count++;
-    } else {
-        $friendCode = uniqid() . uniqid() . $count;
-    }
-    return $friendCode;
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_close($stmt);
 }
 function createBidding($conn, $productID, $biddingEndingTime, $biddingStartingPrice, $biddingEndingPrice, $totalBidder)
 {
@@ -498,6 +494,28 @@ function deductCoin($conn, $biddingPrice, $email, $biddingID)
     mysqli_stmt_close($stmt);
     header("location: ../biddingDetail.php?biddingID=" . $biddingID);
 }
+function increaseProductQuantityBidding($conn, $productID)
+{
+    $sql = "UPDATE product SET productQuantity = productQuantity+1 WHERE productID = '$productID'; ";
+    $stmt = mysqli_stmt_init($conn);
+    if (!mysqli_stmt_prepare($stmt, $sql)) {
+        header("location: ../userProfile.php?error=stmtFailed13");
+        exit();
+    }
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_close($stmt);
+}
+function refundBiddingCoin($conn, $biddingID)
+{
+    $sql = "UPDATE coin SET transactionStatus = 'biddingRefund' WHERE biddingID = $biddingID AND transactionStatus = 'deduct1';";
+    $stmt = mysqli_stmt_init($conn);
+    if (!mysqli_stmt_prepare($stmt, $sql)) {
+        header("location: ../pinChangePassword.php?error=stmtFailed15");
+        exit();
+    }
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_close($stmt);
+}
 function updateBiddingWinner($conn)
 {
     date_default_timezone_set("Asia/Kuala_Lumpur");
@@ -520,44 +538,59 @@ function updateBiddingWinner($conn)
             if ($dateBiddingEndingTime <= $currentDate) {
                 $_SESSION["biddingID"] = $row['biddingID'];
                 $_SESSION["biddingEndingPrice"] = $row['biddingEndingPrice'];
+                $_SESSION["totalBidder"] = $row['totalBidder'];
+                $_SESSION["biddingProductID"] = $row['biddingProductID'];
             }
         }
         $biddingID = $_SESSION["biddingID"];
         $biddingEndingPrice = $_SESSION["biddingEndingPrice"];
+        $totalBidder = $_SESSION["totalBidder"];
 
         // echo "biddingID : ".$biddingID."<br>";
         // echo "biddingPrice : ".$biddingEndingPrice."<br>";
 
-        $sql = "SELECT * FROM biddingparticipant where biddingID = '$biddingID' AND biddingPrice = $biddingEndingPrice ";
-        $result = mysqli_query($conn, $sql);
-        $resultCheck = mysqli_num_rows($result);
 
-        if ($resultCheck > 0) {
-            while ($row = mysqli_fetch_assoc($result)) {
-                $_SESSION["biddingWinner"] = $row['userEmail'];
+        if (!$totalBidder <= 0) { // got participant
+            $sql = "SELECT * FROM biddingparticipant where biddingID = '$biddingID' AND biddingPrice = $biddingEndingPrice ";
+            $result = mysqli_query($conn, $sql);
+            $resultCheck = mysqli_num_rows($result);
+
+            if ($resultCheck > 0) {
+                while ($row = mysqli_fetch_assoc($result)) {
+                    $_SESSION["biddingWinner"] = $row['userEmail'];
+                }
             }
-        }
-        // echo $_SESSION["biddingWinner"];
-        $biddingWinner = $_SESSION["biddingWinner"];
+            // echo $_SESSION["biddingWinner"];
+            $biddingWinner = $_SESSION["biddingWinner"];
 
-        $sql = "UPDATE bidding SET biddingWinner = '$biddingWinner' WHERE biddingID = $biddingID;";
-        $stmt = mysqli_stmt_init($conn);
-        if (!mysqli_stmt_prepare($stmt, $sql)) {
-            header("location: ../pinChangePassword.php?error=stmtFailed");
-            exit();
-        }
-        mysqli_stmt_execute($stmt);
-        mysqli_stmt_close($stmt);
+            //update bidding winner userEmail
+            $sql = "UPDATE bidding SET biddingWinner = '$biddingWinner' WHERE biddingID = $biddingID;";
+            $stmt = mysqli_stmt_init($conn);
+            if (!mysqli_stmt_prepare($stmt, $sql)) {
+                header("location: ../pinChangePassword.php?error=stmtFailed");
+                exit();
+            }
+            mysqli_stmt_execute($stmt);
+            mysqli_stmt_close($stmt);
 
-        $transactionStatus = "deduct2";
-        $sql = "UPDATE coin SET transactionStatus = '$transactionStatus' WHERE biddingID = $biddingID AND coinAmount = $biddingEndingPrice ";
-        $stmt = mysqli_stmt_init($conn);
-        if (!mysqli_stmt_prepare($stmt, $sql)) {
-            header("location: ../pinChangePassword.php?error=stmtFailed");
-            exit();
+            //refund coin to specific user who joined the bidding : working
+            refundBiddingCoin($conn, $biddingID);
+
+            //deduct coin from specific user
+            $transactionStatus = "deduct2";
+            $sql = "UPDATE coin SET transactionStatus = '$transactionStatus' WHERE biddingID = $biddingID AND coinAmount = $biddingEndingPrice ";
+            $stmt = mysqli_stmt_init($conn);
+            if (!mysqli_stmt_prepare($stmt, $sql)) {
+                header("location: ../pinChangePassword.php?error=stmtFailed");
+                exit();
+            }
+            mysqli_stmt_execute($stmt);
+            mysqli_stmt_close($stmt);
+        } else { // no participant
+            //increase specific productID by one 
+            $biddingProductID = $_SESSION["biddingProductID"];
+            increaseProductQuantityBidding($conn, $biddingProductID);
         }
-        mysqli_stmt_execute($stmt);
-        mysqli_stmt_close($stmt);
     }
 }
 function addToCart($conn, $productID, $productQuantity, $userEmail)
@@ -643,7 +676,9 @@ function searchBidding($conn, $searchData)
             echo "<td>" . $row['totalBidder'] . "</td>";
             echo "<td>";
             $biddingData = "biddingID=" . $row['biddingID'];
-            echo "<a href='biddingDetail.php?" . $biddingData . "'>" . "<button class='btnJoinBidding'>join</button></a>";
+            if ($row['biddingWinner'] == null) {
+                echo "<a href='biddingDetail.php?" . $biddingData . "'>" . "<button class='btnJoinBidding'>join</button></a>";
+            }
             echo "</td>";
             echo "</tr>";
         }
@@ -1265,7 +1300,8 @@ function deleteProductReviewNotification($conn, $productID, $userEmail)
     exit();
 }
 
-function updateProduct($conn, $email, $productID, $productQuantity) {
+function updateProduct($conn, $email, $productID, $productQuantity)
+{
     $sql = "UPDATE product set productQuantity = '$productQuantity' where productID = '$productID'";
     $stmt = mysqli_stmt_init($conn);
     if (!mysqli_stmt_prepare($stmt, $sql)) {
@@ -1279,7 +1315,8 @@ function updateProduct($conn, $email, $productID, $productQuantity) {
     exit();
 }
 
-function makePayment ($conn, $userEmail, $paymentAmount, $paymentStatus, $paymentDate){
+function makePayment($conn, $userEmail, $paymentAmount, $paymentStatus, $paymentDate)
+{
     $sql = "INSERT INTO payment (paymentAmount, userEmail, paymentStatus, paymentDate) VALUES ('$paymentAmount', '$userEmail', '$paymentStatus', '$paymentDate');";
     $stmt = mysqli_stmt_init($conn);
     if (!mysqli_stmt_prepare($stmt, $sql)) {
@@ -1345,7 +1382,143 @@ function productRatingResult($finalRating)
                 "<i class='fa fa-star fa-1x' data-index='0' style='color:yellow'></i>";
             break;
         default:
-           
     }
     return $printResult;
 }
+function removeFromWishlist($conn, $userEmail, $productID)
+{
+    $sql = "DELETE FROM wishlist WHERE userEmail='$userEmail' AND productID='$productID' ";
+    $stmt = mysqli_stmt_init($conn);
+    if (!mysqli_stmt_prepare($stmt, $sql)) {
+        header("location: ../wishlist.php?error=stmtFailed");
+        exit();
+    }
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_close($stmt);
+    header("location: ../wishlist.php");
+    exit();
+}
+function isProductIDExistCart($conn, $productID)
+{
+    $sql = "SELECT * FROM cart where productID ='$productID'";
+    $result = mysqli_query($conn, $sql);
+    $resultCheck = mysqli_num_rows($result);
+    if ($resultCheck > 0) {
+        while ($row = mysqli_fetch_assoc($result)) {
+            $existence = true;
+        }
+    } else {
+        $existence = false;
+    }
+    return $existence;
+}
+function checkCoinBalance($conn, $userEmail)
+{
+    $deductCoin = 0;
+    $addCoin = 0;
+    $sql = "SELECT * FROM coin WHERE userEmail = '$userEmail';";
+    $result = mysqli_query($conn, $sql);
+    $resultCheck = mysqli_num_rows($result);
+    if ($resultCheck > 0) {
+        while ($row = mysqli_fetch_assoc($result)) {
+            if ($row["transactionStatus"] == "biddingRefund") {
+                $addCoin += $row["coinAmount"];
+            } else if ($row["transactionStatus"] == "deduct1") {
+                $deductCoin += $row["coinAmount"];
+            } else if ($row["transactionStatus"] == "deduct2") {
+                $deductCoin += $row["coinAmount"];
+            }
+        }
+    }
+    $coinBalance = $addCoin - $deductCoin;
+    return $coinBalance;
+}
+//friendlist
+function generateFriendCode($conn)
+{
+    $friendCode = "";
+    $count = 0;
+    $sql = "SELECT * FROM users";
+    $result = mysqli_query($conn, $sql);
+    $resultCheck = mysqli_num_rows($result);
+    if ($resultCheck > 0) {
+        while ($row = mysqli_fetch_assoc($result)) {
+            $databaseFriendCode =  $row['friendCode'];
+        }
+    }
+    if ($databaseFriendCode != uniqid()) {
+        $friendCode = uniqid() . uniqid();
+        $count++;
+    } else {
+        $friendCode = uniqid() . uniqid() . $count;
+    }
+    return $friendCode;
+}
+function searchFriendByFriendCode($conn, $friendCode)
+{
+    $sql = "SELECT * FROM users WHERE friendCode = '$friendCode';";
+    $result = mysqli_query($conn, $sql);
+    $resultCheck = mysqli_num_rows($result);
+    $foundFriendDetail = array();
+    if ($resultCheck > 0) {
+        while ($row = mysqli_fetch_assoc($result)) {
+            $foundFriendDetail['userFirstName'] = $row["userFirstName"];
+            $foundFriendDetail['userLastName'] = $row["userLastName"];
+            $foundFriendDetail['userImage'] = $row["userImage"];
+        }
+    }
+    return $foundFriendDetail;
+}
+function isFriend($conn, $firstUserEmail, $secondUserEmail)
+{
+    $sql = "SELECT * FROM friendlist WHERE firstUserEmail = '$firstUserEmail' AND secondUserEmail = '$secondUserEmail' OR firstUserEmail = '$secondUserEmail' AND secondUserEmail = '$firstUserEmail';";
+    $result = mysqli_query($conn, $sql);
+    $resultCheck = mysqli_num_rows($result);
+
+    $isFriend = false;
+    if ($resultCheck > 0) {
+        while ($row = mysqli_fetch_assoc($result)) {
+            if ($row["friendStatus"] == "accepted") {
+                $isFriend = true;
+            }
+        }
+    }
+    return $isFriend;
+}
+function addFriend($conn, $currentUserEmail, $friendEmail)
+{
+    $sql = "INSERT INTO friendlist (firstUserEmail, secondUserEmail, friendStatus) VALUES ('$currentUserEmail','$friendEmail','pending')";
+    $stmt = mysqli_stmt_init($conn);
+    if (!mysqli_stmt_prepare($stmt, $sql)) {
+        header("location: ../buyProduct.inc.php?error=stmtFailed18"); // rmb to edit the error apge
+        exit();
+    }
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_close($stmt);
+}
+function rejectFriend($conn, $currentUserEmail, $friendEmail){
+
+    $friendStatus = "rejected";
+    $sql = "UPDATE friendlist SET friendStatus = '$friendStatus' WHERE firstUserEmail = '$currentUserEmail' AND secondUserEmail = '$friendEmail' OR firstUserEmail = '$friendEmail' AND secondUserEmail = '$currentUserEmail'; ";
+    $stmt = mysqli_stmt_init($conn);
+    if (!mysqli_stmt_prepare($stmt, $sql)) {
+        header("location: ../user_profile_edit.php?error=stmtFailed");
+        exit();
+    }
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_close($stmt);
+}
+function acceptFriend($conn, $currentUserEmail, $friendEmail){
+
+    $friendStatus = "accepted";
+    $sql = "UPDATE friendlist SET friendStatus = '$friendStatus' WHERE firstUserEmail = '$currentUserEmail' AND secondUserEmail = '$friendEmail' OR firstUserEmail = '$friendEmail' AND secondUserEmail = '$currentUserEmail'; ";
+    $stmt = mysqli_stmt_init($conn);
+    if (!mysqli_stmt_prepare($stmt, $sql)) {
+        header("location: ../user_profile_edit.php?error=stmtFailed");
+        exit();
+    }
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_close($stmt);
+}
+
+// sql to get whole friendlist for current user select * from friendlist where firstUserEmail = '$currentUserEmail' OR secondUserEmail = '$currentUserEmail';
