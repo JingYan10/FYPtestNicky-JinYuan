@@ -102,26 +102,26 @@ if ($resultCheck > 0) {
                     } else if ($row2["ratingNO"] == "5") {
                         $star5++;
                     }
-                    $totalRating += (int) $row2["ratingNO"];
+                    $totalRating += (float) $row2["ratingNO"];
                     $totalRatingCount++;
                 }
             }
             $finalRating = 0;
             if ($totalRating != 0 || $totalRatingCount != 0) {
-                $finalRating = round($totalRating / $totalRatingCount);
+                $finalRating = $totalRating / $totalRatingCount;
             }  
             
             $arrayRatingProductID = array_values(array_filter(array_unique($d))); 
 
-            if(in_array($row['productID'], $arrayRatingProductID)){
+            if(in_array($row['productID'], $arrayRatingProductID)){ 
                 //b = cart, c = wishlist
                 if (in_array($row['productID'], $b) && in_array($row['productID'], $c)) {
                     $productdata = "productID=" . $row['productID'] . "&wishlist=exist&cart=exist";
                     $productQuantity = "&productQuantity=" . $row['productQuantity'];
                     echo  "<a href='productDetail.php?" . $productdata . "'>";
                     echo "<div class='card2'>" . "<img " . "src=" . $row['productImage'] . ">";
-                    echo "<h1>" . $row['productName'] . "</h1>";
-                    echo "<p class = 'price'" . ">" . "RM" . $row['productPrice'] . "</p>";
+                    echo "<h1>" . $row['productName'] . "</h1>"; 
+                    echo "<p class = 'price'" . ">" . "RM" . number_format((float)$row["productPrice"], 2, '.', '') . "</p>";
                     echo productRatingResult($finalRating);
                     echo "<p>" . "Some text about the jeans. Super slim and comfy lorem ipsum lorem jeansum. Lorem jeamsun denim lorem jeansum" . "</p>";
                     echo "<p>" . "<a href='includes/addToWishlist.inc.php?" . $productdata . $productQuantity . "'>" . "<button disabled class='btnAddToCartDisabled'>Add To Wishlist</button></a>" . "</p>";
@@ -134,7 +134,7 @@ if ($resultCheck > 0) {
                     echo  "<a href='productDetail.php?" . $productdata . "'>";
                     echo "<div class='card2'>" . "<img " . "src=" . $row['productImage'] . ">";
                     echo "<h1>" . $row['productName'] . "</h1>";
-                    echo "<p class = 'price'" . ">" . "RM" . $row['productPrice'] . "</p>";
+                    echo "<p class = 'price'" . ">" . "RM" . number_format((float)$row["productPrice"], 2, '.', '') . "</p>";
                     echo productRatingResult($finalRating);
                     echo "<p>" . "Some text about the jeans. Super slim and comfy lorem ipsum lorem jeansum. Lorem jeamsun denim lorem jeansum" . "</p>";
                     echo "<p>" . "<a href='includes/addToWishlist.inc.php?" . $productdata . $productQuantity . "'>" . "<button class='btnAddToWishlist'>Add To Wishlist</button></a>" . "</p>";
@@ -148,7 +148,7 @@ if ($resultCheck > 0) {
                     echo  "<a href='productDetail.php?" . $productdata . "'>";
                     echo "<div class='card2'>" . "<img " . "src=" . $row['productImage'] . ">";
                     echo "<h1>" . $row['productName'] . "</h1>";
-                    echo "<p class = 'price'" . ">" . "RM" . $row['productPrice'] . "</p>";
+                    echo "<p class = 'price'" . ">" . "RM" . number_format((float)$row["productPrice"], 2, '.', '') . "</p>";
                     echo productRatingResult($finalRating);
                     echo "<p>" . "Some text about the jeans. Super slim and comfy lorem ipsum lorem jeansum. Lorem jeamsun denim lorem jeansum" . "</p>";
                     echo "<p>" . "<a href='includes/addToWishlist.inc.php?" . $productdata . $productQuantity . "'>" . "<button disabled class='btnAddToCartDisabled'>Add To Wishlist</button></a>" . "</p>";
@@ -160,8 +160,8 @@ if ($resultCheck > 0) {
                     $productQuantity = "&productQuantity=" . $row['productQuantity'];
                     echo  "<a href='productDetail.php?" . $productdata . "'>";
                     echo "<div class='card2'>" . "<img " . "src=" . $row['productImage'] . ">";
-                    echo "<h1>" . $row['productName'] . "</h1>";
-                    echo "<p class = 'price'" . ">" . "RM" . $row['productPrice'] . "</p>";
+                    echo "<h1>" . $row['productName']  . "</h1>";
+                    echo "<p class = 'price'" . ">" . "RM" . number_format((float)$row["productPrice"], 2, '.', '') . "</p>";
                     echo productRatingResult($finalRating);
                     echo "<p>" . "Some text about the jeans. Super slim and comfy lorem ipsum lorem jeansum. Lorem jeamsun denim lorem jeansum" . "</p>";
                     echo "<p>" . "<a href='includes/addToWishlist.inc.php?" . $productdata . $productQuantity . "'>" . "<button class='btnAddToWishlist'>Add To Wishlist</button></a>" . "</p>";
@@ -176,8 +176,8 @@ if ($resultCheck > 0) {
                     $productQuantity = "&productQuantity=" . $row['productQuantity'];
                     echo  "<a href='productDetail.php?" . $productdata . "'>";
                     echo "<div class='card2'>" . "<img " . "src=" . $row['productImage'] . ">";
-                    echo "<h1>" . $row['productName'] . "</h1>";
-                    echo "<p class = 'price'" . ">" . "RM" . $row['productPrice'] . "</p>";
+                    echo "<h1>" . $row['productName']  . "</h1>";
+                    echo "<p class = 'price'" . ">" . "RM" . number_format((float)$row["productPrice"], 2, '.', '') . "</p>";
                     echo productRatingResult(0);
                     echo "<p>" . "Some text about the jeans. Super slim and comfy lorem ipsum lorem jeansum. Lorem jeamsun denim lorem jeansum" . "</p>";
                     echo "<p>" . "<a href='includes/addToWishlist.inc.php?" . $productdata . $productQuantity . "'>" . "<button disabled class='btnAddToCartDisabled'>Add To Wishlist</button></a>" . "</p>";
@@ -190,7 +190,7 @@ if ($resultCheck > 0) {
                     echo  "<a href='productDetail.php?" . $productdata . "'>";
                     echo "<div class='card2'>" . "<img " . "src=" . $row['productImage'] . ">";
                     echo "<h1>" . $row['productName'] . "</h1>";
-                    echo "<p class = 'price'" . ">" . "RM" . $row['productPrice'] . "</p>";
+                    echo "<p class = 'price'" . ">" . "RM" . number_format((float)$row["productPrice"], 2, '.', '') . "</p>";
                     echo productRatingResult(0);
                     echo "<p>" . "Some text about the jeans. Super slim and comfy lorem ipsum lorem jeansum. Lorem jeamsun denim lorem jeansum" . "</p>";
                     echo "<p>" . "<a href='includes/addToWishlist.inc.php?" . $productdata . $productQuantity . "'>" . "<button class='btnAddToWishlist'>Add To Wishlist</button></a>" . "</p>";
@@ -203,8 +203,8 @@ if ($resultCheck > 0) {
                     $productQuantity = "&productQuantity=" . $row['productQuantity'];
                     echo  "<a href='productDetail.php?" . $productdata . "'>";
                     echo "<div class='card2'>" . "<img " . "src=" . $row['productImage'] . ">";
-                    echo "<h1>" . $row['productName'] . "</h1>";
-                    echo "<p class = 'price'" . ">" . "RM" . $row['productPrice'] . "</p>";
+                    echo "<h1>" . $row['productName']  . "</h1>";
+                    echo "<p class = 'price'" . ">" . "RM" . number_format((float)$row["productPrice"], 2, '.', '') . "</p>";
                     echo productRatingResult(0);
                     echo "<p>" . "Some text about the jeans. Super slim and comfy lorem ipsum lorem jeansum. Lorem jeamsun denim lorem jeansum" . "</p>";
                     echo "<p>" . "<a href='includes/addToWishlist.inc.php?" . $productdata . $productQuantity . "'>" . "<button disabled class='btnAddToCartDisabled'>Add To Wishlist</button></a>" . "</p>";
@@ -217,7 +217,7 @@ if ($resultCheck > 0) {
                     echo  "<a href='productDetail.php?" . $productdata . "'>";
                     echo "<div class='card2'>" . "<img " . "src=" . $row['productImage'] . ">";
                     echo "<h1>" . $row['productName'] . "</h1>";
-                    echo "<p class = 'price'" . ">" . "RM" . $row['productPrice'] . "</p>";
+                    echo "<p class = 'price'" . ">" . "RM" . number_format((float)$row["productPrice"], 2, '.', '') . "</p>";
                     echo productRatingResult(0);
                     echo "<p>" . "Some text about the jeans. Super slim and comfy lorem ipsum lorem jeansum. Lorem jeamsun denim lorem jeansum" . "</p>";
                     echo "<p>" . "<a href='includes/addToWishlist.inc.php?" . $productdata . $productQuantity . "'>" . "<button class='btnAddToWishlist'>Add To Wishlist</button></a>" . "</p>";
@@ -227,7 +227,8 @@ if ($resultCheck > 0) {
                     //echo "normal  productID : ".$row['productID']."<br>";
                 }
             }
-            
+            $totalRating=0;
+            $totalRatingCount=0;
             
         }
     } 

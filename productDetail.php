@@ -47,7 +47,7 @@ if (isset($_GET["productID"])) {
     }
     $finalRating = 0;
     if ($totalRating != 0 || $totalRatingCount != 0) {
-        $finalRating = round($totalRating / $totalRatingCount);
+        $finalRating = $totalRating / $totalRatingCount;
     }
 
     // echo "total rating = " . $totalRating . "<br>";

@@ -1348,9 +1348,11 @@ function makePaymentOnFail($conn, $paymentAmount, $userEmail, $paymentStatus, $p
 }
 function productRatingResult($finalRating)
 {
+    $finalRating = round($finalRating,1);
     $printResult = "";
-    switch ($finalRating) {
-        case 0:
+    switch (true) {
+        case ($finalRating == 0):
+            
             $printResult =
                 "<i class='fa fa-star fa-1x' data-index='0' style='color:black'></i>" .
                 "<i class='fa fa-star fa-1x' data-index='0' style='color:black'></i>" .
@@ -1358,7 +1360,15 @@ function productRatingResult($finalRating)
                 "<i class='fa fa-star fa-1x' data-index='0' style='color:black'></i>" .
                 "<i class='fa fa-star fa-1x' data-index='0' style='color:black'></i>";
             break;
-        case 1:
+        case ($finalRating>=0.1&&$finalRating<=0.9):
+            $printResult =
+                "<i class='fa fa-star-half fa-1x' data-index='0' style='color:yellow'></i>" .
+                "<i class='fa fa-star fa-1x' data-index='0' style='color:black'></i>" .
+                "<i class='fa fa-star fa-1x' data-index='0' style='color:black'></i>" .
+                "<i class='fa fa-star fa-1x' data-index='0' style='color:black'></i>" .
+                "<i class='fa fa-star fa-1x' data-index='0' style='color:black'></i>";
+            break;
+        case ($finalRating == 1):
             $printResult =
                 "<i class='fa fa-star fa-1x' data-index='0' style='color:yellow'></i>" .
                 "<i class='fa fa-star fa-1x' data-index='0' style='color:black'></i>" .
@@ -1366,7 +1376,15 @@ function productRatingResult($finalRating)
                 "<i class='fa fa-star fa-1x' data-index='0' style='color:black'></i>" .
                 "<i class='fa fa-star fa-1x' data-index='0' style='color:black'></i>";
             break;
-        case 2:
+        case ($finalRating>=1.1&&$finalRating<=1.9):
+            $printResult =
+                "<i class='fa fa-star fa-1x' data-index='0' style='color:yellow'></i>" .
+                "<i class='fa fa-star-half fa-1x' data-index='0' style='color:yellow'></i>" .
+                "<i class='fa fa-star fa-1x' data-index='0' style='color:black'></i>" .
+                "<i class='fa fa-star fa-1x' data-index='0' style='color:black'></i>" .
+                "<i class='fa fa-star fa-1x' data-index='0' style='color:black'></i>";
+            break;
+        case ($finalRating == 2):
             $printResult =
                 "<i class='fa fa-star fa-1x' data-index='0' style='color:yellow'></i>" .
                 "<i class='fa fa-star fa-1x' data-index='0' style='color:yellow'></i>" .
@@ -1374,7 +1392,15 @@ function productRatingResult($finalRating)
                 "<i class='fa fa-star fa-1x' data-index='0' style='color:black'></i>" .
                 "<i class='fa fa-star fa-1x' data-index='0' style='color:black'></i>";
             break;
-        case 3:
+        case ($finalRating>=2.1&&$finalRating<=2.9):
+            $printResult =
+                "<i class='fa fa-star fa-1x' data-index='0' style='color:yellow'></i>" .
+                "<i class='fa fa-star fa-1x' data-index='0' style='color:yellow'></i>" .
+                "<i class='fa fa-star-half fa-1x' data-index='0' style='color:yellow'></i>" .
+                "<i class='fa fa-star fa-1x' data-index='0' style='color:black'></i>" .
+                "<i class='fa fa-star fa-1x' data-index='0' style='color:black'></i>";
+            break;
+        case ($finalRating == 3):
             $printResult =
                 "<i class='fa fa-star fa-1x' data-index='0' style='color:yellow'></i>" .
                 "<i class='fa fa-star fa-1x' data-index='0' style='color:yellow'></i>" .
@@ -1382,7 +1408,15 @@ function productRatingResult($finalRating)
                 "<i class='fa fa-star fa-1x' data-index='0' style='color:black'></i>" .
                 "<i class='fa fa-star fa-1x' data-index='0' style='color:black'></i>";
             break;
-        case 4:
+        case ($finalRating>=3.1&&$finalRating<=3.9):
+            $printResult =
+                "<i class='fa fa-star fa-1x' data-index='0' style='color:yellow'></i>" .
+                "<i class='fa fa-star fa-1x' data-index='0' style='color:yellow'></i>" .
+                "<i class='fa fa-star fa-1x' data-index='0' style='color:yellow'></i>" .
+                "<i class='fa fa-star-half fa-1x' data-index='0' style='color:yellow'></i>" .
+                "<i class='fa fa-star fa-1x' data-index='0' style='color:black'></i>";
+            break;
+        case ($finalRating == 4):
             $printResult =
                 "<i class='fa fa-star fa-1x' data-index='0' style='color:yellow'></i>" .
                 "<i class='fa fa-star fa-1x' data-index='0' style='color:yellow'></i>" .
@@ -1390,7 +1424,15 @@ function productRatingResult($finalRating)
                 "<i class='fa fa-star fa-1x' data-index='0' style='color:yellow'></i>" .
                 "<i class='fa fa-star fa-1x' data-index='0' style='color:black'></i>";
             break;
-        case 5:
+        case ($finalRating>=4.1&&$finalRating<=4.9):
+            $printResult =
+                "<i class='fa fa-star fa-1x' data-index='0' style='color:yellow'></i>" .
+                "<i class='fa fa-star fa-1x' data-index='0' style='color:yellow'></i>" .
+                "<i class='fa fa-star fa-1x' data-index='0' style='color:yellow'></i>" .
+                "<i class='fa fa-star fa-1x' data-index='0' style='color:yellow'></i>" .
+                "<i class='fa fa-star-half fa-1x' data-index='0' style='color:yellow'></i>";
+            break;
+        case ($finalRating == 5):
             $printResult =
                 "<i class='fa fa-star fa-1x' data-index='0' style='color:yellow'></i>" .
                 "<i class='fa fa-star fa-1x' data-index='0' style='color:yellow'></i>" .
@@ -1399,6 +1441,13 @@ function productRatingResult($finalRating)
                 "<i class='fa fa-star fa-1x' data-index='0' style='color:yellow'></i>";
             break;
         default:
+            $printResult =
+                "<i class='fa fa-star fa-1x' data-index='0' style='color:black'></i>" .
+                "<i class='fa fa-star fa-1x' data-index='0' style='color:black'></i>" .
+                "<i class='fa fa-star fa-1x' data-index='0' style='color:black'></i>" .
+                "<i class='fa fa-star fa-1x' data-index='0' style='color:black'></i>" .
+                "<i class='fa fa-star fa-1x' data-index='0' style='color:black'></i>";
+            break;
     }
     return $printResult;
 }
@@ -1513,7 +1562,8 @@ function addFriend($conn, $currentUserEmail, $friendEmail)
     mysqli_stmt_execute($stmt);
     mysqli_stmt_close($stmt);
 }
-function rejectFriend($conn, $currentUserEmail, $friendEmail){
+function rejectFriend($conn, $currentUserEmail, $friendEmail)
+{
 
     $friendStatus = "rejected";
     $sql = "UPDATE friendlist SET friendStatus = '$friendStatus' WHERE firstUserEmail = '$currentUserEmail' AND secondUserEmail = '$friendEmail' OR firstUserEmail = '$friendEmail' AND secondUserEmail = '$currentUserEmail'; ";
@@ -1525,7 +1575,8 @@ function rejectFriend($conn, $currentUserEmail, $friendEmail){
     mysqli_stmt_execute($stmt);
     mysqli_stmt_close($stmt);
 }
-function acceptFriend($conn, $currentUserEmail, $friendEmail){
+function acceptFriend($conn, $currentUserEmail, $friendEmail)
+{
 
     $friendStatus = "accepted";
     $sql = "UPDATE friendlist SET friendStatus = '$friendStatus' WHERE firstUserEmail = '$currentUserEmail' AND secondUserEmail = '$friendEmail' OR firstUserEmail = '$friendEmail' AND secondUserEmail = '$currentUserEmail'; ";
@@ -1539,4 +1590,3 @@ function acceptFriend($conn, $currentUserEmail, $friendEmail){
 }
 
 // sql to get whole friendlist for current user select * from friendlist where firstUserEmail = '$currentUserEmail' OR secondUserEmail = '$currentUserEmail';
-
