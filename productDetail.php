@@ -114,18 +114,19 @@ if (isset($_GET["productID"])) {
                 <p>Classic Peace Lily is a spathiphyllum floor plant arranged in a bamboo planter with a blue & red ribbom and butterfly pick.</p>
                 <?php
                 $productdata = "productID=" . $productID;
+                $sendProductQuantity = "&productQuantity=".$productQuantity;
                 if($wishlist == "exist"&&$cart == "exist"){
-                    echo  "<a href='includes/addToWishlist.inc.php?" . $productdata . $productQuantity . "'>" . "<button disabled class='btnAddToWishlist'>Add To Wishlist</button></a>" ;
-                    echo  "<a href='includes/addToCart.inc.php?" . $productdata . $productQuantity . "'>" . "<button disabled class='btnAddToCart'>Add To Cart</button></a>";
+                    echo  "<a href='includes/addToWishlist.inc.php?" . $productdata . $sendProductQuantity . "'>" . "<button disabled class='btnAddToWishlist'>Add To Wishlist</button></a>" ;
+                    echo  "<a href='includes/addToCart.inc.php?" . $productdata . $sendProductQuantity . "'>" . "<button disabled class='btnAddToCart'>Add To Cart</button></a>";
                 } else if ($wishlist == "empty"&&$cart == "exist"){
-                    echo  "<a href='includes/addToWishlist.inc.php?" . $productdata . $productQuantity . "'>" . "<button class='btnAddToWishlist'>Add To Wishlist</button></a>" ;
-                    echo  "<a href='includes/addToCart.inc.php?" . $productdata . $productQuantity . "'>" . "<button disabled class='btnAddToCart'>Add To Cart</button></a>";
+                    echo  "<a href='includes/addToWishlist.inc.php?" . $productdata . $sendProductQuantity . "'>" . "<button class='btnAddToWishlist'>Add To Wishlist</button></a>" ;
+                    echo  "<a href='includes/addToCart.inc.php?" . $productdata . $sendProductQuantity . "'>" . "<button disabled class='btnAddToCart'>Add To Cart</button></a>";
                 } else if ($wishlist == "exist" && $cart == "empty"){
-                    echo  "<a href='includes/addToWishlist.inc.php?" . $productdata . $productQuantity . "'>" . "<button disabled class='btnAddToWishlist'>Add To Wishlist</button></a>" ;
-                    echo  "<a href='includes/addToCart.inc.php?" . $productdata . $productQuantity . "'>" . "<button class='btnAddToCart'>Add To Cart</button></a>";
+                    echo  "<a href='includes/addToWishlist.inc.php?" . $productdata . $sendProductQuantity . "'>" . "<button disabled class='btnAddToWishlist'>Add To Wishlist</button></a>" ;
+                    echo  "<a href='includes/addToCart.inc.php?" . $productdata . $sendProductQuantity . "'>" . "<button class='btnAddToCart'>Add To Cart</button></a>";
                 } else if ($wishlist == "empty" && $cart == "empty"){
-                    echo  "<a href='includes/addToWishlist.inc.php?" . $productdata . $productQuantity . "'>" . "<button class='btnAddToWishlist'>Add To Wishlist</button></a>" ;
-                    echo  "<a href='includes/addToCart.inc.php?" . $productdata . $productQuantity . "'>" . "<button class='btnAddToCart'>Add To Cart</button></a>";
+                    echo  "<a href='includes/addToWishlist.inc.php?" . $productdata . $sendProductQuantity . "'>" . "<button class='btnAddToWishlist'>Add To Wishlist</button></a>" ;
+                    echo  "<a href='includes/addToCart.inc.php?" . $productdata . $sendProductQuantity . "'>" . "<button class='btnAddToCart'>Add To Cart</button></a>";
                 }
                
                 ?>

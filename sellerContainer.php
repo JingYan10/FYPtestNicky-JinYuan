@@ -8,7 +8,7 @@
 
 
 
-            <div id="result"></div>
+                <div id="result"></div>
                 <?php
                 $userEmail = $_SESSION["userEmail"];
 
@@ -29,19 +29,34 @@
                                 </tr>
                             </thead><tbody id="output">';
                     while ($row = mysqli_fetch_assoc($result)) {
-                        echo "<tr>";
-                        echo "<td>" . "P00" . $row['productID'] . "</td>";
-                        echo "<td>" . $row['productName'] . "</td>";
-                        echo "<td>" . "<img style='height:140px;width:140px;' src=" . $row['productImage'] . ">" . "</td>";
-                        echo "<td>" . $row['productQuantity'] . "</td>";
-                        echo "<td>" . $row['productPrice'] . "</td>";
-                        echo "<td>";
-                        $productData = "productID=" . $row['productID'] . "&productName=" . $row['productName'] . "&productImage=" . $row['productImage'] . "&productQuantity=" . $row['productQuantity'] . "&productPrice=" . $row['productPrice'];
-                        echo "<a href='editProduct.php?" . $productData . "'>" . "<button class='btnEditProduct'>edit</button></a>";
-                        echo "<a href='deleteProduct.php?" . $productData . "'>" . "<button class='btnDeleteProduct'>delete</button></a>";
-                        echo "<a href='createBidding.php?" . $productData . "'>" . "<button class='btnCreateBidding'>create bidding</button></a>";
-                        echo "</td>";
-                        echo "</tr>";
+                        if (!$row['productQuantity'] <= 0) {
+                            echo "<tr>";
+                            echo "<td>" . "P00" . $row['productID'] . "</td>";
+                            echo "<td>" . $row['productName'] . "</td>";
+                            echo "<td>" . "<img style='height:140px;width:140px;' src=" . $row['productImage'] . ">" . "</td>";
+                            echo "<td>" . $row['productQuantity'] . "</td>";
+                            echo "<td> RM " . number_format((float)$row['productPrice'], 2, '.', '') . "</td>";
+                            echo "<td>";
+                            $productData = "productID=" . $row['productID'] . "&productName=" . $row['productName'] . "&productImage=" . $row['productImage'] . "&productQuantity=" . $row['productQuantity'] . "&productPrice=" . $row['productPrice'];
+                            echo "<a href='editProduct.php?" . $productData . "'>" . "<button class='btnEditProduct'>edit</button></a>";
+                            echo "<a href='deleteProduct.php?" . $productData . "'>" . "<button class='btnDeleteProduct'>delete</button></a>";
+                            echo "<a href='createBidding.php?" . $productData . "'>" . "<button class='btnCreateBidding'>create bidding</button></a>";
+                            echo "</td>";
+                            echo "</tr>";
+                        } else {
+                            echo "<tr>";
+                            echo "<td>" . "P00" . $row['productID'] . "</td>";
+                            echo "<td>" . $row['productName'] . "</td>";
+                            echo "<td>" . "<img style='height:140px;width:140px;' src=" . $row['productImage'] . ">" . "</td>";
+                            echo "<td>" . $row['productQuantity'] . "</td>";
+                            echo "<td> RM " . number_format((float)$row['productPrice'], 2, '.', '')  . "</td>";
+                            echo "<td>";
+                            $productData = "productID=" . $row['productID'] . "&productName=" . $row['productName'] . "&productImage=" . $row['productImage'] . "&productQuantity=" . $row['productQuantity'] . "&productPrice=" . $row['productPrice'];
+                            echo "<a href='editProduct.php?" . $productData . "'>" . "<button class='btnEditProduct'>edit</button></a>";
+                            echo "<a href='deleteProduct.php?" . $productData . "'>" . "<button class='btnDeleteProduct'>delete</button></a>";
+                            echo "</td>";
+                            echo "</tr>";
+                        }
                     }
                     echo ' </tbody></table>';
                 } else {

@@ -76,8 +76,7 @@ include_once 'includes/databaseHandler.inc.php';
                     $biddingData = "biddingID=" . $row['biddingID'];
                     if ($row['biddingWinner'] == null) {
                         echo "<a href='biddingDetail.php?" . $biddingData . "'>" . "<button class='btnJoinBidding'>join</button></a>";
-                    } else {
-                    }
+                    } 
 
                     echo "</td>";
                     echo "</tr>";

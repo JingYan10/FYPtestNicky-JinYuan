@@ -75,7 +75,7 @@ if ($resultCheck > 0) {
             array_push($c, $row2['productID']);
         }
     }
-    $c = array(""); // array for productID exist in rating
+    $d = array(""); // array for productID exist in rating
     if ($resultCheck > 0) { //loop product data
         //rating
         $propductID = "";
@@ -89,7 +89,7 @@ if ($resultCheck > 0) {
             if ($resultCheck3 > 0) {
                 
                 while ($row2 = mysqli_fetch_assoc($result3)) {
-                    array_push($c,$row["productID"]);
+                    array_push($d,$row["productID"]);
                     //for rating
                     if ($row2["ratingNO"] == "1") {
                         $star1++;
@@ -111,9 +111,10 @@ if ($resultCheck > 0) {
                 $finalRating = round($totalRating / $totalRatingCount);
             }  
             
-            $arrayRatingProductID = array_values(array_filter(array_unique($c))); 
+            $arrayRatingProductID = array_values(array_filter(array_unique($d))); 
 
             if(in_array($row['productID'], $arrayRatingProductID)){
+                //b = cart, c = wishlist
                 if (in_array($row['productID'], $b) && in_array($row['productID'], $c)) {
                     $productdata = "productID=" . $row['productID'] . "&wishlist=exist&cart=exist";
                     $productQuantity = "&productQuantity=" . $row['productQuantity'];
@@ -127,7 +128,7 @@ if ($resultCheck > 0) {
                     echo "<p>" . "<a href='includes/addToCart.inc.php?" . $productdata . $productQuantity . "'>" . "<button disabled class='btnAddToCartDisabled'>Add To Cart</button></a>" . "</p>";
                     echo "</div>";
                     echo "</a>";
-                } else if (in_array($row['productID'], $b)) {
+                } else if (in_array($row['productID'], $b)&&!in_array($row['productID'],$c)) {
                     $productdata = "productID=" . $row['productID'] . "&wishlist=exist&cart=empty";
                     $productQuantity = "&productQuantity=" . $row['productQuantity'];
                     echo  "<a href='productDetail.php?" . $productdata . "'>";
@@ -141,7 +142,7 @@ if ($resultCheck > 0) {
                     echo "</div>";
                     echo "</a>";
                     //echo "cart found productID : ".$row['productID']."<br>";
-                } else if (in_array($row['productID'], $c)) {
+                } else if (in_array($row['productID'], $c)&&!in_array($row['productID'],$b)) {
                     $productdata = "productID=" . $row['productID'] . "&wishlist=empty&cart=exist";
                     $productQuantity = "&productQuantity=" . $row['productQuantity'];
                     echo  "<a href='productDetail.php?" . $productdata . "'>";
@@ -154,7 +155,7 @@ if ($resultCheck > 0) {
                     echo "<p>" . "<a href='includes/addToCart.inc.php?" . $productdata . $productQuantity . "'>" . "<button class='btnAddToCart'>Add To Cart</button></a>" . "</p>";
                     echo "</div>";
                     echo "</a>";
-                } else {
+                } else if(!in_array($row['productID'], $c)&&!in_array($row['productID'],$b)) {
                     $productdata = "productID=" . $row['productID'] . "&wishlist=empty&cart=exist";
                     $productQuantity = "&productQuantity=" . $row['productQuantity'];
                     echo  "<a href='productDetail.php?" . $productdata . "'>";
@@ -183,7 +184,7 @@ if ($resultCheck > 0) {
                     echo "<p>" . "<a href='includes/addToCart.inc.php?" . $productdata . $productQuantity . "'>" . "<button disabled class='btnAddToCartDisabled'>Add To Cart</button></a>" . "</p>";
                     echo "</div>";
                     echo "</a>";
-                } else if (in_array($row['productID'], $b)) {
+                } else if (in_array($row['productID'], $b)&&!in_array($row['productID'],$c)) {
                     $productdata = "productID=" . $row['productID'] . "&wishlist=exist&cart=empty";
                     $productQuantity = "&productQuantity=" . $row['productQuantity'];
                     echo  "<a href='productDetail.php?" . $productdata . "'>";
@@ -197,7 +198,7 @@ if ($resultCheck > 0) {
                     echo "</div>";
                     echo "</a>";
                     //echo "cart found productID : ".$row['productID']."<br>";
-                } else if (in_array($row['productID'], $c)) {
+                } else if (in_array($row['productID'], $c)&&!in_array($row['productID'],$b)) {
                     $productdata = "productID=" . $row['productID'] . "&wishlist=empty&cart=exist";
                     $productQuantity = "&productQuantity=" . $row['productQuantity'];
                     echo  "<a href='productDetail.php?" . $productdata . "'>";
@@ -210,7 +211,7 @@ if ($resultCheck > 0) {
                     echo "<p>" . "<a href='includes/addToCart.inc.php?" . $productdata . $productQuantity . "'>" . "<button class='btnAddToCart'>Add To Cart</button></a>" . "</p>";
                     echo "</div>";
                     echo "</a>";
-                } else {
+                } else if(!in_array($row['productID'], $c)&&!in_array($row['productID'],$b)) {
                     $productdata = "productID=" . $row['productID'] . "&wishlist=empty&cart=exist";
                     $productQuantity = "&productQuantity=" . $row['productQuantity'];
                     echo  "<a href='productDetail.php?" . $productdata . "'>";
