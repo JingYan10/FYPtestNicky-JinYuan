@@ -29,7 +29,6 @@ $_SESSION['price'] = $price;
 
 
 <!--content here-->
-<a href="includes/makePayment.inc.php" button>Testing</button>
 
     <h1>Thank you! Please proceed to PayPal by click the button below.</h1>
     <br>
