@@ -29,7 +29,7 @@ include_once 'header.php';
                 <label>Full name as per IC</label>
             </div>
             <div class="txt_field">
-                <p>SSM document</p>
+                <p>SSM document (only accept in .pdf format)</p>
                 <input type="file" name="file" required>
             </div>
             <button class="button" type="submit" name="submit">Confirm</button>

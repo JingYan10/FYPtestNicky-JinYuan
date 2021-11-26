@@ -199,7 +199,6 @@ function loginUser($conn, $email, $password)
 
                 $_SESSION["userRole"] = $row['userRole'];
                 $_SESSION["banStatus"] = $row['banStatus'];
-
             }
         }
         //Obtain user role
@@ -209,8 +208,7 @@ function loginUser($conn, $email, $password)
         } else if ($_SESSION["banStatus"] == "Banned") {
             header("location: ../login.php?error=banned");
             exit();
-        }
-        else {
+        } else {
 
             header("location: ../index.php");
             exit();
@@ -437,10 +435,10 @@ function searchProduct($conn, $email, $searchData)
 
 function searchProductForProduct($conn, $email, $searchData)
 {
-    
-    
-        $sql = "SELECT * FROM product WHERE productQuantity IS NOT NULL ";
-  
+
+
+    $sql = "SELECT * FROM product WHERE productQuantity IS NOT NULL ";
+
     $result = mysqli_query($conn, $sql);
     $resultCheck = mysqli_num_rows($result);
     if ($resultCheck > 0) {
@@ -529,8 +527,10 @@ function updateBidding($conn, $biddingPrice, $totalBidder, $biddingID)
 }
 function deductCoin($conn, $biddingPrice, $email, $biddingID)
 {
+    date_default_timezone_set("Asia/Kuala_Lumpur");
+    $currentDate = date("d/m/y H:i:s");
     $transactionStatus = "deduct1";
-    $sql = "INSERT INTO coin (coinAmount, transactionStatus, userEmail, biddingID) VALUES ($biddingPrice, '$transactionStatus', '$email', '$biddingID');";
+    $sql = "INSERT INTO coin (coinAmount, transactionStatus, userEmail, biddingID, transactionDate) VALUES ('$biddingPrice', '$transactionStatus', '$email', '$biddingID', '$currentDate');";
     $stmt = mysqli_stmt_init($conn);
     if (!mysqli_stmt_prepare($stmt, $sql)) {
         header("location: ../biddingDetail.php?error=stmtFailed");
@@ -542,8 +542,10 @@ function deductCoin($conn, $biddingPrice, $email, $biddingID)
 }
 function addCoin($conn, $paymentAmount, $email, $paymentID)
 {
+    date_default_timezone_set("Asia/Kuala_Lumpur");
+    $currentDate = date("d/m/y H:i:s");
     $transactionStatus = "topup";
-    $sql = "INSERT INTO coin (coinAmount, transactionStatus, userEmail, paymentID) VALUES ('$paymentAmount', '$transactionStatus', '$email', '$paymentID');";
+    $sql = "INSERT INTO coin (coinAmount, transactionStatus, userEmail, paymentID, transactionDate) VALUES ('$paymentAmount', '$transactionStatus', '$email', '$paymentID','$currentDate');";
     $stmt = mysqli_stmt_init($conn);
     if (!mysqli_stmt_prepare($stmt, $sql)) {
         header("location: ../biddingDetail.php?error=stmtFailed");
@@ -566,7 +568,9 @@ function increaseProductQuantityBidding($conn, $productID)
 }
 function refundBiddingCoin($conn, $biddingID)
 {
-    $sql = "UPDATE coin SET transactionStatus = 'biddingRefund' WHERE biddingID = $biddingID AND transactionStatus = 'deduct1';";
+    date_default_timezone_set("Asia/Kuala_Lumpur");
+    $currentDate = date("d/m/y H:i:s");
+    $sql = "UPDATE coin SET transactionStatus = 'biddingRefund', transactionDate='$currentDate' WHERE biddingID = $biddingID AND transactionStatus = 'deduct1';";
     $stmt = mysqli_stmt_init($conn);
     if (!mysqli_stmt_prepare($stmt, $sql)) {
         header("location: ../pinChangePassword.php?error=stmtFailed15");
@@ -578,7 +582,7 @@ function refundBiddingCoin($conn, $biddingID)
 function updateBiddingWinner($conn)
 {
     date_default_timezone_set("Asia/Kuala_Lumpur");
-    $currentDate = date("d/m/y h:i:s");
+    $currentDate = date("d/m/y H:i:s");
 
     $sql = "SELECT * FROM bidding ";
     $result5 = mysqli_query($conn, $sql);
@@ -588,7 +592,7 @@ function updateBiddingWinner($conn)
             $_SESSION["biddingEndingTime"] = $row5['biddingEndingTime'];
 
             $timeBiddingEndingTime = strtotime($_SESSION["biddingEndingTime"]);
-            $dateBiddingEndingTime = date('d/m/y h:i:s', $timeBiddingEndingTime); // if error
+            $dateBiddingEndingTime = date('d/m/y H:i:s', $timeBiddingEndingTime); // if error
 
             echo "bidding ID ->" . $row5['biddingID'] . "<br>";
             echo "bidding ending time -> " . $dateBiddingEndingTime . "<br>";
@@ -655,8 +659,10 @@ function updateBiddingWinner($conn)
                     refundBiddingCoin($conn, $biddingID);
 
                     //deduct coin from specific user
+                    date_default_timezone_set("Asia/Kuala_Lumpur");
+                    $currentDate = date("d/m/y H:i:s");
                     $transactionStatus = "deduct2";
-                    $sql = "UPDATE coin SET transactionStatus = '$transactionStatus' WHERE biddingID = $biddingID AND coinAmount = $biddingEndingPrice ";
+                    $sql = "UPDATE coin SET transactionStatus = '$transactionStatus', transactionDate='$currentDate' WHERE biddingID = $biddingID AND coinAmount = $biddingEndingPrice ";
                     $stmt = mysqli_stmt_init($conn);
                     if (!mysqli_stmt_prepare($stmt, $sql)) {
                         header("location: ../pinChangePassword.php?error=stmtFailed");
@@ -1360,7 +1366,9 @@ function createProductRating($conn, $productID, $productRating, $userEmail)
 }
 function createProductComment($conn, $productID, $productComment, $userEmail)
 {
-    $sql = "INSERT INTO comments (productID, productComment, userEmail) VALUES ('$productID', '$productComment', '$userEmail');";
+    date_default_timezone_set("Asia/Kuala_Lumpur");
+    $currentDate = date("d/m/y H:i:s");
+    $sql = "INSERT INTO comments (productID, productComment, userEmail, commentDate) VALUES ('$productID', '$productComment', '$userEmail', '$currentDate');";
     $stmt = mysqli_stmt_init($conn);
     if (!mysqli_stmt_prepare($stmt, $sql)) {
         header("location: ../productReview.php?error=stmtFailed2");
@@ -1423,7 +1431,6 @@ function makePaymentOnSuccess2($conn, $paymentAmount, $userEmail, $paymentStatus
 
     mysqli_stmt_execute($stmt);
     mysqli_stmt_close($stmt);
-    
 }
 function makePaymentOnFail($conn, $paymentAmount, $userEmail, $paymentStatus, $paymentDate)
 {
@@ -1586,8 +1593,8 @@ function checkCoinBalance($conn, $userEmail)
                 $deductCoin += $row["coinAmount"];
             } else if ($row["transactionStatus"] == "deduct2") {
                 $deductCoin += $row["coinAmount"];
-            } else if ($row["transactionStatus"] == "topup"){
-                $addCoin +=$row["coinAmount"];
+            } else if ($row["transactionStatus"] == "topup") {
+                $addCoin += $row["coinAmount"];
             }
         }
     }
@@ -1688,7 +1695,8 @@ function acceptFriend($conn, $currentUserEmail, $friendEmail)
 
 
 
-function getLatestPaymentID($conn){
+function getLatestPaymentID($conn)
+{
     $sql = "SELECT * FROM payment";
     $result = mysqli_query($conn, $sql);
     $resultCheck = mysqli_num_rows($result);
@@ -1699,7 +1707,58 @@ function getLatestPaymentID($conn){
             $paymentID = $row["paymentID"];
             // $paymentAmount = $row["paymentAmount"];
         }
-        
     }
     return $paymentID;
+}
+
+function getAllWishlistData($conn,$conn2)
+{
+
+    // get all wishlist data
+    $sql = "SELECT * FROM wishlist";
+    $result = mysqli_query($conn, $sql);
+    $resultCheck = mysqli_num_rows($result);
+    $arrayWishList = array();
+    if ($resultCheck > 0) {
+        while ($row = mysqli_fetch_assoc($result)) {
+                // echo "wishlist productID => ".$row["productID"]."<br>";
+                // echo "product array => ".print_r(checkProductData($conn))."<br>";
+                $arrData = checkProductData($conn2);
+                //echo in_array($row["productID"], $arrData["productID"]);
+                
+
+            if (in_array($row["productID"], $arrData["productID"])) {
+                $productID = $row["productID"];
+                $sql2 = "DELETE FROM wishlist WHERE productID='$productID';";
+                $stmt2 = mysqli_stmt_init($conn2);
+                if (!mysqli_stmt_prepare($stmt2, $sql2)) {
+                    header("location: ../cart.php?error=stmtFailed59");
+                    exit();
+                }
+               
+                mysqli_stmt_execute($stmt2);
+                mysqli_stmt_close($stmt2);
+                
+            }
+
+     
+        }
+    }
+    // return $arrayWishList;
+    echo "done";
+}
+function checkProductData($conn)
+{
+    //which productQuantity = 0 || delete status = "yes"
+    $sql = "SELECT * FROM product where productQuantity = '0' or deleteStatus='yes'";
+    $result = mysqli_query($conn, $sql);
+    $resultCheck = mysqli_num_rows($result);
+    $arrayProduct = array();
+    if ($resultCheck > 0) {
+        while ($row = mysqli_fetch_assoc($result)) {
+            $arrayProduct["productID"][] = $row["productID"];
+            // $paymentAmount = $row["paymentAmount"];
+        }
+    }
+    return $arrayProduct;
 }

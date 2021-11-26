@@ -36,7 +36,6 @@
                             <thead>
                                 <tr>
                                     <th scope="col">Shipment date</th>
-                                    <th scope="col">Shipment Arrangement No</th>
                                     <th scope="col">Shipment status</th>
                                     <th scope="col"></th>
                                 </tr>
@@ -45,7 +44,6 @@
                     while ($row = mysqli_fetch_assoc($result)) { 
                         echo "<tr>";
                         echo "<td>" . $row['shipmentDate'] . "</td>";
-                        echo "<td>" . $row['shipmentArrangementNo'] . "</td>";
                         echo "<td>" . $row['shipmentStatus'] . "</td>";
                         echo "<td>";
                         $shipmentData = "shipmentID=" . $row['shipmentID'] . "&soldProductID=" . $row['soldProductID'] . "&soldProductQuantity=" . $row['soldProductQuantity'] . "&shipmentDate=" . $row['shipmentDate']."&shipmentArrangementNo=" . $row['shipmentArrangementNo']."&shipmentStatus=" . $row['shipmentStatus'];

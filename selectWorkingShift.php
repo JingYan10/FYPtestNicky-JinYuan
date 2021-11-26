@@ -41,11 +41,9 @@ include_once 'header.php';
 
         <?php
         if (isset($_GET["error"])) {
-            if ($_GET["error"] == "emptyInput") {
-                echo "<div style='text-align:center;color:red;font-weight:600'>fill up the blank space</div>";
-            } else if ($_GET["error"] == "wrongLogin") {
-                echo "<div style='text-align:center;color:red;font-weight:600'>inccorect login</div>";
-            }
+            if ($_GET["error"] == "shiftAvailability") {
+                echo "<div style='text-align:center;color:red;font-weight:600'>working shift has fully occupied, please select other</div>";
+            } 
         }
         ?>
     </div>

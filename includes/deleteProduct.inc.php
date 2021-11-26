@@ -1,12 +1,9 @@
 <?php
 session_start();
 
-if (isset($_POST["submit"])) {
-
-
-    $productID = $_SESSION["productID"];
+    $productID = $_POST["productID"];
     $email = $_SESSION["userEmail"];
-    
+   
 
 
     require_once 'databaseHandler.inc.php';
@@ -14,7 +11,3 @@ if (isset($_POST["submit"])) {
 
     deleteProduct($conn,$productID,$email);
     
-} else {
-    header("location: ../user_profile.php");
-    exit();
-}
