@@ -32,12 +32,12 @@ include_once 'includes/databaseHandler.inc.php';
             if (isset($_GET["search"])) {
                 $search = $_GET["search"];
                 if ($search == "add") {
-                    $sql = "SELECT * FROM coin where transactionStatus = 'biddingRefund' AND userEmail = '$userEmail' ";
+                    $sql = "SELECT * FROM coin where transactionStatus = 'biddingRefund' AND userEmail = '$userEmail' UNION SELECT * FROM coin where userEmail = '$userEmail' and transactionStatus = 'topup' ";
                 } else if ($search == "deduct") {
                     // $sql = "SELECT * FROM coin where (userEmail = '$userEmail' and transactionStatus = 'deduct1') or (userEmail = '$userEmail' and transactionStatus = 'deduct2') ";
                     $sql = "SELECT * FROM coin where userEmail = '$userEmail' and transactionStatus = 'deduct1' UNION SELECT * FROM coin where userEmail = '$userEmail' and transactionStatus = 'deduct2'";
                 } else {
-                    $sql = "SELECT * FROM coin where  userEmail = '$userEmail' ";
+                    $sql = "SELECT * FROM coin where  userEmail = '$userEmail'  ";
                 }
             } else {
                 $sql = "SELECT * FROM coin where  userEmail = '$userEmail' ";
@@ -58,6 +58,11 @@ include_once 'includes/databaseHandler.inc.php';
                             </thead><tbody id="output">';
                 while ($row = mysqli_fetch_assoc($result)) {
                     if ($row["transactionStatus"] == "biddingRefund") {
+                        echo "<tr style='background-color:#46db7f'>";
+                        echo "<td>" . $count . "</td>";
+                        echo "<td>RM " . number_format((float)$row["coinAmount"], 2, '.', '') . "</td>";
+                        echo "</tr>";
+                    } else if ($row["transactionStatus"] == "topup") {
                         echo "<tr style='background-color:#46db7f'>";
                         echo "<td>" . $count . "</td>";
                         echo "<td>RM " . number_format((float)$row["coinAmount"], 2, '.', '') . "</td>";

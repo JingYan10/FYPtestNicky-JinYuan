@@ -36,7 +36,7 @@ if (isset($_POST["submit"])) {
     createBidding($conn,$productID,$biddingEndingTime,$biddingStartingPrice,$biddingEndingPrice,$totalBidder);
 
 
-
+    
 
 
 

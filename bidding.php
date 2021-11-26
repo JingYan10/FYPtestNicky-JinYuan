@@ -31,9 +31,9 @@ include_once 'includes/databaseHandler.inc.php';
             if (isset($_GET["search"])) {
                 $search = $_GET["search"];
                 if ($search == "active") {
-                    $sql = "SELECT * FROM bidding where biddingWinner IS NULL";
+                    $sql = "SELECT * FROM bidding where biddingStatus = 'active'";
                 } else if ($search == "ended") {
-                    $sql = "SELECT * FROM bidding where biddingWinner IS NOT NULL";
+                    $sql = "SELECT * FROM bidding where biddingStatus = 'ended'";
                 } else {
                     $sql = "SELECT * FROM bidding ";
                 }
@@ -73,10 +73,14 @@ include_once 'includes/databaseHandler.inc.php';
                     echo "<td>" . $row['biddingEndingPrice'] . "</td>";
                     echo "<td>" . $row['totalBidder'] . "</td>";
                     echo "<td>";
-                    $biddingData = "biddingID=" . $row['biddingID'];
-                    if ($row['biddingWinner'] == null) {
+                    
+                    if ($row['biddingStatus'] == "active") {
+                        $biddingData = "biddingID=" . $row['biddingID'];
                         echo "<a href='biddingDetail.php?" . $biddingData . "'>" . "<button class='btnJoinBidding'>join</button></a>";
-                    } 
+                    } else{
+                        $biddingData = "biddingID=" . $row['biddingID']."&view=true";
+                        echo "<a href='biddingDetail.php?" . $biddingData . "'>" . "<button class='btnJoinBidding'>view</button></a>";
+                    }
 
                     echo "</td>";
                     echo "</tr>";
