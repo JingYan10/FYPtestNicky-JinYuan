@@ -18,7 +18,6 @@ include_once 'includes/functions.inc.php';
 $price = $_POST['grandTotal'];
 $_SESSION['price'] = $price;
 
-
 ?>
 
 
@@ -30,7 +29,7 @@ $_SESSION['price'] = $price;
 
 <!--content here-->
 
-    <h1>Thank you! Please proceed to PayPal by click the button below.</h1>
+    <h1>Thank you! Please proceed to PayPal by clicking the button below.</h1>
     <br>
     <br>
     <br>

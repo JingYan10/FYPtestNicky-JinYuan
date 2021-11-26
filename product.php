@@ -29,7 +29,43 @@ if ($resultCheck > 0) {
 ?>
 
 <!--content here-->
-<h1>Product Page</h1>
+<h1 style="color: White">Product Page</h1>
+<?php
+$sql;
+if (isset($_GET["search"])) {
+    $search = $_GET["search"];
+    if ($search == "active") {
+        $sql = "SELECT * FROM bidding where biddingWinner IS NULL";
+    } else if ($search == "ended") {
+        $sql = "SELECT * FROM bidding where biddingWinner IS NOT NULL";
+    } else {
+        $sql = "SELECT * FROM bidding ";
+    }
+} else {
+    $sql = "SELECT * FROM bidding ";
+}
+$result = mysqli_query($conn, $sql);
+$resultCheck = mysqli_num_rows($result);
+?>
+
+<input type="text" class="productSearchBar" name="searchProduct" id="searchProduct" placeholder="search for product ">
+
+<?php
+// $sql;
+// if (isset($_GET["search"])) {
+//     $search = $_GET["search"];
+//     if ($search == "active") {
+//         $sql = "SELECT * FROM product where productQuantity IS NOT NULL";
+//     } else{
+
+//     }
+// }
+// $result = mysqli_query($conn, $sql);
+// $resultCheck = mysqli_num_rows($result);
+?>
+
+
+
 <div class="new-product-container2">
 
     <?php
@@ -80,16 +116,16 @@ if ($resultCheck > 0) {
         //rating
         $propductID = "";
         while ($row = mysqli_fetch_assoc($result)) { // loop for rating with the productID from product data
-            $productID = $row['productID'];// all product ID
+            $productID = $row['productID']; // all product ID
             // echo $productID."<br>";
-            
+
             $sql3 = "SELECT * FROM rating WHERE productID = '$productID'";
             $result3 = mysqli_query($conn2, $sql3);
             $resultCheck3 = mysqli_num_rows($result3);
             if ($resultCheck3 > 0) {
-                
+
                 while ($row2 = mysqli_fetch_assoc($result3)) {
-                    array_push($d,$row["productID"]);
+                    array_push($d, $row["productID"]);
                     //for rating
                     if ($row2["ratingNO"] == "1") {
                         $star1++;
@@ -108,12 +144,12 @@ if ($resultCheck > 0) {
             }
             $finalRating = 0;
             if ($totalRating != 0 || $totalRatingCount != 0) {
-                $finalRating = $totalRating / $totalRatingCount;
-            }  
-            
-            $arrayRatingProductID = array_values(array_filter(array_unique($d))); 
+                $finalRating = round($totalRating / $totalRatingCount);
+            }
 
-            if(in_array($row['productID'], $arrayRatingProductID)){ 
+            $arrayRatingProductID = array_values(array_filter(array_unique($d)));
+
+            if (in_array($row['productID'], $arrayRatingProductID)) {
                 //b = cart, c = wishlist
                 if (in_array($row['productID'], $b) && in_array($row['productID'], $c)) {
                     $productdata = "productID=" . $row['productID'] . "&wishlist=exist&cart=exist";
@@ -128,7 +164,7 @@ if ($resultCheck > 0) {
                     echo "<p>" . "<a href='includes/addToCart.inc.php?" . $productdata . $productQuantity . "'>" . "<button disabled class='btnAddToCartDisabled'>Add To Cart</button></a>" . "</p>";
                     echo "</div>";
                     echo "</a>";
-                } else if (in_array($row['productID'], $b)&&!in_array($row['productID'],$c)) {
+                } else if (in_array($row['productID'], $b) && !in_array($row['productID'], $c)) {
                     $productdata = "productID=" . $row['productID'] . "&wishlist=exist&cart=empty";
                     $productQuantity = "&productQuantity=" . $row['productQuantity'];
                     echo  "<a href='productDetail.php?" . $productdata . "'>";
@@ -142,7 +178,7 @@ if ($resultCheck > 0) {
                     echo "</div>";
                     echo "</a>";
                     //echo "cart found productID : ".$row['productID']."<br>";
-                } else if (in_array($row['productID'], $c)&&!in_array($row['productID'],$b)) {
+                } else if (in_array($row['productID'], $c) && !in_array($row['productID'], $b)) {
                     $productdata = "productID=" . $row['productID'] . "&wishlist=empty&cart=exist";
                     $productQuantity = "&productQuantity=" . $row['productQuantity'];
                     echo  "<a href='productDetail.php?" . $productdata . "'>";
@@ -155,7 +191,7 @@ if ($resultCheck > 0) {
                     echo "<p>" . "<a href='includes/addToCart.inc.php?" . $productdata . $productQuantity . "'>" . "<button class='btnAddToCart'>Add To Cart</button></a>" . "</p>";
                     echo "</div>";
                     echo "</a>";
-                } else if(!in_array($row['productID'], $c)&&!in_array($row['productID'],$b)) {
+                } else if (!in_array($row['productID'], $c) && !in_array($row['productID'], $b)) {
                     $productdata = "productID=" . $row['productID'] . "&wishlist=empty&cart=exist";
                     $productQuantity = "&productQuantity=" . $row['productQuantity'];
                     echo  "<a href='productDetail.php?" . $productdata . "'>";
@@ -170,7 +206,7 @@ if ($resultCheck > 0) {
                     echo "</a>";
                     //echo "normal  productID : ".$row['productID']."<br>";
                 }
-            }else{
+            } else {
                 if (in_array($row['productID'], $b) && in_array($row['productID'], $c)) {
                     $productdata = "productID=" . $row['productID'] . "&wishlist=exist&cart=exist";
                     $productQuantity = "&productQuantity=" . $row['productQuantity'];
@@ -184,7 +220,7 @@ if ($resultCheck > 0) {
                     echo "<p>" . "<a href='includes/addToCart.inc.php?" . $productdata . $productQuantity . "'>" . "<button disabled class='btnAddToCartDisabled'>Add To Cart</button></a>" . "</p>";
                     echo "</div>";
                     echo "</a>";
-                } else if (in_array($row['productID'], $b)&&!in_array($row['productID'],$c)) {
+                } else if (in_array($row['productID'], $b) && !in_array($row['productID'], $c)) {
                     $productdata = "productID=" . $row['productID'] . "&wishlist=exist&cart=empty";
                     $productQuantity = "&productQuantity=" . $row['productQuantity'];
                     echo  "<a href='productDetail.php?" . $productdata . "'>";
@@ -198,7 +234,7 @@ if ($resultCheck > 0) {
                     echo "</div>";
                     echo "</a>";
                     //echo "cart found productID : ".$row['productID']."<br>";
-                } else if (in_array($row['productID'], $c)&&!in_array($row['productID'],$b)) {
+                } else if (in_array($row['productID'], $c) && !in_array($row['productID'], $b)) {
                     $productdata = "productID=" . $row['productID'] . "&wishlist=empty&cart=exist";
                     $productQuantity = "&productQuantity=" . $row['productQuantity'];
                     echo  "<a href='productDetail.php?" . $productdata . "'>";
@@ -211,7 +247,7 @@ if ($resultCheck > 0) {
                     echo "<p>" . "<a href='includes/addToCart.inc.php?" . $productdata . $productQuantity . "'>" . "<button class='btnAddToCart'>Add To Cart</button></a>" . "</p>";
                     echo "</div>";
                     echo "</a>";
-                } else if(!in_array($row['productID'], $c)&&!in_array($row['productID'],$b)) {
+                } else if (!in_array($row['productID'], $c) && !in_array($row['productID'], $b)) {
                     $productdata = "productID=" . $row['productID'] . "&wishlist=empty&cart=exist";
                     $productQuantity = "&productQuantity=" . $row['productQuantity'];
                     echo  "<a href='productDetail.php?" . $productdata . "'>";
@@ -227,13 +263,10 @@ if ($resultCheck > 0) {
                     //echo "normal  productID : ".$row['productID']."<br>";
                 }
             }
-            $totalRating=0;
-            $totalRatingCount=0;
-            
         }
-    } 
+    }
 
-   
+
 
 
     ?>
@@ -286,6 +319,25 @@ include_once 'footer.php';
             $("#Menuitems").css("display", "block");
         else
             $("#Menuitems").css("display", "none");
+    });
+</script>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("#search2").keyup(function() {
+            $.ajax({
+                async: false,
+                type: 'POST',
+                url: 'includes/searchProductForProduct.inc.php',
+                data: {
+                    name2: $("#search2").val(),
+                },
+                success: function(data) {
+                    $("#output").html(data);
+
+                }
+            });
+        });
     });
 </script>
 </body>

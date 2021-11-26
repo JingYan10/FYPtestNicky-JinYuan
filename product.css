@@ -4,6 +4,19 @@
     background-color: #fff;
 }
 
+.productSearchBar {
+    margin-left: 140px;
+    height: 35px;
+    width: 80%;
+    font-size: 18px;
+    font-weight: 400;
+    margin-bottom: 15px;
+}
+
+h1 {
+    margin-bottom: 15px;
+}
+
 .card2 {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
     max-width: 350px;
