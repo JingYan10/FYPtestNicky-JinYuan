@@ -8,6 +8,8 @@
             $resultCheck = mysqli_num_rows($result);
             if ($resultCheck > 0) {
                 $_SESSION["workingShiftDataExistence"] = true;
+            }else{
+                $_SESSION["workingShiftDataExistence"] = false;
             }
             if ($_SESSION["workingShiftDataExistence"] == false) {
                 echo "<a href='selectWorkingShift.php'><input type='button' class='btnCreateProduct' value='Select working shift'></a>";

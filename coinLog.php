@@ -35,8 +35,7 @@ include_once 'includes/databaseHandler.inc.php';
                     $sql = "SELECT * FROM coin where transactionStatus = 'biddingRefund' AND userEmail = '$userEmail' ";
                 } else if ($search == "deduct") {
                     // $sql = "SELECT * FROM coin where (userEmail = '$userEmail' and transactionStatus = 'deduct1') or (userEmail = '$userEmail' and transactionStatus = 'deduct2') ";
-                    $sql ="SELECT * FROM coin where userEmail = '$userEmail' and transactionStatus = 'deduct1' UNION SELECT * FROM coin where userEmail = '$userEmail' and transactionStatus = 'deduct2'";
-             
+                    $sql = "SELECT * FROM coin where userEmail = '$userEmail' and transactionStatus = 'deduct1' UNION SELECT * FROM coin where userEmail = '$userEmail' and transactionStatus = 'deduct2'";
                 } else {
                     $sql = "SELECT * FROM coin where  userEmail = '$userEmail' ";
                 }
@@ -61,17 +60,17 @@ include_once 'includes/databaseHandler.inc.php';
                     if ($row["transactionStatus"] == "biddingRefund") {
                         echo "<tr style='background-color:#46db7f'>";
                         echo "<td>" . $count . "</td>";
-                        echo "<td>" . $row["coinAmount"] . "</td>";
+                        echo "<td>RM " . number_format((float)$row["coinAmount"], 2, '.', '') . "</td>";
                         echo "</tr>";
                     } else if ($row["transactionStatus"] == "deduct1") {
                         echo "<tr style='background-color:#e43939'>";
                         echo "<td>" . $count . "</td>";
-                        echo "<td>" . $row["coinAmount"] . "</td>";
+                        echo "<td>RM " . number_format((float)$row["coinAmount"], 2, '.', '') . "</td>";
                         echo "</tr>";
                     } else if ($row["transactionStatus"] == "deduct2") {
                         echo "<tr style='background-color:#e43939'>";
                         echo "<td>" . $count . "</td>";
-                        echo "<td>" . $row["coinAmount"] . "</td>";
+                        echo "<td>RM " . number_format((float)$row["coinAmount"], 2, '.', '') . "</td>";
                         echo "</tr>";
                     }
 
@@ -82,6 +81,13 @@ include_once 'includes/databaseHandler.inc.php';
                 echo "<p style='margin-left:88px'>there is no coin transaction before</p>";
             }
             ?>
+
+            <script src="https://www.paypal.com/sdk/js?client-id=AeVGLPsUt-ACbymXZlhlEgDq1yWTka3VFj5pEX5QrsSJX5bHf1rjSA88SbI2YKWImMRpgPouhAjnJCwF&currency=MYR">
+                
+            </script>
+            <!-- <input style="margin:100px;margin-bottom:10px;" type="text" placeholder="enter top-up amount">
+            <div style="width: 100px;margin-left:90px;" id="paypal-button-container"></div> -->
+            <?php include_once "topupPaypal.php"?>
         </div>
     </div>
 
@@ -159,4 +165,3 @@ include_once 'footer.php';
 </body>
 
 </html>
-

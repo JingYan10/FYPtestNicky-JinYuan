@@ -67,7 +67,7 @@ require_once 'includes/functions.inc.php';
                     </ul>
                 </nav>
                 <?php 
-                 if ( $_SESSION["userRole"] == 'verifier')
+                 if (isset($_SESSION["userRole"]) && $_SESSION["userRole"] == 'verifier')
                  echo '<a href="verifier.php"><img src="images/images/cart.png" width="30px" height="30px" alt=""></a>';
                 ?>
                
