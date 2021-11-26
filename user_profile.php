@@ -77,10 +77,6 @@ if ($resultCheck > 0) {
             <a href="user_profile_changePassword.php"><input type="button" value="Change Passsword" class="btnEditPassword"></a>
             <a href="user_profile_edit.php"><input type="button" class="btnEdit" value="Edit"></a>
 
-            <input type="text" class="searchTerm" placeholder="Enter friend code">
-            <button type="submit" class="searchButton">
-                <i class="fa fa-search"></i>
-            </button>
             
             <br>
             <?php

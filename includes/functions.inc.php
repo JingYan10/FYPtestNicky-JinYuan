@@ -198,13 +198,19 @@ function loginUser($conn, $email, $password)
             while ($row = mysqli_fetch_assoc($result)) {
 
                 $_SESSION["userRole"] = $row['userRole'];
+                $_SESSION["banStatus"] = $row['banStatus'];
+
             }
         }
         //Obtain user role
         if ($_SESSION["userRole"] == "admin") {
             header("location: ../adminProfile.php");
             exit();
-        } else {
+        } else if ($_SESSION["banStatus"] == "Banned") {
+            header("location: ../login.php?error=banned");
+            exit();
+        }
+        else {
 
             header("location: ../index.php");
             exit();
@@ -429,6 +435,32 @@ function searchProduct($conn, $email, $searchData)
     }
 }
 
+function searchProductForProduct($conn, $email, $searchData)
+{
+    
+    
+        $sql = "SELECT * FROM product WHERE productQuantity IS NOT NULL ";
+  
+    $result = mysqli_query($conn, $sql);
+    $resultCheck = mysqli_num_rows($result);
+    if ($resultCheck > 0) {
+        while ($row = mysqli_fetch_assoc($result)) {
+            echo "<tr>";
+            echo "<td>" . "P00" . $row['productID'] . "</td>";
+            echo "<td>" . $row['productName'] . "</td>";
+            echo "<td>" . "<img style='height:140px;width:140px;' src=" . $row['productImage'] . ">" . "</td>";
+            echo "<td>" . $row['productQuantity'] . "</td>";
+            echo "<td>" . $row['productPrice'] . "</td>";
+            echo "<td>";
+            $productData = "productID=" . $row['productID'] . "&productName=" . $row['productName'] . "&productImage=" . $row['productImage'] . "&productQuantity=" . $row['productQuantity'] . "&productPrice=" . $row['productPrice'];
+            echo "<a href='editProduct.php?" . $productData . "'>" . "<button class='btnEditProduct'>edit</button></a>";
+            echo "<a href='deleteProduct.php?" . $productData . "'>" . "<button class='btnDeleteProduct'>delete</button></a>";
+            echo "</td>";
+            echo "</tr>";
+        }
+    }
+}
+
 function decreaseProductQuantityForBidding($conn, $productID, $productQuantity)
 {
     echo $productQuantity;
@@ -443,6 +475,20 @@ function decreaseProductQuantityForBidding($conn, $productID, $productQuantity)
     }
     mysqli_stmt_execute($stmt);
     mysqli_stmt_close($stmt);
+}
+function createPromotion($conn, $productID, $promotionRate, $promotionEndingDate)
+{
+
+    $sql = "INSERT INTO promotion (productID, promotionRate, promotionEndingDate) VALUES ('$productID', '$promotionRate', '$promotionEndingDate');";
+    $stmt = mysqli_stmt_init($conn);
+    if (!mysqli_stmt_prepare($stmt, $sql)) {
+        header("location: ../createPromotion.php?error=stmtFailed");
+        exit();
+    }
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_close($stmt);
+    header("location: ../user_profile.php");
+    exit();
 }
 function createBidding($conn, $productID, $biddingEndingTime, $biddingStartingPrice, $biddingEndingPrice, $totalBidder)
 {

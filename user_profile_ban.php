@@ -37,7 +37,7 @@ if ($resultCheck > 0) {
                        
         if ($resultCheck > 0) {
             echo '<table>
-            <caption>Products</caption>
+            <caption>Ban User</caption>
             <thead>
                 <tr>
                     <th scope="col">User Email</th>
@@ -71,7 +71,7 @@ if ($resultCheck > 0) {
                        
         if ($resultCheck > 0) {
             echo '<table>
-            <caption>Products</caption>
+            <caption>UnBan User</caption>
             <thead>
                 <tr>
                     <th scope="col">User Email</th>

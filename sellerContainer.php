@@ -5,7 +5,7 @@
             <button class="btnShowProductListing" onclick="toggleProductListing()">show product listing</button>
             <input type="text" class="productSearchBar" name="search" id="search" placeholder="search by product name">
             <div id="product-listing" style="display:none;" class="product-listing">
-
+            <button class="btnCreatePromotion" onclick="CreatePromotion()">Create promotion</button>
 
 
                 <div id="result"></div>
@@ -41,6 +41,7 @@
                             echo "<a href='editProduct.php?" . $productData . "'>" . "<button class='btnEditProduct'>edit</button></a>";
                             echo "<a href='deleteProduct.php?" . $productData . "'>" . "<button class='btnDeleteProduct'>delete</button></a>";
                             echo "<a href='createBidding.php?" . $productData . "'>" . "<button class='btnCreateBidding'>create bidding</button></a>";
+                            echo "<a href='createPromotion.php?" . $productData . "'>" . "<button class='btnCreatePromotion'>create promotion</button></a>";
                             echo "</td>";
                             echo "</tr>";
                         } else {
