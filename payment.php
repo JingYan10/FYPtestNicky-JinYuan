@@ -18,6 +18,7 @@ include_once 'includes/functions.inc.php';
 $price = $_POST['grandTotal'];
 $_SESSION['price'] = $price;
 
+
 ?>
 
 
@@ -90,13 +91,13 @@ $_SESSION['price'] = $price;
                                 // qty: qty
                             },
                             success: function(result) {
-                                // $(document).ready(function() {
-                                //     var removeAllFromCart = "includes/removeAllFromCart.inc.php";
-                                //     // $('#content').click(function() {
-                                //     $('#content').load(removeAllFromCart);
-                                //     // });
+                            //     $(document).ready(function() {
+                            //         var removeAllFromCart = "includes/removeAllFromCart.inc.php";
+                            //         // $('#content').click(function() {
+                            //         $('#content').load(removeAllFromCart);
+                            //         // });
 
-                                // });
+                            //     });
 
                             }
 

@@ -144,6 +144,11 @@
     margin-left: 10px;
 }
 
+.btnBan:hover {
+    background-color: #16bbf1;
+    box-shadow: 10px 10px 15px rgba(0, 0, 0, 0.05);
+}
+
 .btnDisableSeller {
     margin-top: 5px;
     background-color: #0455be;
@@ -158,7 +163,7 @@
     margin-left: 10px;
 }
 
-.btnBan:hover {
+.btnDisableSeller:hover {
     background-color: #16bbf1;
     box-shadow: 10px 10px 15px rgba(0, 0, 0, 0.05);
 }

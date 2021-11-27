@@ -57,8 +57,7 @@ include_once 'includes/functions.inc.php';
                     //echo "(from sql) product ID in cart : ".$row2['productID']."<br>";
                 }
             } else {
-                echo "<script> window.history.back(); </script>";
-                // echo "<script>alert('There is no item in cart!')</script>";
+                echo "<script> alert('There is no item in cart!'); window.location.href = \"http://localhost/testing-fyp-2/product.php\"; </script>";
             }
 
             if ($resultCheck > 0) {

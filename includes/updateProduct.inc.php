@@ -30,6 +30,7 @@ foreach ($products['cart'] as $key => $product) {
     mysqli_stmt_close($stmt);
 } 
 
+include_once 'removeAllFromCart.inc.php';
 include_once 'makePaymentOnSuccess.inc.php';
 include_once 'buyProduct.inc.php';
    
