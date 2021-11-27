@@ -12,29 +12,30 @@ include_once 'header.php';
 <!--content here-->
 
 <?php
-    if(isset($_GET["error"])){
-        $_SESSION["productID"];
-        $_SESSION["productName"];
-        $_SESSION["productImage"];
-        $_SESSION["productQuantity"];
-        $_SESSION["productPrice"];
-    }else{
-        $_SESSION["productID"] = $_GET["productID"];
-        $_SESSION["productName"] = $_GET["productName"];
-        $_SESSION["productImage"] = $_GET["productImage"];
-        $_SESSION["productQuantity"] = $_GET["productQuantity"];
-        $_SESSION["productPrice"] = $_GET["productPrice"];
-    }
-    
+if (isset($_GET["error"])) {
+    $_SESSION["productID"];
+    $_SESSION["productName"];
+    $_SESSION["productImage"];
+    $_SESSION["productQuantity"];
+    $_SESSION["productPrice"];
+} else {
+    $_SESSION["productID"] = $_GET["productID"];
+    $_SESSION["productName"] = $_GET["productName"];
+    $_SESSION["productImage"] = $_GET["productImage"];
+    $_SESSION["productQuantity"] = $_GET["productQuantity"];
+    $_SESSION["productPrice"] = $_GET["productPrice"];
+}
+
 ?>
 
 
 <section class="deleteProduct-form">
     <div class="center">
         <h1>Delete product</h1>
-        <form action="includes/deleteProduct.inc.php" method="post" enctype="multipart/form-data">
+        <form action="includes/deleteProduct.inc.php" method="post" enctype="multipart/form-data" id="uniqueDeleteForm">
             <div class="txt_field">
-                <p>Product ID : <?php echo "P00".$_SESSION['productID']; ?></p>
+                <p>Product ID : <?php echo "P00" . $_SESSION['productID']; ?></p>
+                <input type="hidden" name="productID" value="<?php echo $_SESSION['productID']; ?>">
             </div>
             <div class="txt_field">
                 <p>Product Name : <?php echo $_SESSION['productName']; ?></p>
@@ -49,34 +50,11 @@ include_once 'header.php';
             <div class="txt_field">
                 <p>Product price : <?php echo $_SESSION['productPrice']; ?></p>
             </div>
-            <button class="button" type="submit" name="submit">Delete</button>
+            <button class="button" type="button" onclick="myFunction3()" >Delete</button>
         </form>
 
         <?php
-        // if (isset($_GET["error"])) {
-        //     if ($_GET["error"] == "emptyInput") {
-        //         echo "<div style='text-align:center;color:red;font-weight:600'>fill up the blank space</div>";
-        //     } else if ($_GET["error"] == "invalidName") {
-        //         echo "<div style='text-align:center;color:red;font-weight:600'>firstname / lastname cannot have digit(s)</div>";
-        //     } else if ($_GET["error"] == "invalidEmail") {
-        //         echo "<div style='text-align:center;color:red;font-weight:600'>inccorect email format</div>";
-        //     } else if ($_GET["error"] == "mismatchPassword") {
-        //         echo "<div style='text-align:center;color:red;font-weight:600'>password and confirm password are not matched</div>";
-        //     } else if ($_GET["error"] == "existingUser") {
-        //         echo "<div style='text-align:center;color:red;font-weight:600'>this email has registered before</div>";
-        //     } else if ($_GET["error"] == "stmtFailed") {
-        //         echo "<div style='text-align:center;color:red;font-weight:600'>something went wrong, please try again later</div>";
-        //     } else if ($_GET["error"] == "imgType") {
-        //         echo "<div style='text-align:center;color:red;font-weight:600'>inccorect image type, please upload  in (jpg/jpeg/png) format</div>";
-        //     } else if ($_GET["error"] == "errorImgSize") {
-        //         echo "<div style='text-align:center;color:red;font-weight:600'> image size too big, <br> please reupload smaller image size</div>";
-        //     } else if ($_GET["error"] == "errorImgUpload") {
-        //         echo "<div style='text-align:center;color:red;font-weight:600'> something went wrong while uploading image, please try again</div>";
-        //     } else if ($_GET["error"] == "none") {
-        //         header("location: login.php");
-        //         exit();
-        //     }
-        // }
+
         ?>
     </div>
 </section>
@@ -90,7 +68,25 @@ include_once 'footer.php';
 ?>
 
 <!--javascript-->
-
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    function myFunction3() {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $("#uniqueDeleteForm").submit();
+                console.log("testing");
+            }
+        })
+    }
+</script>
 <!--for backtotop()-->
 <script>
     var btn = $('#button');
@@ -125,6 +121,7 @@ include_once 'footer.php';
             $("#Menuitems").css("display", "none");
     });
 </script>
+
 </body>
 
 </html>

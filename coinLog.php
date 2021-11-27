@@ -23,6 +23,7 @@ include_once 'includes/databaseHandler.inc.php';
             <div class="bidding-function-container">
                 <a href="coinLog.php?search=deduct"><button class="btnDeduct">deduct</button></a>
                 <a href="coinLog.php?search=add"><button class="btnAdd">add</button></a>
+                <a href="coinLog.php"><button class="btnAll">all</button></a>
             </div>
 
             <?php
@@ -32,12 +33,12 @@ include_once 'includes/databaseHandler.inc.php';
             if (isset($_GET["search"])) {
                 $search = $_GET["search"];
                 if ($search == "add") {
-                    $sql = "SELECT * FROM coin where transactionStatus = 'biddingRefund' AND userEmail = '$userEmail' ";
+                    $sql = "SELECT * FROM coin where transactionStatus = 'biddingRefund' AND userEmail = '$userEmail' UNION SELECT * FROM coin where userEmail = '$userEmail' and transactionStatus = 'topup' ";
                 } else if ($search == "deduct") {
                     // $sql = "SELECT * FROM coin where (userEmail = '$userEmail' and transactionStatus = 'deduct1') or (userEmail = '$userEmail' and transactionStatus = 'deduct2') ";
                     $sql = "SELECT * FROM coin where userEmail = '$userEmail' and transactionStatus = 'deduct1' UNION SELECT * FROM coin where userEmail = '$userEmail' and transactionStatus = 'deduct2'";
                 } else {
-                    $sql = "SELECT * FROM coin where  userEmail = '$userEmail' ";
+                    $sql = "SELECT * FROM coin where  userEmail = '$userEmail'  ";
                 }
             } else {
                 $sql = "SELECT * FROM coin where  userEmail = '$userEmail' ";
@@ -53,7 +54,9 @@ include_once 'includes/databaseHandler.inc.php';
                             <thead>
                                 <tr>
                                     <th scope="col">No</th>
-                                    <th scope="col">coin amount</th>
+                                    <th scope="col">Coin amount</th>
+                                    <th scope="col">Status</th>
+                                    <th scope="col">Transaction date</th>
                                 </tr>
                             </thead><tbody id="output">';
                 while ($row = mysqli_fetch_assoc($result)) {
@@ -61,16 +64,29 @@ include_once 'includes/databaseHandler.inc.php';
                         echo "<tr style='background-color:#46db7f'>";
                         echo "<td>" . $count . "</td>";
                         echo "<td>RM " . number_format((float)$row["coinAmount"], 2, '.', '') . "</td>";
+                        echo "<td>bidding refund</td>";
+                        echo "<td>".$row["transactionDate"]."</td>";
+                        echo "</tr>";
+                    } else if ($row["transactionStatus"] == "topup") {
+                        echo "<tr style='background-color:#46db7f'>";
+                        echo "<td>" . $count . "</td>";
+                        echo "<td>RM " . number_format((float)$row["coinAmount"], 2, '.', '') . "</td>";
+                        echo "<td>paypal topup</td>";
+                        echo "<td>".$row["transactionDate"]."</td>";
                         echo "</tr>";
                     } else if ($row["transactionStatus"] == "deduct1") {
                         echo "<tr style='background-color:#e43939'>";
                         echo "<td>" . $count . "</td>";
                         echo "<td>RM " . number_format((float)$row["coinAmount"], 2, '.', '') . "</td>";
+                        echo "<td>place bid fee</td>";
+                        echo "<td>".$row["transactionDate"]."</td>";
                         echo "</tr>";
                     } else if ($row["transactionStatus"] == "deduct2") {
                         echo "<tr style='background-color:#e43939'>";
                         echo "<td>" . $count . "</td>";
                         echo "<td>RM " . number_format((float)$row["coinAmount"], 2, '.', '') . "</td>";
+                        echo "<td>product bidding price</td>";
+                        echo "<td>".$row["transactionDate"]."</td>";
                         echo "</tr>";
                     }
 

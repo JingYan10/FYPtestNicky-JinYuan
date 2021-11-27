@@ -31,9 +31,9 @@ include_once 'includes/databaseHandler.inc.php';
             if (isset($_GET["search"])) {
                 $search = $_GET["search"];
                 if ($search == "active") {
-                    $sql = "SELECT * FROM bidding where biddingWinner IS NULL";
+                    $sql = "SELECT * FROM bidding where biddingStatus = 'active'";
                 } else if ($search == "ended") {
-                    $sql = "SELECT * FROM bidding where biddingWinner IS NOT NULL";
+                    $sql = "SELECT * FROM bidding where biddingStatus = 'ended'";
                 } else {
                     $sql = "SELECT * FROM bidding ";
                 }
@@ -52,7 +52,8 @@ include_once 'includes/databaseHandler.inc.php';
                             <thead>
                                 <tr>
                                     <th scope="col">Bidding ID</th>
-                                    <th scope="col">ProductID</th>
+                                     
+                                    <th scope="col">Product Image</th>
                                     <th scope="col">Ending Time</th>
                                     <th scope="col">Starting Price</th>
                                     <th scope="col">Highest Price</th>
@@ -61,25 +62,37 @@ include_once 'includes/databaseHandler.inc.php';
                                 </tr>
                             </thead><tbody id="output">';
                 while ($row = mysqli_fetch_assoc($result)) {
-                    echo "<tr>";
-                    echo "<td>" . "B00" . $row['biddingID'] . "</td>";
-                    echo "<td>" . $row['biddingProductID'] . "</td>";
-                    date_default_timezone_set("Asia/Kuala_Lumpur");
-                    $biddingEndingTime = $row['biddingEndingTime'];
-                    $timeBiddingEndingTime = strtotime($biddingEndingTime);
-                    $dateBiddingEndingTime = date("d M Y h:i:s", $timeBiddingEndingTime);
-                    echo "<td>" . $dateBiddingEndingTime . "</td>";
-                    echo "<td>" . $row['biddingStartingPrice'] . "</td>";
-                    echo "<td>" . $row['biddingEndingPrice'] . "</td>";
-                    echo "<td>" . $row['totalBidder'] . "</td>";
-                    echo "<td>";
-                    $biddingData = "biddingID=" . $row['biddingID'];
-                    if ($row['biddingWinner'] == null) {
-                        echo "<a href='biddingDetail.php?" . $biddingData . "'>" . "<button class='btnJoinBidding'>join</button></a>";
-                    } 
+                    $biddingProductID = $row['biddingProductID'];
+                    $sql = "SELECT * FROM product where productID ='$biddingProductID'";
+                    $result2 = mysqli_query($conn, $sql);
+                    $resultCheck2 = mysqli_num_rows($result2);
+                    if ($resultCheck2 > 0) {
+                        while ($row2 = mysqli_fetch_assoc($result2)) {
+                            echo "<tr>";
+                            echo "<td>" . "B00" . $row['biddingID'] . "</td>";
+                            // echo "<td>" . $row['biddingProductID'] . "</td>";
+                            echo "<td><img style='width:50px;height:50px;'src='" . $row2['productImage'] . "'></td>";
+                            date_default_timezone_set("Asia/Kuala_Lumpur");
+                            $biddingEndingTime = $row['biddingEndingTime'];
+                            $timeBiddingEndingTime = strtotime($biddingEndingTime);
+                            $dateBiddingEndingTime = date("d M Y h:i:s", $timeBiddingEndingTime);
+                            echo "<td>" . $dateBiddingEndingTime . "</td>";
+                            echo "<td>RM " . number_format((float)$row['biddingStartingPrice'], 2, '.', '') . "</td>";
+                            echo "<td>RM " . number_format((float)$row['biddingEndingPrice'], 2, '.', '')  . "</td>";
+                            echo "<td>" . $row['totalBidder'] . "</td>";
+                            echo "<td>";
 
-                    echo "</td>";
-                    echo "</tr>";
+                            if ($row['biddingStatus'] == "active") {
+                                $biddingData = "biddingID=" . $row['biddingID'];
+                                echo "<a href='biddingDetail.php?" . $biddingData . "'>" . "<button class='btnJoinBidding'>join</button></a>";
+                            } else {
+                                $biddingData = "biddingID=" . $row['biddingID'] . "&view=true";
+                                echo "<a href='biddingDetail.php?" . $biddingData . "'>" . "<button class='btnJoinBidding'>view</button></a>";
+                            }
+                        }
+                        echo "</td>";
+                        echo "</tr>";
+                    }
                 }
                 echo ' </tbody></table>';
             } else {

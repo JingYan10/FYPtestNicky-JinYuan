@@ -44,9 +44,10 @@ if(isset($_POST["submit"])){
         header("location: ../biddingDetail.php?error=higherBiddingPrice");
         exit();
     }
-    
-    
-
+    if($biddingPrice>checkCoinBalance($conn,$email)){
+        header("location: ../biddingDetail.php?error=insufficientBalance");
+        exit();
+    }
     createBiddingParticipant($conn,$biddingID,$biddingPrice,$email,$totalBidder,$currentTime);
     updateBidding($conn,$biddingPrice,$totalBidder,$biddingID);
     deductCoin($conn,$biddingPrice,$email,$biddingID);

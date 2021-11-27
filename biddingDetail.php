@@ -72,7 +72,7 @@ if (isset($_GET["error"])) {
 date_default_timezone_set("Asia/Kuala_Lumpur");
 $biddingEndingTime = $_SESSION["biddingEndingTime"];
 $timeBiddingEndingTime = strtotime($biddingEndingTime);
-$dateBiddingEndingTime = date("M d, Y h:i:s", $timeBiddingEndingTime);
+$dateBiddingEndingTime = date("M d, Y H:i:s", $timeBiddingEndingTime);
 ?>
 
 
@@ -99,7 +99,7 @@ $dateBiddingEndingTime = date("M d, Y h:i:s", $timeBiddingEndingTime);
                 </div>
                 <div class="productData">
                     <label style="margin-top:20px;margin-left:85px;font-size:24px;">Ending Time</label>
-                    <input type="hidden" id="biddingEndingTime" value="<?php echo $dateBiddingEndingTime ?>">
+                    <input type="text" id="biddingEndingTime" value="<?php echo $dateBiddingEndingTime ?>">
                     <p style="margin-left: 93px;font-size:18px;" id="countDownTimer"></p>
                 </div>
             </div>
@@ -147,6 +147,7 @@ $dateBiddingEndingTime = date("M d, Y h:i:s", $timeBiddingEndingTime);
                         </tr>
                     </thead><tbody id="output">';
                     echo ' </tbody></table>';
+                    
                 }
                 ?>
 
@@ -160,8 +161,14 @@ $dateBiddingEndingTime = date("M d, Y h:i:s", $timeBiddingEndingTime);
                     <input type="hidden" name="biddingEndingPrice" value="<?php echo $_SESSION["biddingEndingPrice"]; ?>">
                     <label style="margin-top:20px;margin-left:110px;font-size:24px;font-weight:550">Ending Time</label>
                     <p style="margin-left: 116px;font-size:18px;margin-bottom:20px;" id="countDownTimer2"></p>
-                    <input style="margin-left: 20px;" type="text" name="biddingPrice">
-                    <button class="btnPlaceBid" type="submit" name="submit">Place bid</button>
+                    <?php
+                        if (!isset($_GET["view"])){
+                            echo "<input style='margin-left: 20px;' type='text' name='biddingPrice'>";
+                            echo "<button class='btnPlaceBid' type='submit' name='submit'>Place bid</button>";
+                        }
+                     ?>
+                    
+                    
                 </form>
                 <?php
                 if (isset($_GET["error"])) {
@@ -171,7 +178,10 @@ $dateBiddingEndingTime = date("M d, Y h:i:s", $timeBiddingEndingTime);
                         echo "<div style='text-align:center;color:red;font-weight:600'>bidding has over</div>";
                     } else if ($_GET["error"] == "higherBiddingPrice") {
                         echo "<div style='text-align:center;color:red;font-weight:600'>place higher bid to join the bidding</div>";
+                    } else if ($_GET["error"] == "insufficientBalance") {
+                        echo "<div style='text-align:center;color:red;font-weight:600'>insufficient fund, please topup coin</div>";
                     }
+                   
                 }
                 ?>
             </div>

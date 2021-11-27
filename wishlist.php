@@ -64,7 +64,7 @@ include_once 'includes/functions.inc.php';
                     echo "<div class='product-removal'>";
                     $productData = "productID=" . $row2['productID'] . "&productQuantity=1&wishlist=yes";
                     echo "<a href='includes/wishlistAddtoCart.inc.php?$productData'><button>Add to cart</button></a>";
-                    echo "<a href='includes/wishlist.inc.php?$productData'><button>Remove</button></a>";
+                    echo "<a href='includes/removeWishlist.inc.php?$productData'><button>Remove</button></a>";
                     echo "</div>";
                     echo "</div>";
                 }

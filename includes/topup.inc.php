@@ -3,7 +3,7 @@ session_start();
 
 
 require_once 'databaseHandler.inc.php';
-require_once 'functions.inc.php';
+include_once 'functions.inc.php';
 
 
 $paypalId = $_POST["paypalId"];
@@ -18,5 +18,9 @@ $paymentDate = date("d/m/y h:i:s");
 if ($paypalStatus == "COMPLETED") {
     $paymentStatus = "success";
     $paymentAmount = $paypalAmount;
-    makePaymentOnSuccess($conn, $paymentAmount, $userEmail, $paymentStatus, $paymentDate);
+    makePaymentOnSuccess2($conn, $paymentAmount, $userEmail, $paymentStatus, $paymentDate);
+
+    
+    
+    addCoin($conn, $paymentAmount, $userEmail, getLatestPaymentID($conn));
 }

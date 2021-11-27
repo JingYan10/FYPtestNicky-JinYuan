@@ -24,7 +24,8 @@
 /*table*/
 
 table {
-    margin-left: 120px;
+    margin-left: 10px;
+    margin-right: 60px;
 }
 
 table td,
@@ -87,7 +88,7 @@ table th {
     text-decoration: none;
     display: inline-block;
     font-size: 14px;
-    margin-left: 100px;
+    margin-left: 60px;
     cursor: pointer;
 }
 
@@ -105,6 +106,21 @@ table th {
     cursor: pointer;
 }
 
+.btnAll {
+    margin-top: 5px;
+    background-color: #044a66;
+    border: none;
+    color: white;
+    padding: 12px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    margin-left: 0px;
+    cursor: pointer;
+}
+
+.btnAll:hover,
 .btnDeduct:hover,
 .btnAdd:hover {
     background-color: #16bbf1;
