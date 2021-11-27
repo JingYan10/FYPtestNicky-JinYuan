@@ -377,6 +377,20 @@ table th {
     cursor: pointer;
 }
 
+.btnPaymentHistory {
+    background-color: #0455be;
+    border: none;
+    color: white;
+    padding: 12px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    margin-top: 10px;
+    margin-left: 28px;
+    cursor: pointer;
+}
+
 
 /*Resize the wrap to see the search bar change!*/
 

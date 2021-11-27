@@ -352,7 +352,7 @@ function banUser($conn, $email)
     $sql = "UPDATE users SET banStatus  = 'Banned' WHERE userEmail = '$email'; ";
     $stmt = mysqli_stmt_init($conn);
     if (!mysqli_stmt_prepare($stmt, $sql)) {
-        header("location: ../user_profile_ban.php?error=stmtFailed");
+        header("location: ../user_profile_ban.php?error=stmtFailed76");
         exit();
     }
     mysqli_stmt_execute($stmt);
@@ -650,7 +650,7 @@ function updateBiddingWinner($conn)
                 $sql = "UPDATE bidding SET biddingStatus = 'ended' WHERE biddingID = $biddingID;";
                 $stmt = mysqli_stmt_init($conn);
                 if (!mysqli_stmt_prepare($stmt, $sql)) {
-                    header("location: ../pinChangePassword.php?error=stmtFailed");
+                    header("location: ../pinChangePassword.php?error=stmtFailed114");
                     exit();
                 }
                 mysqli_stmt_execute($stmt);
@@ -674,7 +674,7 @@ function updateBiddingWinner($conn)
                     $sql = "UPDATE bidding SET biddingWinner = '$biddingWinner' WHERE biddingID = $biddingID;";
                     $stmt = mysqli_stmt_init($conn);
                     if (!mysqli_stmt_prepare($stmt, $sql)) {
-                        header("location: ../pinChangePassword.php?error=stmtFailed");
+                        header("location: ../pinChangePassword.php?error=stmtFailed113");
                         exit();
                     }
                     mysqli_stmt_execute($stmt);
@@ -690,7 +690,7 @@ function updateBiddingWinner($conn)
                     $sql = "UPDATE coin SET transactionStatus = '$transactionStatus', transactionDate='$currentDate' WHERE biddingID = $biddingID AND coinAmount = $biddingEndingPrice ";
                     $stmt = mysqli_stmt_init($conn);
                     if (!mysqli_stmt_prepare($stmt, $sql)) {
-                        header("location: ../pinChangePassword.php?error=stmtFailed");
+                        header("location: ../pinChangePassword.php?error=stmtFailed112");
                         exit();
                     }
                     mysqli_stmt_execute($stmt);
@@ -802,7 +802,7 @@ function pinChangePassword($conn, $email, $newPassword)
     $sql = "UPDATE users SET userPassword = '$encryptedPassword' WHERE userEmail = '$email'; ";
     $stmt = mysqli_stmt_init($conn);
     if (!mysqli_stmt_prepare($stmt, $sql)) {
-        header("location: ../pinChangePassword.php?error=stmtFailed");
+        header("location: ../pinChangePassword.php?error=stmtFailed111");
         exit();
     }
     mysqli_stmt_execute($stmt);
@@ -1786,4 +1786,29 @@ function checkProductData($conn)
         }
     }
     return $arrayProduct;
+}
+
+function disableSeller($conn, $email) {
+    $sql = "UPDATE users SET sellerStatus  = 'disable' WHERE userEmail = '$email'; ";
+    $stmt = mysqli_stmt_init($conn);
+    if (!mysqli_stmt_prepare($stmt, $sql)) {
+        header("location: ../disableSeller.php?error=stmtFailed500");
+        exit();
+    }
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_close($stmt);
+    header("location: ../disableSeller.php");
+    exit();
+}
+function enableSeller($conn, $email) {
+    $sql = "UPDATE users SET sellerStatus  = 'approved' WHERE userEmail = '$email'; ";
+    $stmt = mysqli_stmt_init($conn);
+    if (!mysqli_stmt_prepare($stmt, $sql)) {
+        header("location: ../disableSeller.php?error=stmtFailed76");
+        exit();
+    }
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_close($stmt);
+    header("location: ../disableSeller.php");
+    exit();
 }

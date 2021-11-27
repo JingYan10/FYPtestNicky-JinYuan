@@ -29,129 +29,136 @@ $_SESSION['price'] = $price;
 
 <!--content here-->
 
-    <h1>Thank you! Please proceed to PayPal by clicking the button below.</h1>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
+<h1>Thank you! Please proceed to PayPal by clicking the button below.</h1>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
 
-    <div class="container">
+<div class="container">
 
-        <div id="paypal-button-container"></div>
-    </div>
+    <div id="paypal-button-container"></div>
+</div>
 
-    <script>
-        $(function() {
-            console.log('<?= json_encode($_POST) ?>');
-            paypal.Buttons({
-                style: {
-                    layout: 'vertical',
-                    color: 'blue',
-                    shape: 'rect',
-                    label: 'paypal'
-                },
-                createOrder: function(data, actions) {
-                    // This function sets up the details of the transaction, including the amount and line item details.
-                    return actions.order.create({
-                        purchase_units: [{
-                            amount: {
-                                value: '<?= $price ?>'
-                            }
-                        }]
-                    });
-                },
-                onApprove: function(data, actions) {
-                    // This function captures the funds from the transaction.
-                    return actions.order.capture().then(function(details) {
-                        // This function shows a transaction success message to your buyer.
-                        console.log(details);
-
-                        if (details.status == 'COMPLETED') {
-
-                            // function changeQuantity(a) {
-
-
-
-                            // var inputQty = $(a).val();
-                            // var productQuantity = $(a).attr("max");
-                            // var productID = $(a).attr("id");
-                            // var qty = productQuantity - inputQty;
-                            // console.log(productID);
-
-                            $.ajax({
-                                url: 'includes/updateProduct.inc.php',
-                                type: 'post',
-                                data: {
-                                    product: '<?= json_encode($_POST) ?>',
-                                    // qty: qty
-                                },
-                                success: function(result) {
-
-                                }
-
-                            })
-                            //}
-                            // ajax update cart
-
-                            // $(document).ready(function() {
-                            //     var removeAllFromCart = "includes/removeAllFromCart.inc.php";
-                            //     // $('#content').click(function() {
-                            //         $('#content').load(removeAllFromCart);
-                            //     // });
-
-                            //     // pls i beg u just fucking go to removeAllFromCart.php
-
-                            // });
-
-                        } else {
-                            $.ajax({
-                                url: 'includes/MakePaymentOnFail.inc.php',
-                                type: 'post',
-                                data: {
-                                    product: '<?= json_encode($_POST) ?>',
-                                    // qty: qty
-                                },
-                                success: function(result) {
-
-                                }
-
-                            })
+<script>
+    $(function() {
+        console.log('<?= json_encode($_POST) ?>');
+        paypal.Buttons({
+            style: {
+                layout: 'vertical',
+                color: 'blue',
+                shape: 'rect',
+                label: 'paypal'
+            },
+            createOrder: function(data, actions) {
+                // This function sets up the details of the transaction, including the amount and line item details.
+                return actions.order.create({
+                    purchase_units: [{
+                        amount: {
+                            value: '<?= $price ?>'
                         }
-                        alert('Transaction completed by ' + details.payer.name.given_name);
-                    });
-                }
-            }).render('#paypal-button-container');
-        })
+                    }]
+                });
+            },
+            onApprove: function(data, actions) {
+                // This function captures the funds from the transaction.
+                return actions.order.capture().then(function(details) {
+                    // This function shows a transaction success message to your buyer.
+                    console.log(details);
 
+                    if (details.status == 'COMPLETED') {
 
-        function pay() {
-            var total = $('#grandTotalHidden').val();
-
-            paypal.Buttons({
-
-            });
-        }
-    </script>
-
-
-    <?php
-
-    // require_once 'includes/databaseHandler.inc.php';
-    // require_once 'includes/functions.inc.php';
-
-
-    // echo "friendCode : " . generateFriendCode($conn);
-    ?>
-    <?php
-    include_once 'footer.php';
-    ?>
+                        // function changeQuantity(a) {
 
 
 
-    </body>
+                        // var inputQty = $(a).val();
+                        // var productQuantity = $(a).attr("max");
+                        // var productID = $(a).attr("id");
+                        // var qty = productQuantity - inputQty;
+                        // console.log(productID);
 
-    </html>
+                        $.ajax({
+                            url: 'includes/updateProduct.inc.php',
+                            type: 'post',
+                            data: {
+                                product: '<?= json_encode($_POST) ?>',
+                                // qty: qty
+                            },
+                            success: function(result) {
+                                // $(document).ready(function() {
+                                //     var removeAllFromCart = "includes/removeAllFromCart.inc.php";
+                                //     // $('#content').click(function() {
+                                //     $('#content').load(removeAllFromCart);
+                                //     // });
+
+                                // });
+
+                            }
+
+                        })
+                        //}
+                        // ajax update cart
+
+                        // $(document).ready(function() {
+                        //     var removeAllFromCart = "includes/removeAllFromCart.inc.php";
+                        //     // $('#content').click(function() {
+                        //         $('#content').load(removeAllFromCart);
+                        //     // });
+
+                        //     // pls i beg u just fucking go to removeAllFromCart.php
+
+                        // });
+
+                    } else {
+                        $.ajax({
+                            url: 'includes/MakePaymentOnFail.inc.php',
+                            type: 'post',
+                            data: {
+                                product: '<?= json_encode($_POST) ?>',
+                                // qty: qty
+                            },
+                            success: function(result) {
+
+                            }
+
+                        })
+                    }
+                    alert('Transaction completed by ' + details.payer.name.given_name);
+                });
+            }
+        }).render('#paypal-button-container');
+    })
+
+
+    function pay() {
+        var total = $('#grandTotalHidden').val();
+
+        paypal.Buttons({
+
+        });
+    }
+</script>
+
+
+<?php
+
+// require_once 'includes/databaseHandler.inc.php';
+// require_once 'includes/functions.inc.php';
+
+
+// echo "friendCode : " . generateFriendCode($conn);
+?>
+<?php
+include_once 'footer.php';
+?>
+
+
+
+</body>
+
+</html>

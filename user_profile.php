@@ -76,12 +76,18 @@ if ($resultCheck > 0) {
             </div>
             <a href="user_profile_changePassword.php"><input type="button" value="Change Passsword" class="btnEditPassword"></a>
             <a href="user_profile_edit.php"><input type="button" class="btnEdit" value="Edit"></a>
+            <a href="paymentHistory.php"><input type="button" class="btnPaymentHistory" value="Payment History"></a>
 
-            
+
             <br>
             <?php
             if ($_SESSION["sellerStatus"] == null && $_SESSION["delivererStatus"] == null) {
                 echo '<a href="becomeSeller.php"><input type="button" class="btnUpgradeSeller" value="Become a seller"></a>';
+                echo '<a href="becomeDeliverer.php"><input type="button" class="btnUpgradeDeliverer" value="Become a deliverer"></a> ';
+            }
+            ?>
+            <?php
+            if ($_SESSION["sellerStatus"] == 'disable' && $_SESSION["delivererStatus"] == null) {
                 echo '<a href="becomeDeliverer.php"><input type="button" class="btnUpgradeDeliverer" value="Become a deliverer"></a> ';
             }
             ?>
@@ -103,10 +109,12 @@ if ($resultCheck > 0) {
 </div>
 
 <?php
-if ($_SESSION["userRole"] == "seller") {
+if ($_SESSION["userRole"] == "seller" && $_SESSION["sellerStatus"] == "approved") {
     include_once 'sellerContainer.php';
 } else if ($_SESSION["userRole"] == "deliverer") {
     include_once 'delivererContainer.php';
+} else if($_SESSION["sellerStatus"] == "disable"){
+    echo '<script>alert("Seller Status had been disabled")</script>';
 }
 
 ?>

@@ -29,4 +29,6 @@ $userEmail=$_SESSION["userEmail"];
 //print_r(getAllWishlistData($conn));
 // print_r((checkWishlistData($conn)["productID"]);
 
-getAllWishlistData($conn,$conn2);
+// getAllWishlistData($conn,$conn2);
+
+echo generateFriendCode($conn);

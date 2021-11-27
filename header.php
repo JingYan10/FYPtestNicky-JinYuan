@@ -55,22 +55,28 @@ require_once 'includes/functions.inc.php';
 
                         <?php
                         if (isset($_SESSION["userEmail"])) {
-                            echo "<li><a href='user_profile.php'>Profile</a></li>";
-                            echo "<li><a href='includes/logout.inc.php'>Log out</a></li>";
-                            //echo "<li>". include_once 'notification.php'."</li>";
-
-                            include_once 'notification.php';
+                            if (isset($_SESSION["userRole"]) && $_SESSION["userRole"] == 'admin') {
+                                echo "<li><a href='adminProfile.php'>Profile</a></li>";             
+                                echo "<li><a href='includes/logout.inc.php'>Log out</a></li>";
+                            } else {
+                                echo "<li><a href='user_profile.php'>Profile</a></li>";
+                                echo "<li><a href='includes/logout.inc.php'>Log out</a></li>";
+                                //echo "<li>". include_once 'notification.php'."</li>";
+                                include_once 'notification.php';
+                            }
                         } else {
                             echo "<li><a href='login.php'>Log in</a></li>";
                         }
+
+
                         ?>
                     </ul>
                 </nav>
-                <?php 
-                 if (isset($_SESSION["userRole"]) && $_SESSION["userRole"] == 'verifier')
-                 echo '<a href="verifier.php"><img src="images/images/cart.png" width="30px" height="30px" alt=""></a>';
+                <?php
+                if (isset($_SESSION["userRole"]) && $_SESSION["userRole"] == 'verifier')
+                    echo '<a href="verifier.php"><img src="images/images/cart.png" width="30px" height="30px" alt=""></a>';
                 ?>
-               
+
                 <img src="images/images/menu.png" class="menu-icon" onclick="toggleMenu()">
             </div>
 

@@ -27,16 +27,14 @@ if ($resultCheck > 0) {
                 echo "<div class='number'>$notificationCount</div>";
             }
             ?>
-           
+            <?php
+            include_once 'includes/databaseHandler.inc.php';
 
-                        <?php
-                        include_once 'includes/databaseHandler.inc.php';
-
-                        $sql = "SELECT * FROM notification where receiverEmail='$_SESSION[userEmail]';";
-                        $result = mysqli_query($conn, $sql);
-                        $resultCheck = mysqli_num_rows($result);
-                        if ($resultCheck > 0) {
-                            echo " <i class='fas fa-bell'></i>
+            $sql = "SELECT * FROM notification where receiverEmail='$_SESSION[userEmail]';";
+            $result = mysqli_query($conn, $sql);
+            $resultCheck = mysqli_num_rows($result);
+            if ($resultCheck > 0) {
+                echo " <i class='fas fa-bell'></i>
                             <div class='box2'>
                                 <div class='display'>
                                     <div class='nothing'>
@@ -45,18 +43,18 @@ if ($resultCheck > 0) {
                                     </div>
                                     <div class='cont'>
                             ";
-                            while ($row = mysqli_fetch_assoc($result)) {
-                                // $_SESSION["userFirstName"] = $row['userFirstName'];
-                                echo "<div class='sec new'>";
-                                echo "<div class='profCont'>";
-                                echo "<img class='profile' src='https://c1.staticflickr.com/5/4007/4626436851_5629a97f30_b.jpg'>";
-                                echo "</div>";
-                                echo "<div class='txt' style='color:black;'>" . $row['notificationDescription'] . "</div>";
-                                $productData = "productID=" . $row['neededID'];
-                                echo "<div class='txt sub'><a href=productReview.php?" . "$productData" . "><input type='button' value='review product'></a></div>";
-                                echo "</div>";
-                            }
-                            echo "
+                while ($row = mysqli_fetch_assoc($result)) {
+                    // $_SESSION["userFirstName"] = $row['userFirstName'];
+                    echo "<div class='sec new'>";
+                    echo "<div class='profCont'>";
+                    echo "<img class='profile' src='https://c1.staticflickr.com/5/4007/4626436851_5629a97f30_b.jpg'>";
+                    echo "</div>";
+                    echo "<div class='txt' style='color:black;'>" . $row['notificationDescription'] . "</div>";
+                    $productData = "productID=" . $row['neededID'];
+                    echo "<div class='txt sub'><a href=productReview.php?" . "$productData" . "><input type='button' value='review product'></a></div>";
+                    echo "</div>";
+                }
+                echo "
                             </div>
                 </div>
             </div>
@@ -64,5 +62,5 @@ if ($resultCheck > 0) {
     </a>
 </div>
                             ";
-                        }
-                        ?>
+            }
+            ?>

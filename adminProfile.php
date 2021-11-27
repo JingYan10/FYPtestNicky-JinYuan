@@ -54,6 +54,7 @@ if ($resultCheck > 0) {
             <a href="user_profile_changePassword.php"><input type="button" value="Change Passsword" class="btnEditPassword"></a>
             <a href="user_profile_edit.php"><input type="button" class="btnEdit" value="Edit"></a>
             <a href="user_profile_ban.php"><input type="button" class="btnBan" value="Ban Users"></a>
+            <a href="disableSeller.php"><input type="button" class="btnDisableSeller" value="Disable Seller"></a>
             <a href="friendlist.php"><input type="button" class="btnFriendlist" value="Friendlist"></a>
 
             <br>
