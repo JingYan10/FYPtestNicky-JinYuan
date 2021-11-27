@@ -207,6 +207,7 @@ function loginUser($conn, $email, $password)
             header("location: ../adminProfile.php");
             exit();
         } else if ($_SESSION["banStatus"] == "Banned") {
+            // alert ("You have been banned!");
             header("location: ../login.php?error=banned");
             exit();
         }
@@ -378,7 +379,16 @@ function UnbanUser($conn, $email)
 
 function approveUser($conn, $registryEmail, $registerationType)
 {
-    $sql = "UPDATE users SET userRole  = '$registerationType' WHERE userEmail = '$registryEmail'; ";
+
+    $status = "";
+
+    if($registerationType == "seller"){
+        $status = "sellerStatus";
+    }else{
+        $status = "delivererStatus";
+    }
+
+    $sql = "UPDATE users SET userRole  = '$registerationType', $status = 'approved' WHERE userEmail = '$registryEmail'; ";
 
     $stmt = mysqli_stmt_init($conn);
     if (!mysqli_stmt_prepare($stmt, $sql)) {
@@ -387,15 +397,26 @@ function approveUser($conn, $registryEmail, $registerationType)
     }
     mysqli_stmt_execute($stmt);
     mysqli_stmt_close($stmt);
-    header("location: ../verifier.php");
+
     $sql = "DELETE FROM verifierdocument WHERE userEmail='$registryEmail' AND registerationType = '$registerationType';";
+    $conn->query($sql);
+
+    header("location: ../verifier.php");
     exit();
 }
 
 function rejectUser($conn, $registryEmail, $registerationType)
 {
+    $status = "";
 
-    $sql = "DELETE FROM verifierdocument WHERE userEmail='$registryEmail' AND registerationType = '$registerationType';";
+    if($registerationType == "seller"){
+        $status = "sellerStatus";
+    }else{
+        $status = "delivererStatus";
+    }
+    $sql = "UPDATE users SET userRole  = '$registerationType', $status = 'approved' WHERE userEmail = '$registryEmail'; ";
+    
+    
     $stmt = mysqli_stmt_init($conn);
     if (!mysqli_stmt_prepare($stmt, $sql)) {
         header("location: ../verifier.php?error=stmtFailed");
@@ -403,6 +424,10 @@ function rejectUser($conn, $registryEmail, $registerationType)
     }
     mysqli_stmt_execute($stmt);
     mysqli_stmt_close($stmt);
+
+    $sql = "DELETE FROM verifierdocument WHERE userEmail='$registryEmail' AND registerationType = '$registerationType';";
+    $conn->query($sql);
+
     header("location: ../verifier.php");
     exit();
 }

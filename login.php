@@ -8,6 +8,7 @@ include_once 'header.php';
 <!--link to css-->
 <link rel="stylesheet" href="login.css">
 <!--content here-->
+
 <section class="login-form">
 
     <div class="center">
@@ -57,6 +58,14 @@ include_once 'header.php';
 <!--footer-->
 <?php
 include_once 'footer.php';
+?>
+<?php
+if(isset($_GET["error"])){
+    $message = $_GET["error"];
+    $alertMessage = "<script>alert('".$message."')</script>";
+    echo $alertMessage;
+}
+
 ?>
 </body>
 
