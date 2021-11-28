@@ -6,7 +6,7 @@ require_once 'functions.inc.php';
 //echo "total result ".findSoldProductID2($conn);
 
 //echo testing2($conn);
-$userEmail=$_SESSION["userEmail"];
+// $userEmail=$_SESSION["userEmail"];
 
 // increaseProductQuantityBidding($conn, 4);
 // refundBiddingCoin($conn, 2);
@@ -31,4 +31,14 @@ $userEmail=$_SESSION["userEmail"];
 
 // getAllWishlistData($conn,$conn2);
 
-echo generateFriendCode($conn);
+//addPromotionPriceProduct($conn, "2", "20");
+
+echo "hello". checkPromotionPrice($conn, "3");
+
+// if(empty(checkPromotionPrice($conn, "2"))){
+//     echo "promotion is empty";
+// }
+echo "price".getProductPrice ($conn, "2");
+
+
+// echo generateFriendCode($conn);

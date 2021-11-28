@@ -22,7 +22,7 @@ include_once 'includes/functions.inc.php';
 
 <!--content here-->
 <div class="Main-Container">
-    <form method="POST" action="payment.php" autocomplete="off" id = "cartForm">
+    <form method="POST" action="payment.php" autocomplete="off" id="cartForm">
         <div class="CartContainer">
             <div class="column-labels">
                 <label class="product-image">Image</label>
@@ -67,12 +67,22 @@ include_once 'includes/functions.inc.php';
             while ($row = mysqli_fetch_assoc($result)) {
 
                 $productQuantity = $row['productQuantity'];
+                $productPrice = $row['productPrice'];
+                $promotionPrice = $row['promotionPrice'];
                 $productID = $row['productID'];
 
                 //problem : the buttons 
                 if (in_array($row['productID'], $c)) {
 
-                    $totalPrice += $row['productPrice'];
+                    if (!empty($row['promotionPrice'])) {
+
+                        $totalPrice += $row['promotionPrice'];
+
+                    } else {
+
+                        $totalPrice += $row['productPrice'];
+                        
+                    }
             ?>
                     <div class='product'>
                         <div class='product-image'>
@@ -82,23 +92,47 @@ include_once 'includes/functions.inc.php';
                         <div class='product-details'>
                             <div class='product-title'><?= $row['productName'] ?></div>
                         </div>
-                        <div class='product-price' id='pprice'><?= $row['productPrice'] ?>
-                            <input type='hidden' class="hiddenLinePrice" name="cart[<?= $productID ?>][product-line-price]" value="0">
-                            <input type='hidden' name="cart[<?= $productID ?>][unit_price]" value="<?= $row['productPrice'] ?>">
-                        </div>
-                        <div class='product-quantity' id='pquantity'>
-                            <input type='number' value='1' min='1' name="cart[<?= $productID ?>][qty]" max='<?= $productQuantity ?>'>
-                        </div>
-                        <div class='product-removal'>
-                            <a href='includes/removeFromCart.inc.php?productID=<?= $productID ?>'><button type="button">Delete</button></a>
+                        <?php
+                        if (!empty($row['promotionPrice'])) {
+                            echo "<div class='product-price' id='pprice'>" . $row['promotionPrice'];
+                        } else {
+                            echo "<div class='product-price' id='pprice'>" . $row['productPrice'];
+                        }
+                        ?>
 
-                        </div>
 
-                        <div class='product-line-price'>
-                            <?= $row['productPrice'] ?>
-                        </div>
+
+                        <?php
+                        if (!empty($row['promotionPrice'])) {
+                            echo "<input type='hidden' class=\"hiddenLinePrice\" name=\"cart[$productID][product-line-price]\" value=\"" . $row['promotionPrice'] . "\">";
+                        } else {
+                            echo "<input type='hidden' class=\"hiddenLinePrice\" name=\"cart[$productID][product-line-price]\" value=\"" . $row['productPrice'] . "\">";
+                        }
+                        ?>
+
+
                     </div>
-            <?php
+                    <div class='product-quantity' id='pquantity'>
+                        <input type='number' value='1' min='1' name="cart[<?= $productID ?>][qty]" max='<?= $productQuantity ?>'>
+                    </div>
+                    <div class='product-removal'>
+                        <a href='includes/removeFromCart.inc.php?productID=<?= $productID ?>'><button type="button">Delete</button></a>
+
+                    </div>
+
+                    <div class='product-line-price'>
+                        <?php
+                        if (!empty($row['promotionPrice'])) {
+
+                            echo $row['promotionPrice'];
+                        } else {
+
+                            echo $row['productPrice'];
+                        }
+                        ?>
+                    </div>
+        </div>
+<?php
                     // $arrayPaymentData['productID'][] = $row['productID'];
                     // $arrayPaymentData['productQuantity'][] = $row['productQuantity'];
                 } else {
@@ -106,30 +140,31 @@ include_once 'includes/functions.inc.php';
             }
 
             // $_SESSION["arrayPaymentData"] = $arrayPaymentData;
-          
-            ?>
 
-            <div class="totals">
-                <div class="totals-item">
+?>
 
-                    <div class="totals-item totals-item-total">
-                        <label>Grand Total</label>
-                        <div class="totals-value" id="cart-total"><?= $totalPrice?></div>
-                    </div>
-                </div>
-                <input type="hidden" name="grandTotal" id="grandTotalHidden" value="<?= $totalPrice?>">
-                <input type="hidden" name="paymentID" id="paymentID" value= >
-                
-                <button class="checkout" button type="button" onclick ="calculateTotal()">Checkout</button>
-            </div>
+<div class="totals">
+    <div class="totals-item">
+
+        <div class="totals-item totals-item-total">
+            <label>Grand Total</label>
+            <div class="totals-value" id="cart-total"><?= $totalPrice ?></div>
         </div>
-    </form>
-    <!-- <div id="paypal-button-container"></div> -->
-    <!-- <div id="paypal-button-container"></div> -->
+    </div>
+    <input type="hidden" name="grandTotal" id="grandTotalHidden" value="<?= $totalPrice ?>">
+    <input type="hidden" name="paymentID" id="paymentID" value=>
+
+    <button class="checkout" button type="button" onclick="calculateTotal()">Checkout</button>
+</div>
+</div>
+</form>
+<!-- <div id="paypal-button-container"></div> -->
+<!-- <div id="paypal-button-container"></div> -->
 
 </div>
 
-<!-- <input type="hidden" name="paymentID" value="<?//= json_encode($arrayPaymentData) ?>"> -->
+<!-- <input type="hidden" name="paymentID" value="<? //= json_encode($arrayPaymentData) 
+                                                    ?>"> -->
 
 
 <!--footer-->
@@ -224,7 +259,7 @@ include_once 'footer.php';
 
         $('#grandTotalHidden').val(total);
 
-        
+
         // return total;
     }
 
@@ -235,6 +270,15 @@ include_once 'footer.php';
         var productRow = $(quantityInput).parent().parent();
         var price = parseFloat(productRow.children('.product-price').text());
         var quantity = $(quantityInput).val();
+
+        // if (!empty($row['promotionPrice'])) {
+
+        //    var linePrice = $row['promotionPrice'];
+        //    var linePrice = price * quantity;
+        // } else {
+        //     var linePrice = $row['productPrice'];
+        //     var linePrice = price * quantity;
+        // }
         var linePrice = price * quantity;
 
 

@@ -10,7 +10,22 @@ if (isset($_POST["submit"])) {
     require_once 'databaseHandler.inc.php';
     require_once 'functions.inc.php';
 
+    $promotionPrice =0.00;
+
+    $productPrice = (double) getProductPrice($conn, $productID);
+    $promotionRate = ((double) $promotionRate)/100;
+
+    $promotionPrice = $productPrice - ($productPrice * $promotionRate);
+
+
+    // echo "productPrice = ".$productPrice."<br>";
+    // echo "promotionRate = ".$promotionRate."<br>";
+    // echo "promotionPrice = ".$promotionPrice."<br>";
+
+
+    addPromotionPriceProduct($conn, $productID, $promotionPrice);
     createPromotion($conn, $productID, $promotionRate, $promotionEndingDate);
+ 
 
 //     if (invalidProductPrice($promotionRate)) {
 //         header("location: ../createPromotion.php?error=invalidPromotionRate");

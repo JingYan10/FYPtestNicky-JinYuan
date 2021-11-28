@@ -502,7 +502,7 @@ function decreaseProductQuantityForBidding($conn, $productID, $productQuantity)
 function createPromotion($conn, $productID, $promotionRate, $promotionEndingDate)
 {
 
-    $sql = "INSERT INTO promotion (productID, promotionRate, promotionEndingDate) VALUES ('$productID', '$promotionRate', '$promotionEndingDate');";
+    $sql = "INSERT INTO promotion (productID, promotionEndingDate) VALUES ('$productID', '$promotionEndingDate');";
     $stmt = mysqli_stmt_init($conn);
     if (!mysqli_stmt_prepare($stmt, $sql)) {
         header("location: ../createPromotion.php?error=stmtFailed");
@@ -512,6 +512,42 @@ function createPromotion($conn, $productID, $promotionRate, $promotionEndingDate
     mysqli_stmt_close($stmt);
     header("location: ../user_profile.php");
     exit();
+}
+function addPromotionPriceProduct($conn, $productID, $promotionPrice)
+{
+    $sql = "UPDATE product SET promotionPrice = '$promotionPrice' WHERE productID = '$productID'; ";
+    $stmt = mysqli_stmt_init($conn);
+    if (!mysqli_stmt_prepare($stmt, $sql)) {
+        header("location: ../biddingDetail.php?error=stmtFailed");
+        exit();
+    }
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_close($stmt);
+}
+function checkPromotionPrice($conn, $productID)
+{
+    $sql = "SELECT * FROM product where productID = '$productID';";
+    $result = mysqli_query($conn, $sql);
+    $resultCheck = mysqli_num_rows($result);
+    $promotionPrice=0;
+    if ($resultCheck > 0) {
+        while ($row = mysqli_fetch_assoc($result)) {
+            $promotionPrice = $row["promotionPrice"];
+        }
+    }
+    return $promotionPrice;
+}
+function getProductPrice ($conn, $productID){
+    $sql = "SELECT * FROM product where productID = '$productID';";
+    $result = mysqli_query($conn, $sql);
+    $resultCheck = mysqli_num_rows($result);
+    $productPrice=0;
+    if ($resultCheck > 0) {
+        while ($row = mysqli_fetch_assoc($result)) {
+            $productPrice = $row["productPrice"];
+        }
+    }
+    return $productPrice;
 }
 function createBidding($conn, $productID, $biddingEndingTime, $biddingStartingPrice, $biddingEndingPrice, $totalBidder)
 {
