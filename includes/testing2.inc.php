@@ -33,12 +33,14 @@ require_once 'functions.inc.php';
 
 //addPromotionPriceProduct($conn, "2", "20");
 
-echo "hello". checkPromotionPrice($conn, "3");
+// echo "hello". checkPromotionPrice($conn, "3");
 
 // if(empty(checkPromotionPrice($conn, "2"))){
 //     echo "promotion is empty";
 // }
-echo "price".getProductPrice ($conn, "2");
+// echo "price".getProductPrice ($conn, "2");
 
 
 // echo generateFriendCode($conn);
+
+print_r(searchFriendByFriendCode($conn, "2"));

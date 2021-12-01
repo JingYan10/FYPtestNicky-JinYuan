@@ -40,6 +40,7 @@ if ($resultCheck > 0) {
         <p>
             <img src="<?php echo $_SESSION['userImage']; ?>" alt=""> <br>
             <a href="user_profile_edit.php"><input type="button" class="btnEditImage" value="Edit"></a>
+
         </p>
     </div>
 
@@ -74,9 +75,17 @@ if ($resultCheck > 0) {
                 ?>
 
             </div>
+            <form class="search_bar small" action="POST">
+                <input type="text" name="searchFriendCode" id="searchFriendCode" placeholder="Search for users" />
+                <button type="button" id="btnFriendCode" onclick="searchFriends()">Search</button>
+                <div id="resultForFriend"></div>
+            </form>
+
             <a href="user_profile_changePassword.php"><input type="button" value="Change Passsword" class="btnEditPassword"></a>
             <a href="user_profile_edit.php"><input type="button" class="btnEdit" value="Edit"></a>
             <a href="paymentHistory.php"><input type="button" class="btnPaymentHistory" value="Payment History"></a>
+            <a href="friendlist.php"><input type="button" class="btnFriendlist" value="Friendlist"></a>
+
 
 
             <br>
@@ -108,16 +117,43 @@ if ($resultCheck > 0) {
     </div>
 </div>
 
+
+<div class="friend-container">
+    <div class="friend-container2">
+        <table class="table1">
+            <caption>Add friend table</caption>
+            <thead>
+                <tr>
+                    <th scope="col">userFirstName</th>
+                    <th scope="col">userLastName</th>
+                    <th scope="col">userImage</th>
+                    <th scope="col">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td data-label="Account">Visa - 3412</td>
+                    <td data-label="Due Date">04/01/2016</td>
+                    <td data-label="Amount">$1,190</td>
+                    <td data-label="Action" a href="addFriend.inc.php"><input type="button" class="btnAddFriend" value="Add Friend"></a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
 <?php
 if ($_SESSION["userRole"] == "seller" && $_SESSION["sellerStatus"] == "approved") {
     include_once 'sellerContainer.php';
 } else if ($_SESSION["userRole"] == "deliverer") {
     include_once 'delivererContainer.php';
-} else if($_SESSION["sellerStatus"] == "disable"){
+} else if ($_SESSION["sellerStatus"] == "disable") {
     echo '<script>alert("Seller Status had been disabled")</script>';
 }
 
 ?>
+
+
 
 
 <script>
@@ -155,22 +191,37 @@ if ($_SESSION["userRole"] == "seller" && $_SESSION["sellerStatus"] == "approved"
     });
 </script>
 <script type="text/javascript">
-    $(document).ready(function() {
-        $("#search2").keyup(function() {
-            $.ajax({
-                type: 'POST',
-                url: 'includes/searchShipment.inc.php',
-                data: {
-                    name2: $("#search2").val(),
-                },
-                success: function(data) {
-                    $("#output2").html(data);
-                }
-            });
-        });
-    });
-</script>
+    // $(document).ready(function() {
+    // $("#btnFriendCode").onclick(function() {
+    //     $.ajax({
+    //         type: 'POST',
+    //         url: 'includes/searchFriendByFriendCode.inc.php',
+    //         data: {
+    //             name: $("#searchFriendCode").val(),
+    //         },
+    //         success: function(data) {
+    //             // $("#resultForFriend").html(data);
+    //         }
+    //     });
+    // });
+    // });
 
+    function searchFriends() {
+        $.ajax({
+            type: 'POST',
+            url: 'includes/searchFriendByFriendCode.inc.php',
+            data: {
+                name: $("#searchFriendCode").val(),
+            },
+            success: function(data) {
+                // $("#resultForFriend").html(data);
+            }
+        });
+    }
+</script>
+<script>
+
+</script>
 <?php
 include_once 'footer.php';
 ?>
