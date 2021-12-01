@@ -522,3 +522,11 @@ body {
     left: 50%;
     transform: translate(-50%, -50%);
 }
+
+.addHeight {
+    height: 500px;
+}
+
+.removeHeight {
+    height: 360px;
+}

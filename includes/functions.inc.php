@@ -1694,13 +1694,26 @@ function searchFriendByFriendCode($conn, $friendCode)
             $foundFriendDetail['userFirstName'] = $row["userFirstName"];
             $foundFriendDetail['userLastName'] = $row["userLastName"];
             $foundFriendDetail['userImage'] = $row["userImage"];
+            $foundFriendDetail['userEmail'] = $row["userEmail"];
         }
     }
     return $foundFriendDetail;
 }
+function isFriendDataExist($conn, $firstUserEmail, $secondUserEmail)
+{
+    $sql = "SELECT * FROM friendlist WHERE firstUserEmail = '$firstUserEmail' OR secondUserEmail = '$firstUserEmail' AND firstUserEmail = '$secondUserEmail' OR secondUserEmail = '$secondUserEmail' ";
+    $result = mysqli_query($conn, $sql);
+    $resultCheck = mysqli_num_rows($result);
+
+    $isFriendExist = false;
+    if ($resultCheck > 0) {
+        $isFriendExist= true;
+    }
+    return $isFriendExist;
+}
 function isFriend($conn, $firstUserEmail, $secondUserEmail)
 {
-    $sql = "SELECT * FROM friendlist WHERE firstUserEmail = '$firstUserEmail' AND secondUserEmail = '$secondUserEmail' OR firstUserEmail = '$secondUserEmail' AND secondUserEmail = '$firstUserEmail';";
+    $sql = "SELECT * FROM friendlist WHERE firstUserEmail = '$firstUserEmail' OR secondUserEmail = '$firstUserEmail' AND firstUserEmail = '$secondUserEmail' OR secondUserEmail = '$secondUserEmail' ";
     $result = mysqli_query($conn, $sql);
     $resultCheck = mysqli_num_rows($result);
 

@@ -44,7 +44,7 @@ if ($resultCheck > 0) {
         </p>
     </div>
 
-    <div class="userInfocard">
+    <div class="userInfocard" id="userInfocard">
         <div class="userInfo">
             <div class="userData">
                 <label>First name</label>
@@ -79,6 +79,7 @@ if ($resultCheck > 0) {
                 <input type="text" name="searchFriendCode" id="searchFriendCode" placeholder="Search for users" />
                 <button type="button" id="btnFriendCode" onclick="searchFriends()">Search</button>
                 <div id="resultForFriend"></div>
+                
             </form>
 
             <a href="user_profile_changePassword.php"><input type="button" value="Change Passsword" class="btnEditPassword"></a>
@@ -118,7 +119,7 @@ if ($resultCheck > 0) {
 </div>
 
 
-<div class="friend-container">
+<!-- <div class="friend-container">
     <div class="friend-container2">
         <table class="table1">
             <caption>Add friend table</caption>
@@ -140,7 +141,7 @@ if ($resultCheck > 0) {
             </tbody>
         </table>
     </div>
-</div>
+</div> -->
 
 <?php
 if ($_SESSION["userRole"] == "seller" && $_SESSION["sellerStatus"] == "approved") {
@@ -214,13 +215,38 @@ if ($_SESSION["userRole"] == "seller" && $_SESSION["sellerStatus"] == "approved"
                 name: $("#searchFriendCode").val(),
             },
             success: function(data) {
-                // $("#resultForFriend").html(data);
+                if(data!= "[]"){
+                    
+                    const obj = JSON.parse(data);
+                    var tableStart = "<table><tr>";
+                    var th1 = "<th>first name</th>";
+                    var th2 = "<th>last name</th>";
+                    var th3 = "<th>profile image</th>";
+                    var th4 = "<th></th></tr>";
+                    var td1 = "<tr><td>"+obj.userFirstName+"</td>";
+                    var td2 = "<td>"+obj.userLastName+"</td>";
+                    var td3 = "<td><img style='width:150px;height:150px;' src='"+obj.userImage+"'></td>";
+                    var td4 = "<td><a href='includes/addFriend.inc.php?userEmail="+obj.userEmail+"'><input type='button' value='Add friend'></a></td>";
+                    var tableEnd = "</tr></table>";
+                    var tableData = tableStart + th1 + th2 + th3 + th4 + td1 + td2 + td3 + td4 + tableEnd;
+                    $("#resultForFriend").html(tableData);
+                    $("#userInfocard").height("500px");
+                }else{
+                    $("#resultForFriend").html("no data");
+                    $("#userInfocard").height("360px"); 
+                }
+                
             }
         });
     }
 </script>
 <script>
-
+$('form').bind("keypress", function(e) {
+  if (e.keyCode == 13) {
+    e.preventDefault();
+    return false;
+  }
+});
 </script>
 <?php
 include_once 'footer.php';
