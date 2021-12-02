@@ -79,7 +79,7 @@ $resultCheck = mysqli_num_rows($result);
     $totalRating = 0;
     $totalRatingCount = 0;
 
-    $sql = " SELECT * FROM product where productQuantity > 0";
+    $sql = " SELECT * FROM product where productQuantity > 0 AND deleteStatus IS NULL";
     $result = mysqli_query($conn, $sql);
     $resultCheck = mysqli_num_rows($result);
 

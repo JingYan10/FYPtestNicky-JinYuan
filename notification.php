@@ -30,7 +30,7 @@ if ($resultCheck > 0) {
             <?php
             include_once 'includes/databaseHandler.inc.php';
 
-            $sql = "SELECT * FROM notification where receiverEmail='$_SESSION[userEmail]';";
+            $sql = "SELECT * FROM notification where receiverEmail='$_SESSION[userEmail]' ORDER BY notificationID DESC;";
             $result = mysqli_query($conn, $sql);
             $resultCheck = mysqli_num_rows($result);
             if ($resultCheck > 0) {
@@ -47,11 +47,13 @@ if ($resultCheck > 0) {
                     // $_SESSION["userFirstName"] = $row['userFirstName'];
                     echo "<div class='sec new'>";
                     echo "<div class='profCont'>";
-                    echo "<img class='profile' src='https://c1.staticflickr.com/5/4007/4626436851_5629a97f30_b.jpg'>";
+                    echo "<img class='profile' src='" . $row["image"] . "'>";
                     echo "</div>";
                     echo "<div class='txt' style='color:black;'>" . $row['notificationDescription'] . "</div>";
                     $productData = "productID=" . $row['neededID'];
-                    echo "<div class='txt sub'><a href=productReview.php?" . "$productData" . "><input type='button' value='review product'></a></div>";
+                    if ($row["notificationType"] == "productReview") {
+                        echo "<div class='txt sub'><a href=productReview.php?" . "$productData" . "><input type='button' value='review product'></a></div>";
+                    }
                     echo "</div>";
                 }
                 echo "

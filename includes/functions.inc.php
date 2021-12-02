@@ -380,9 +380,9 @@ function approveUser($conn, $registryEmail, $registerationType)
 
     $status = "";
 
-    if($registerationType == "seller"){
+    if ($registerationType == "seller") {
         $status = "sellerStatus";
-    }else{
+    } else {
         $status = "delivererStatus";
     }
 
@@ -407,14 +407,14 @@ function rejectUser($conn, $registryEmail, $registerationType)
 {
     $status = "";
 
-    if($registerationType == "seller"){
+    if ($registerationType == "seller") {
         $status = "sellerStatus";
-    }else{
+    } else {
         $status = "delivererStatus";
     }
     $sql = "UPDATE users SET userRole  = '$registerationType', $status = 'approved' WHERE userEmail = '$registryEmail'; ";
-    
-    
+
+
     $stmt = mysqli_stmt_init($conn);
     if (!mysqli_stmt_prepare($stmt, $sql)) {
         header("location: ../verifier.php?error=stmtFailed");
@@ -529,7 +529,7 @@ function checkPromotionPrice($conn, $productID)
     $sql = "SELECT * FROM product where productID = '$productID';";
     $result = mysqli_query($conn, $sql);
     $resultCheck = mysqli_num_rows($result);
-    $promotionPrice=0;
+    $promotionPrice = 0;
     if ($resultCheck > 0) {
         while ($row = mysqli_fetch_assoc($result)) {
             $promotionPrice = $row["promotionPrice"];
@@ -537,11 +537,12 @@ function checkPromotionPrice($conn, $productID)
     }
     return $promotionPrice;
 }
-function getProductPrice ($conn, $productID){
+function getProductPrice($conn, $productID)
+{
     $sql = "SELECT * FROM product where productID = '$productID';";
     $result = mysqli_query($conn, $sql);
     $resultCheck = mysqli_num_rows($result);
-    $productPrice=0;
+    $productPrice = 0;
     if ($resultCheck > 0) {
         while ($row = mysqli_fetch_assoc($result)) {
             $productPrice = $row["productPrice"];
@@ -655,17 +656,18 @@ function updateBiddingWinner($conn)
             $timeBiddingEndingTime = strtotime($_SESSION["biddingEndingTime"]);
             $dateBiddingEndingTime = date('d/m/y H:i:s', $timeBiddingEndingTime); // if error
 
-            echo "bidding ID ->" . $row5['biddingID'] . "<br>";
-            echo "bidding ending time -> " . $dateBiddingEndingTime . "<br>";
-            echo "current time -> " . $currentDate . "<br><br><br><br>";
+            // echo "bidding ID ->" . $row5['biddingID'] . "<br>";
+            // echo "bidding ending time -> " . $dateBiddingEndingTime . "<br>";
+            // echo "current time -> " . $currentDate . "<br><br><br><br>";
+            // echo "currentDate : ". $timeBiddingEndingTime."<br>";
 
-            // if($dateBiddingEndingTime <= $currentDate){
-            //     echo "bidding ID ->" . $row['biddingID'] . "<br>";
+            // if(strtotime($dateBiddingEndingTime) <= strtotime($currentDate)){
+            //     echo "bidding ID ->" . $row5['biddingID'] . "<br>";
             //     echo "bidding ending time -> " . $dateBiddingEndingTime . "<br>";
             //     echo "current time -> " . $currentDate . "true<br><br><br><br>";
             // }
 
-            if ($dateBiddingEndingTime <= $currentDate) {
+            if (strtotime($dateBiddingEndingTime) <= strtotime($currentDate) && $row5['biddingStatus'] != "ended") {
                 $_SESSION["biddingID"] = $row5['biddingID'];
                 $_SESSION["biddingEndingPrice"] = $row5['biddingEndingPrice'];
                 $_SESSION["totalBidder"] = $row5['totalBidder'];
@@ -1414,6 +1416,26 @@ function createProductReviewingNotification($conn, $productID, $userEmail)
     mysqli_stmt_execute($stmt);
     mysqli_stmt_close($stmt);
 }
+function createRemoveWishlistNotification($conn, $productID, $productName, $userEmail,$productImage)
+{
+    //insert product data to soldProduct
+
+    $notificationType = "wishlistRemove";
+    $notificationDescription = $productName . " has been removed from your wishlist";
+    $neededID = $productID;
+    $typeID = "productID";
+    $receiverEmail = $userEmail;
+
+    $sql = "INSERT INTO notification (notificationType, notificationDescription, neededID, typeID, receiverEmail, image) VALUES ('$notificationType','$notificationDescription','$neededID','$typeID','$receiverEmail', '$productImage');";
+
+    $stmt = mysqli_stmt_init($conn);
+    if (!mysqli_stmt_prepare($stmt, $sql)) {
+        header("location: ../buyProduct.inc.php?error=stmtFailed10");
+        exit();
+    }
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_close($stmt);
+}
 function createProductRating($conn, $productID, $productRating, $userEmail)
 {
     $sql = "INSERT INTO rating (productID, ratingNO, userEmail) VALUES ('$productID', '$productRating', '$userEmail');";
@@ -1707,7 +1729,7 @@ function isFriendDataExist($conn, $firstUserEmail, $secondUserEmail)
 
     $isFriendExist = false;
     if ($resultCheck > 0) {
-        $isFriendExist= true;
+        $isFriendExist = true;
     }
     return $isFriendExist;
 }
@@ -1785,21 +1807,21 @@ function getLatestPaymentID($conn)
     return $paymentID;
 }
 
-function getAllWishlistData($conn,$conn2)
+function getAllWishlistData($conn, $conn2, $email)
 {
 
     // get all wishlist data
     $sql = "SELECT * FROM wishlist";
     $result = mysqli_query($conn, $sql);
     $resultCheck = mysqli_num_rows($result);
-    $arrayWishList = array();
+    // $arrayWishList = array();
     if ($resultCheck > 0) {
         while ($row = mysqli_fetch_assoc($result)) {
-                // echo "wishlist productID => ".$row["productID"]."<br>";
-                // echo "product array => ".print_r(checkProductData($conn))."<br>";
-                $arrData = checkProductData($conn2);
-                //echo in_array($row["productID"], $arrData["productID"]);
-                
+            // echo "wishlist productID => ".$row["productID"]."<br>";
+            // echo "product array => ".print_r(checkProductData($conn))."<br>";
+            $arrData = checkProductData($conn2);
+            //echo in_array($row["productID"], $arrData["productID"]);
+
 
             if (in_array($row["productID"], $arrData["productID"])) {
                 $productID = $row["productID"];
@@ -1809,13 +1831,23 @@ function getAllWishlistData($conn,$conn2)
                     header("location: ../cart.php?error=stmtFailed59");
                     exit();
                 }
-               
                 mysqli_stmt_execute($stmt2);
                 mysqli_stmt_close($stmt2);
-                
-            }
 
-     
+                $sql = "SELECT * FROM product where productID = '$productID';";
+                $result = mysqli_query($conn, $sql);
+                $resultCheck = mysqli_num_rows($result);
+                $productName = "";
+                if ($resultCheck > 0) {
+                    while ($row = mysqli_fetch_assoc($result)) {
+                        $productName = $row["productName"];
+                        $productImage = $row["productImage"];
+                    }
+                }
+                
+
+                createRemoveWishlistNotification($conn, $productID, $productName, $email, $productImage);
+            }
         }
     }
     // return $arrayWishList;
@@ -1837,7 +1869,8 @@ function checkProductData($conn)
     return $arrayProduct;
 }
 
-function disableSeller($conn, $email) {
+function disableSeller($conn, $email)
+{
     $sql = "UPDATE users SET sellerStatus  = 'disable' WHERE userEmail = '$email'; ";
     $stmt = mysqli_stmt_init($conn);
     if (!mysqli_stmt_prepare($stmt, $sql)) {
@@ -1849,7 +1882,8 @@ function disableSeller($conn, $email) {
     header("location: ../disableSeller.php");
     exit();
 }
-function enableSeller($conn, $email) {
+function enableSeller($conn, $email)
+{
     $sql = "UPDATE users SET sellerStatus  = 'approved' WHERE userEmail = '$email'; ";
     $stmt = mysqli_stmt_init($conn);
     if (!mysqli_stmt_prepare($stmt, $sql)) {

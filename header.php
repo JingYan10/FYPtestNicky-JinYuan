@@ -52,6 +52,7 @@ require_once 'includes/functions.inc.php';
                         <li><a href="cart.php">Cart</a></li>
                         <li><a href="wishlist.php">Wishlist</a></li>
                         <li><a href="bidding.php">Bidding</a></li>
+                        <li><a href="trackShipment.php">Track Shipment</a></li>
 
                         <?php
                         if (isset($_SESSION["userEmail"])) {

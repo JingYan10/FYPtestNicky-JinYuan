@@ -107,7 +107,7 @@ if (isset($_GET["productID"])) {
         </div>
         <div class="description">
             <h2><?php echo $productName ?></h2>
-            <h1>RM <?php echo $productPrice ?></h2>
+            <h1>RM <?php echo number_format((float)$productPrice, 2, '.', '') ?></h2>
                 <?php
                 echo productRatingResult($finalRating);
                 ?>

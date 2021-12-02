@@ -3,9 +3,20 @@
 session_start();
 ?>
 <?php
-include_once 'header.php';
+$userEmail = $_SESSION["userEmail"];
 include_once 'includes/databaseHandler.inc.php';
 include_once 'includes/functions.inc.php';
+$sql = "SELECT * FROM wishlist where userEmail = '$userEmail'";
+$result = mysqli_query($conn, $sql);
+$resultCheck = mysqli_num_rows($result);
+if ($resultCheck <= 0) { //wishlist loop
+    header("location: product.php?error=noWishList");
+    exit();
+}else{
+    include_once 'header.php';
+}
+
+
 ?>
 
 <!--link to css-->
@@ -27,7 +38,7 @@ include_once 'includes/functions.inc.php';
         <?php
 
         $a = array("");
-        $userEmail = $_SESSION["userEmail"];
+        
 
         $sql = "SELECT * FROM wishlist where userEmail = '$userEmail'";
         $result = mysqli_query($conn, $sql);
@@ -42,7 +53,7 @@ include_once 'includes/functions.inc.php';
                 array_push($a, $row['productID']);
                 // $productID = $row['productID'];
             }
-        }else {
+        } else {
             header("location: product.php?error=noWishList");
             exit();
         }
@@ -69,7 +80,7 @@ include_once 'includes/functions.inc.php';
                     echo "</div>";
                 }
             }
-        } 
+        }
 
         ?>
 

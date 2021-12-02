@@ -14,7 +14,7 @@ if(isset($_POST["submit"])){
         exit();
     }
     updateBiddingWinner($conn);
-    getAllWishlistData($conn,$conn2);
+    getAllWishlistData($conn,$conn2,$email);
     loginUser($conn,$email,$password);
     
 }

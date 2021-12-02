@@ -99,7 +99,7 @@ $dateBiddingEndingTime = date("M d, Y H:i:s", $timeBiddingEndingTime);
                 </div>
                 <div class="productData">
                     <label style="margin-top:20px;margin-left:85px;font-size:24px;">Ending Time</label>
-                    <input type="text" id="biddingEndingTime" value="<?php echo $dateBiddingEndingTime ?>">
+                    <input type="hidden" id="biddingEndingTime" value="<?php echo $dateBiddingEndingTime ?>">
                     <p style="margin-left: 93px;font-size:18px;" id="countDownTimer"></p>
                 </div>
             </div>

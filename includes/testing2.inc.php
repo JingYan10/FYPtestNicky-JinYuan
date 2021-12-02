@@ -43,4 +43,6 @@ require_once 'functions.inc.php';
 
 // echo generateFriendCode($conn);
 
-print_r(searchFriendByFriendCode($conn, "2"));
+// print_r(searchFriendByFriendCode($conn, "2"));
+
+updateBiddingWinner($conn);
