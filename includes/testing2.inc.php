@@ -45,4 +45,11 @@ require_once 'functions.inc.php';
 
 // print_r(searchFriendByFriendCode($conn, "2"));
 
-updateBiddingWinner($conn);
+// updateBiddingWinner($conn);
+
+$currentUserEmail = $_SESSION["userEmail"]; // testing1234
+$friendEmail = "testing1234@gmail.com";  //sad1234@gmail.com
+
+//database select form where 
+
+acceptFriend($conn, $currentUserEmail, $friendEmail);
