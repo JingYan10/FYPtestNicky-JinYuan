@@ -7,4 +7,5 @@ require_once 'functions.inc.php';
 $currentUserEmail = $_SESSION["userEmail"];
 $friendEmail = getLatestFriendID($conn, $currentUserEmail);
 
-removeFriend($conn, $currentUserEmail, $friendEmail);
+
+rejectFriend($conn, $currentUserEmail, $friendEmail);
