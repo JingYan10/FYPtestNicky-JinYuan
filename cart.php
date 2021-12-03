@@ -117,7 +117,6 @@ include_once 'includes/functions.inc.php';
                     </div>
                     <div class='product-removal'>
                         <a href='includes/removeFromCart.inc.php?productID=<?= $productID ?>'><button type="button">Delete</button></a>
-
                     </div>
 
                     <div class='product-line-price'>

@@ -1416,7 +1416,7 @@ function createProductReviewingNotification($conn, $productID, $userEmail)
     mysqli_stmt_execute($stmt);
     mysqli_stmt_close($stmt);
 }
-function createRemoveWishlistNotification($conn, $productID, $productName, $userEmail,$productImage)
+function createRemoveWishlistNotification($conn, $productID, $productName, $userEmail, $productImage)
 {
     //insert product data to soldProduct
 
@@ -1754,37 +1754,68 @@ function addFriend($conn, $currentUserEmail, $friendEmail)
     $sql = "INSERT INTO friendlist (firstUserEmail, secondUserEmail, friendStatus) VALUES ('$currentUserEmail','$friendEmail','pending')";
     $stmt = mysqli_stmt_init($conn);
     if (!mysqli_stmt_prepare($stmt, $sql)) {
-        header("location: ../buyProduct.inc.php?error=stmtFailed18"); // rmb to edit the error apge
+        header("location: ../friendlist.php?error=stmtFailed18");
         exit();
     }
     mysqli_stmt_execute($stmt);
     mysqli_stmt_close($stmt);
+    header("location: ../friendlist.php");
 }
 function rejectFriend($conn, $currentUserEmail, $friendEmail)
 {
 
     $friendStatus = "rejected";
-    $sql = "UPDATE friendlist SET friendStatus = '$friendStatus' WHERE firstUserEmail = '$currentUserEmail' AND secondUserEmail = '$friendEmail' OR firstUserEmail = '$friendEmail' AND secondUserEmail = '$currentUserEmail'; ";
+    $sql = "UPDATE friendlist SET friendStatus = '$friendStatus' WHERE secondUserEmail = '$currentUserEmail' AND firstUserEmail = '$friendEmail' OR secondUserEmail = '$friendEmail' AND firstUserEmail = '$currentUserEmail'";
     $stmt = mysqli_stmt_init($conn);
     if (!mysqli_stmt_prepare($stmt, $sql)) {
-        header("location: ../user_profile_edit.php?error=stmtFailed");
+        header("location: ../friendlist.php?error=stmtFailed");
         exit();
     }
     mysqli_stmt_execute($stmt);
     mysqli_stmt_close($stmt);
+    header("location: ../friendlist.php");
 }
 function acceptFriend($conn, $currentUserEmail, $friendEmail)
 {
-
     $friendStatus = "accepted";
-    $sql = "UPDATE friendlist SET friendStatus = '$friendStatus' WHERE firstUserEmail = '$currentUserEmail' AND secondUserEmail = '$friendEmail' OR firstUserEmail = '$friendEmail' AND secondUserEmail = '$currentUserEmail'; ";
+    $sql = "UPDATE friendlist SET friendStatus = '$friendStatus' WHERE secondUserEmail = '$currentUserEmail' AND firstUserEmail = '$friendEmail' OR secondUserEmail = '$friendEmail' AND firstUserEmail = '$currentUserEmail' ";
     $stmt = mysqli_stmt_init($conn);
     if (!mysqli_stmt_prepare($stmt, $sql)) {
-        header("location: ../user_profile_edit.php?error=stmtFailed");
+        header("location: ../friendlist.php?error=stmtFailed");
         exit();
     }
     mysqli_stmt_execute($stmt);
     mysqli_stmt_close($stmt);
+    header("location: ../friendlist.php");
+}
+
+function removeFriend($conn, $currentUserEmail, $friendEmail)
+{
+    // $friendStatus = "removed";
+    $sql = "DELETE FROM friendlist WHERE secondUserEmail = '$currentUserEmail' AND firstUserEmail = '$friendEmail' OR secondUserEmail = '$friendEmail' AND firstUserEmail = '$currentUserEmail'";
+    $stmt = mysqli_stmt_init($conn);
+    if (!mysqli_stmt_prepare($stmt, $sql)) {
+        header("location: ../friendlist.php?error=stmtFailed");
+        exit();
+    }
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_close($stmt);
+    header("location: ../friendlist.php");
+}
+function getLatestFriendID($conn, $currentUserEmail)
+{
+    $sql = "SELECT * from friendlist where secondUserEmail = '$currentUserEmail' ";
+    $result = mysqli_query($conn, $sql);
+    $resultCheck = mysqli_num_rows($result);
+
+    $friendID;
+    if ($resultCheck > 0) {
+        while ($row = mysqli_fetch_assoc($result)) {
+            $friendID = $row["firstUserEmail"];
+            // $paymentAmount = $row["paymentAmount"];
+        }
+    }
+    return $friendID;
 }
 
 // sql to get whole friendlist for current user select * from friendlist where firstUserEmail = '$currentUserEmail' OR secondUserEmail = '$currentUserEmail';
@@ -1844,7 +1875,7 @@ function getAllWishlistData($conn, $conn2, $email)
                         $productImage = $row["productImage"];
                     }
                 }
-                
+
 
                 createRemoveWishlistNotification($conn, $productID, $productName, $email, $productImage);
             }
