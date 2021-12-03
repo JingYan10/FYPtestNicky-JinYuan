@@ -82,7 +82,7 @@ function isExistUser($conn, $email)
 
 function createUser($conn, $firstName, $lastName, $email, $password, $userImage, $userPhoneNumber, $userHouseAddress)
 {
-    $sql = "INSERT INTO users (userEmail, userFirstName, userLastName, userPassword, userRole, userImage, userPhoneNumber, userHouseAddress) VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
+    $sql = "INSERT INTO users (userEmail, userFirstName, userLastName, userPassword, userRole, userImage, userPhoneNumber, userHouseAddress, friendCode) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
     $stmt = mysqli_stmt_init($conn);
     $role = "member";
     if (!mysqli_stmt_prepare($stmt, $sql)) {
@@ -91,7 +91,7 @@ function createUser($conn, $firstName, $lastName, $email, $password, $userImage,
     }
 
     $encryptedPassword = password_hash($password, PASSWORD_DEFAULT);
-    mysqli_stmt_bind_param($stmt, "ssssssss", $email, $firstName, $lastName, $encryptedPassword, $role, $userImage, $userPhoneNumber, $userHouseAddress);
+    mysqli_stmt_bind_param($stmt, "sssssssss", $email, $firstName, $lastName, $encryptedPassword, $role, $userImage, $userPhoneNumber, $userHouseAddress, generateFriendCode($conn));
     mysqli_stmt_execute($stmt);
     mysqli_stmt_close($stmt);
     header("location: ../signUp.php?error=none");
@@ -1416,7 +1416,7 @@ function createProductReviewingNotification($conn, $productID, $userEmail)
     mysqli_stmt_execute($stmt);
     mysqli_stmt_close($stmt);
 }
-function createRemoveWishlistNotification($conn, $productID, $productName, $userEmail,$productImage)
+function createRemoveWishlistNotification($conn, $productID, $productName, $userEmail, $productImage)
 {
     //insert product data to soldProduct
 
@@ -1721,6 +1721,19 @@ function searchFriendByFriendCode($conn, $friendCode)
     }
     return $foundFriendDetail;
 }
+function trackShipmentStatus($conn, $shipmentID)
+{
+    $sql = "SELECT * FROM shipment WHERE shipmentID = '$shipmentID'";
+    $result = mysqli_query($conn, $sql);
+    $resultCheck = mysqli_num_rows($result);
+    $shipmentStatus = "";
+    if ($resultCheck > 0) {
+        while ($row = mysqli_fetch_assoc($result)) {
+            $shipmentStatus = $row["shipmentStatus"];
+        }
+    }
+    return $shipmentStatus;
+}
 function isFriendDataExist($conn, $firstUserEmail, $secondUserEmail)
 {
     $sql = "SELECT * FROM friendlist WHERE firstUserEmail = '$firstUserEmail' OR secondUserEmail = '$firstUserEmail' AND firstUserEmail = '$secondUserEmail' OR secondUserEmail = '$secondUserEmail' ";
@@ -1844,7 +1857,7 @@ function getAllWishlistData($conn, $conn2, $email)
                         $productImage = $row["productImage"];
                     }
                 }
-                
+
 
                 createRemoveWishlistNotification($conn, $productID, $productName, $email, $productImage);
             }

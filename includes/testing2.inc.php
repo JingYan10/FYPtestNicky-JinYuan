@@ -45,4 +45,10 @@ require_once 'functions.inc.php';
 
 // print_r(searchFriendByFriendCode($conn, "2"));
 
-updateBiddingWinner($conn);
+//updateBiddingWinner($conn);
+
+// if(!empty(trackShipmentStatus($conn, "16"))){
+//     echo trackShipmentStatus($conn, "16");
+// }else{
+//     echo "data is empty";
+// }
