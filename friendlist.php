@@ -7,6 +7,7 @@
 <link rel="stylesheet" href="friendlist.css">
 
 <!--content here-->
+<div class="removethis" style="margin-bottom: 500px;"></div>
 <div class="container">
 
     <?php

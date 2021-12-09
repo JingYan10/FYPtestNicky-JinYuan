@@ -7,4 +7,4 @@ session_start();
     require_once 'databaseHandler.inc.php';
     require_once 'functions.inc.php';
 
-    approveUser($conn, $registryEmail, $registerationType);
+    approve($conn, $registryEmail, $registerationType);

@@ -375,7 +375,7 @@ function UnbanUser($conn, $email)
     exit();
 }
 
-function approveUser($conn, $registryEmail, $registerationType)
+function approve($conn, $registryEmail, $registerationType)
 {
 
     $status = "";
@@ -403,7 +403,7 @@ function approveUser($conn, $registryEmail, $registerationType)
     exit();
 }
 
-function rejectUser($conn, $registryEmail, $registerationType)
+function reject($conn, $registryEmail, $registerationType)
 {
     $status = "";
 
@@ -412,7 +412,7 @@ function rejectUser($conn, $registryEmail, $registerationType)
     } else {
         $status = "delivererStatus";
     }
-    $sql = "UPDATE users SET userRole  = '$registerationType', $status = 'approved' WHERE userEmail = '$registryEmail'; ";
+    $sql = "UPDATE users SET userRole  = '$registerationType', $status = 'rejected' WHERE userEmail = '$registryEmail'; ";
 
 
     $stmt = mysqli_stmt_init($conn);
